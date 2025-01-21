@@ -1,0 +1,83 @@
+form .columns {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    margin-top: 19px;
+    margin-bottom: 19px;
+
+    p {
+        margin-top: 0;
+        margin-bottom: 0;
+    }
+}
+
+form .columns-2>* {
+    flex-basis: 48.5%;
+}
+
+form .columns-2.einszwei>*:first-child {
+    flex-basis: 28%;
+}
+
+form .columns-2.einszwei>*:last-child {
+    flex-basis: 69%;
+}
+
+@media (max-width:460px) {
+    form .columns {
+        flex-direction: column;
+    }
+
+    form .columns-2.einszwei>*:first-child,
+    form .columns-2.einszwei>*:last-child,
+    form .columns-2>* {
+        flex-basis: 100%;
+    }
+}
+
+.is-style-outline.is-style-outline.wp-block-button .wp-block-button__link:hover {
+    background-color: var(--wp--preset--color--accent);
+    color: var(--wp--preset--color--base);
+    border-color: var(--wp--preset--color--accent);
+}
+
+input[type="submit"] {
+    background-color: var(--wp--preset--color--base);
+    border-radius: 2px;
+    padding: 12px 25px;
+    border: solid 2px var(--wp--preset--color--accent);
+    color: var(--wp--preset--color--accent);
+    font-family: var(--wp--preset--font-family--roboto-flex);
+    font-size: var(--wp--preset--font-size--normal);
+    font-style: normal;
+    font-weight: 400;
+    cursor: pointer;
+
+    &:hover {
+        background-color: var(--wp--preset--color--accent);
+        color: var(--wp--preset--color--base);
+        border-color: var(--wp--preset--color--accent);
+    }
+}
+
+input:not([type=radio]):not([type=checkbox]):not([type=submit]):not([type=button]):not([type=image]):not([type=file]),
+select,
+textarea {
+    width: 100%;
+    padding: 12px 15px;
+    border: solid 2px var(--wp--preset--color--base-3);
+    border-radius: 2px;
+    box-sizing: border-box;
+    font-family: var(--wp--preset--font-family--roboto-flex);
+    background-color: var(--wp--preset--color--base-2);
+
+    &:focus,
+    &:focus-visible {
+        border: 2px solid var(--wp--preset--color--accent) !important;
+        outline: none !important;
+    }
+}
+
+.wpcf7-submit {
+    width: 100%;
+}

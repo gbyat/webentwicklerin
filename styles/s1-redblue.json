@@ -1,0 +1,107 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/theme.json",
+	"version": 3,	
+	"title": "RedandBlue",
+	"settings": {
+		"color": {
+			"palette": [
+				{
+					"color": "#f9f9f9",
+					"name": "Base",
+					"slug": "base"
+				},
+				{
+					"color": "#ffffff",
+					"name": "Base / Two",
+					"slug": "base-2"
+				},
+				{
+					"color": "#e9e9e9",
+					"name": "Base / Three",
+					"slug": "base-3"
+				},				
+				{
+					"color": "#16537e",
+					"name": "Base / Four",
+					"slug": "base-4"
+				},				
+				{
+					"color": "#1f1f1f",
+					"name": "Contrast",
+					"slug": "contrast"
+				},
+				{
+					"color": "#7A0000",
+					"name": "Accent",
+					"slug": "accent"
+				},
+				{
+					"color": "#990000",
+					"name": "Accent / Two",
+					"slug": "accent-2"
+				},
+				{
+					"color": "#eeeeee",
+					"name": "Accent / Three",
+					"slug": "accent-3"
+				},
+				{
+					"color": "#cccccc",
+					"name": "Accent / Four",
+					"slug": "accent-4"
+				},				
+				{
+					"slug": "transparent",
+					"color": "transparent",
+					"name": "Transparent"
+				}
+			]
+		},
+
+		"typography": {
+			"defaultFontSizes": false,
+			"dropCap": false,
+			"letterSpacing": true,
+			"lineHeight": true,
+			"fluid": true,
+			"fontWeight": true,
+			"fontFamilies": [
+				{
+					"name": "Serif",
+					"slug": "serif",
+					"fontFamily": "\"Times New Roman\",\"New York\",Times,\"Noto Serif\",serif"
+				},
+				{
+					"name": "Monospace",
+					"slug": "monospace",
+					"fontFamily": "Consolas,Menlo,Monaco,\"SF Mono\",\"DejaVu Sans Mono\",\"Roboto Mono\",\"Courier New\",Courier,monospace"
+				},
+				{
+					"name": "Sans Serif",
+					"slug": "sans-serif",
+					"fontFamily": "Verdana, Tahoma,\"Segoe UI\",\"Helvetica Neue\",sans-serif"
+				}
+			]
+		}
+	},
+	"styles": {
+		"typography": {
+			"fontSize": "var(--wp--preset--font-size--normal)",
+			"fontFamily": "var(--wp--preset--font-family--sans-serif)",
+			"lineHeight": "1.7",
+     	 	"fontWeight": "300"
+		},
+		"elements": {
+			"heading": {
+				"typography": {
+				"fontFamily": "var(--wp--preset--font-family--serif)",
+				"fontWeight": "700",
+				"lineHeight": "1.2"
+				},
+				"color": {
+				"text": "var(--wp--preset--color--accent)"
+				}
+			}
+		}
+	}
+}

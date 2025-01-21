@@ -1,0 +1,8 @@
+.editor-styles-wrapper {
+    @import 'editor-only';
+    @import '../scss/01-basics';
+    @import '../scss/02-template-parts';
+    @import '../scss/03-elements';
+    @import '../scss/04-form-elements';
+    @import '../scss/05-query-parts';
+}

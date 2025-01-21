@@ -1,0 +1,98 @@
+@media (min-width: 600px) and (max-width:960px) {
+    .wp-block-navigation__responsive-container:not(.hidden-by-default):not(.is-menu-open) {
+        display: none;
+    }
+
+    .wp-block-navigation__responsive-container-open:not(.always-shown) {
+        display: block;
+    }
+
+    .wp-block-navigation__responsive-container:not(.hidden-by-default):not(.is-menu-open) .wp-block-navigation__responsive-container-close {
+        display: block !important;
+    }
+}
+
+@media (min-width: 600px) and (max-width:960px) {
+    .wp-block-navigation__responsive-container:not(.hidden-by-default):not(.is-menu-open) .wp-block-navigation__responsive-container-close {
+        display: inline-block !important;
+    }
+
+    .wp-block-navigation__responsive-container:not(.hidden-by-default):not(.is-menu-open) {
+        position: static !important;
+    }
+
+}
+
+@media (min-width: 960px) {
+
+    /** 27.08.2024, da inline style im test auf block war...?
+    .wp-block-navigation__container>.wp-block-navigation-item.has-child>ul {
+        display: flex !important;
+    }*/
+
+    .wp-block-navigation__responsive-container:not(.hidden-by-default):not(.is-menu-open) .wp-block-navigation__responsive-container-close {
+        display: none !important;
+    }
+
+    .wp-block-navigation__responsive-container:not(.hidden-by-default):not(.is-menu-open) {
+
+        position: relative !important;
+    }
+
+    .wp-block-navigation__responsive-container:not(.hidden-by-default):not(.is-menu-open) .wp-block-navigation__responsive-container-close {
+        display: none !important;
+    }
+
+    .mobilesonly {
+        display: none !important;
+        width: 0;
+        height: 0;
+        overflow: hidden;
+    }
+}
+
+@media (max-width: 960px) {
+
+    .site-header .wp-block-navigation .has-child .wp-block-navigation__submenu-container {
+        position: static !important;
+    }
+
+
+    .wp-block-navigation__container .wp-block-navigation-submenu .wp-block-navigation-submenu .wp-block-navigation__submenu-icon {
+        display: none !important;
+    }
+
+    .wp-block-navigation__container:not(.wp-block-navigation-submenu):not(.sub-navigation)>.wp-block-navigation-item {
+        display: block;
+        width: 100%;
+        padding-right: 30px;
+    }
+
+    .wp-block-navigation__container>.wp-block-navigation-item button {
+        position: absolute;
+        right: 0;
+        left: auto;
+        width: 40px;
+        text-align: center;
+        top: 7px;
+    }
+
+    .wp-block-navigation__submenu-container.is-style-mega-menu .wp-block-navigation__submenu-container {
+        margin: 0 0 15px 0 !important;
+        padding: 0 !important;
+    }
+
+
+    .desktoponly {
+        display: none !important;
+        width: 0;
+        height: 0;
+        overflow: hidden;
+    }
+
+
+    .wp-block-navigation__responsive-container-open:not(.always-shown) {
+        display: block;
+        height: 2.8em;
+    }
+}
