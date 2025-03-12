@@ -1,20 +1,22 @@
 <?php
+
 /**
  * Title: 404
- * Slug: aspexion/404
+ * Slug: webentwicklerin/404
  * Categories: text
  * Inserter: no
  *
- * @package aspexion
+ * @package webentwicklerin
  * @since 1.0.0
  */
 
 ?>
 <!-- wp:heading {"textAlign":"center","fontSize":"x-large"} -->
 <h2 class="has-text-align-center has-x-large-font-size">
-	<?php esc_html_e( 'Page not found', THEME_NAME ); ?></h2>
+	<?php esc_html_e('Page not found', 'webentwicklerin'); ?></h2>
 <!-- /wp:heading -->
-<!-- wp:paragraph --><p><?php esc_html_e( 'It looks like nothing was found at this location. Maybe try a search?', THEME_NAME ); ?></p><!-- /wp:paragraph -->
+<!-- wp:paragraph -->
+<p><?php esc_html_e('It looks like nothing was found at this location. Maybe try a search?', 'webentwicklerin'); ?></p><!-- /wp:paragraph -->
 <!-- wp:search {"label":"Search","showLabel":false,"buttonText":"Search"} /-->
 <!-- wp:spacer {"height":"40px"} -->
 <div style="height:40px" aria-hidden="true" class="wp-block-spacer"></div>

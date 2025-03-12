@@ -8,11 +8,6 @@ blockquote p {
     font-stretch: 130%;
 }
 
-.website-title {
-    -webkit-clip-path: polygon(10% 10%, 46% 1%, 44% 15%, 100% 0, 95% 90%, 31% 100%, 32% 90%, 0 100%);
-    clip-path: polygon(10% 10%, 46% 1%, 44% 15%, 100% 0, 95% 90%, 31% 100%, 32% 90%, 0 100%);
-}
-
 .wp-block-cover {
     flex-direction: column
 }
@@ -38,16 +33,25 @@ blockquote p {
     text-decoration: underline;
 }
 
-:root :where(.wp-element-button, .wp-block-button__link) {
-    border-radius: 1px !important;
+/** korrigiert "überlaufen" von einer blockgruppe über den html-rand hinaus - bug? hinzugefügt am 22.01.2025*/
+.wp-block-categories .wp-block-categories__label {
+    width: auto;
 }
+
+.wp-block-categories .wp-block-categories__label.screen-reader-text {
+    width: 1px;
+}
+
+/* :root :where(.wp-element-button, .wp-block-button__link) {
+    border-radius: 1px !important;
+} */
 
 /** old blog */
 html {
     scroll-behavior: smooth;
 }
 
-.is-style-main-navigation .wp-block-navigation__responsive-container:not(.is-menu-open) .wp-block-navigation__container>.wp-block-navigation-item .wp-block-navigation__submenu-container .wp-block-navigation-item .wp-block-navigation-item__content {
+/* .is-style-main-navigation .wp-block-navigation__responsive-container:not(.is-menu-open) .wp-block-navigation__container>.wp-block-navigation-item .wp-block-navigation__submenu-container .wp-block-navigation-item .wp-block-navigation-item__content {
     padding: 0.35rem 1rem !important;
 }
 
@@ -58,12 +62,12 @@ html {
 .wp-block-post-date {
     font-size: 14px;
     text-transform: uppercase;
-}
+} */
 
-.wp-block-navigation ul {
+/* .wp-block-navigation ul {
     padding: 0 !important;
 }
-
+ */
 /*
 li.wp-block-post {
 	position:relative;

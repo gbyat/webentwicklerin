@@ -28,7 +28,7 @@
 					"color": "#6c6c83",
 					"name": "Base / Four",
 					"slug": "base-4"
-				},				
+				},
 				{
 					"color": "#1a202c",
 					"name": "Contrast",
@@ -130,9 +130,18 @@
 					"fontFamily": "\"Times New Roman\",\"New York\",Times,\"Noto Serif\",serif"
 				},
 				{
-					"name": "Sans Serif",
-					"slug": "sans-serif",					
-					"fontFamily":"system-ui,-apple-system,\"Segoe UI\",Roboto,\"Helvetica Neue\",Arial,\"Noto Sans\",\"Liberation Sans\",sans-serif,\"Apple Color Emoji\",\"Segoe UI Emoji\",\"Segoe UI Symbol\",\"Noto Color Emoji\""
+					"name": "Roboto Flex",
+					"slug": "roboto-flex",
+					"fontFamily": "Roboto Flex,\"Segoe UI\",\"Helvetica Neue\",sans-serif",
+					"fontFace": [
+						{
+							"fontFamily": "Roboto Flex",
+							"fontWeight": "100 1000",
+							"fontStretch": "25% 151%",
+							"fontStyle": "normal italic",
+							"src": [ "file:./assets/fonts/RobotoFlex-VariableFont_GRAD,XTRA,YOPQ,YTAS,YTDE,YTFI,YTLC,YTUC,opsz,slnt,wdth,wght.woff2" ]
+						}
+					]
 				},
 				{
 					"name": "Monospace",
@@ -265,10 +274,19 @@
 					"background": "var(--wp--preset--color--accent-2)"
 				}
 			},
+			"core/navigation": {
+				"elements": {
+					"link": {
+						"typography": {
+						"textDecoration": "none"
+						}
+					}
+				}
+			},	
 			"core/post-navigation-link": {
 				"typography": {
 					"fontWeight": "400",
-					"textDecoration": "underline"
+					"textDecoration": "none"
 				}
 			},
 			"core/post-author": {
@@ -323,7 +341,7 @@
 				"elements": {
 					"link": {
 						"color": {
-							"text": "var(--wp--preset--color--accent-4)"
+							"text": "var(--wp--preset--color--accent)"
 						}
 					}
 				}
@@ -340,7 +358,7 @@
 				"elements": {
 					"link": {
 						"color": {
-							"text": "var(--wp--preset--color--accent-4)"
+							"text": "var(--wp--preset--color--accent)"
 						},
 						":hover": {
 							"color": {
@@ -360,7 +378,7 @@
 				"elements": {
 					"link": {
 						"color": {
-							"text": "var(--wp--preset--color--accent-4)"
+							"text": "var(--wp--preset--color--accent)"
 						}
 					}
 				}
@@ -469,6 +487,11 @@
 			"area": "uncategorized",
 			"name": "comments",
 			"title": "Comments"
+		},
+		{
+			"area": "uncategorized",
+			"name": "post-meta",
+			"title": "Post Meta"
 		}
 	]
 }

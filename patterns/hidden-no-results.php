@@ -2,10 +2,10 @@
 
 /**
  * Title: No results
- * Slug: aspexion/hidden-no-results
+ * Slug: webentwicklerin/hidden-no-results
  * Inserter: no
  */
 ?>
 <!-- wp:paragraph -->
-<p><?php echo esc_html_x('No posts were found.', 'Message explaining that there are no results returned from a search', 'twentytwentyfour'); ?></p>
+<p><?php echo esc_html_x('No posts were found.', 'Message explaining that there are no results returned from a search', 'webentwicklerin'); ?></p>
 <!-- /wp:paragraph -->

@@ -2,12 +2,10 @@ form .columns {
     display: flex;
     flex-wrap: wrap;
     justify-content: space-between;
-    margin-top: 19px;
-    margin-bottom: 19px;
+    margin: var(--wp--preset--spacing--medium) 0;
 
     p {
-        margin-top: 0;
-        margin-bottom: 0;
+        margin: 0;
     }
 }
 
@@ -23,19 +21,7 @@ form .columns-2.einszwei>*:last-child {
     flex-basis: 69%;
 }
 
-@media (max-width:460px) {
-    form .columns {
-        flex-direction: column;
-    }
-
-    form .columns-2.einszwei>*:first-child,
-    form .columns-2.einszwei>*:last-child,
-    form .columns-2>* {
-        flex-basis: 100%;
-    }
-}
-
-.is-style-outline.is-style-outline.wp-block-button .wp-block-button__link:hover {
+.is-style-outline.wp-block-button .wp-block-button__link:hover {
     background-color: var(--wp--preset--color--accent);
     color: var(--wp--preset--color--base);
     border-color: var(--wp--preset--color--accent);
@@ -43,15 +29,15 @@ form .columns-2.einszwei>*:last-child {
 
 input[type="submit"] {
     background-color: var(--wp--preset--color--base);
-    border-radius: 2px;
-    padding: 12px 25px;
-    border: solid 2px var(--wp--preset--color--accent);
+    border-radius: 10px;
+    padding: var(--wp--preset--spacing--small) var(--wp--preset--spacing--medium);
+    border: 2px solid var(--wp--preset--color--accent);
     color: var(--wp--preset--color--accent);
     font-family: var(--wp--preset--font-family--roboto-flex);
     font-size: var(--wp--preset--font-size--normal);
-    font-style: normal;
     font-weight: 400;
     cursor: pointer;
+    transition: all 0.3s ease;
 
     &:hover {
         background-color: var(--wp--preset--color--accent);
@@ -64,20 +50,34 @@ input:not([type=radio]):not([type=checkbox]):not([type=submit]):not([type=button
 select,
 textarea {
     width: 100%;
-    padding: 12px 15px;
-    border: solid 2px var(--wp--preset--color--base-3);
-    border-radius: 2px;
+    border: 1px solid var(--wp--preset--color--base-3);
+    border-radius: 10px;
     box-sizing: border-box;
+    padding: var(--wp--preset--spacing--small);
     font-family: var(--wp--preset--font-family--roboto-flex);
+    font-size: var(--wp--preset--font-size--normal);
     background-color: var(--wp--preset--color--base-2);
+    transition: border-color 0.3s ease;
 
     &:focus,
     &:focus-visible {
-        border: 2px solid var(--wp--preset--color--accent) !important;
+        border-color: var(--wp--preset--color--accent) !important;
         outline: none !important;
     }
 }
 
 .wpcf7-submit {
     width: 100%;
+}
+
+@media (max-width: 460px) {
+    form .columns {
+        flex-direction: column;
+    }
+
+    form .columns-2.einszwei>*:first-child,
+    form .columns-2.einszwei>*:last-child,
+    form .columns-2>* {
+        flex-basis: 100%;
+    }
 }

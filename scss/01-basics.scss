@@ -1,74 +1,6 @@
+// Basic HTML Elements
 html {
     scroll-behavior: smooth;
-}
-
-p:empty {
-    display: none !important;
-}
-
-.hidden {
-    display: none;
-}
-
-.animated {
-    -webkit-animation-duration: 1s;
-    animation-duration: 1s;
-    -webkit-animation-fill-mode: both;
-    animation-fill-mode: both;
-}
-
-.fadeIn {
-    animation-name: fadeIn;
-}
-
-strong {
-    font-weight: 700;
-}
-
-h1,
-h2,
-h3,
-h4 {
-    font-stretch: 80%;
-}
-
-.fadeOut {
-    animation-name: fadeOut;
-}
-
-@keyframes fadeIn {
-    0% {
-        opacity: 0;
-    }
-
-    100% {
-        opacity: 1;
-    }
-}
-
-@keyframes fadeOut {
-    0% {
-        opacity: 1;
-    }
-
-    100% {
-        opacity: 0;
-    }
-}
-
-:root :where(.wp-site-blocks)>* {
-    margin-block-start: 0 !important;
-    margin-block-end: 0;
-}
-
-.wp-site-blocks>* {
-    margin-block-start: 0 !important;
-}
-
-@media screen and (prefers-reduced-motion: reduce) {
-    html {
-        scroll-behavior: auto;
-    }
 }
 
 body {
@@ -76,17 +8,63 @@ body {
     -webkit-font-smoothing: antialiased;
 }
 
-@media (max-width:480px) {
-    .mobile-less-stretch {
-        font-stretch: 65%;
-    }
+// Typography
+h1,
+h2,
+h3,
+h4 {
+    font-stretch: 80%;
+}
+
+strong {
+    font-weight: 700;
 }
 
 a {
-    text-underline-offset: 3px;
+    text-underline-offset: var(--wp--preset--spacing--tiny, 3px);
 }
 
-.wp-block-navigation__container a {
-    text-decoration: underline;
-    text-underline-offset: 3px;
+// Utility Classes
+.hidden {
+    display: none !important;
+}
+
+p:empty {
+    display: none !important;
+}
+
+// Animation Classes
+.animated {
+    animation-duration: 1s;
+    animation-fill-mode: both;
+    -webkit-animation-duration: 1s;
+    -webkit-animation-fill-mode: both;
+}
+
+.fadeIn {
+    animation-name: fadeIn;
+}
+
+.fadeOut {
+    animation-name: fadeOut;
+}
+
+// Block Spacing Reset
+:root :where(.wp-site-blocks)>*,
+.wp-site-blocks>* {
+    margin-block-start: 0 !important;
+    margin-block-end: 0;
+}
+
+// Media Queries
+@media screen and (prefers-reduced-motion: reduce) {
+    html {
+        scroll-behavior: auto;
+    }
+}
+
+@media (max-width: 480px) {
+    .mobile-less-stretch {
+        font-stretch: 65%;
+    }
 }

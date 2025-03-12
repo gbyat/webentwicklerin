@@ -1,12 +1,8 @@
 {
-<<<<<<< HEAD
   "name": "webentwicklerin",
-=======
-  "name": "aspexion",
->>>>>>> 3a47a477aeb1151ea1a0714ac89098cdd0bcae86
   "version": "1.0.0",
   "description": "luna yoga block theme",
-  "author": "aspexion",
+  "author": "webentwicklerin",
   "license": "GPL-2.0-or-later",
   "main": "gulpfile.js",
   "scripts": {

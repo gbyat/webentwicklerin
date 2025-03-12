@@ -10,8 +10,8 @@ const wpPot = require('gulp-wp-pot');
 const log = require('fancy-log');
 const ftp = require('vinyl-ftp');
 
-const web_path = "C:\\inetpub\\wwwroot\\wp_aspexion\\wp-content\\themes\\";
-const thisname = 'aspexion';
+const web_path = "C:\\inetpub\\wwwroot\\wp_webentwicklerin\\wp-content\\themes\\";
+const thisname = 'webentwicklerin';
 const themedir = web_path + thisname;
 const storage = "/wp-content/themes/" + thisname;
 
@@ -19,7 +19,9 @@ var globs = [
     './assets/**/*',
     './inc/**/*',
     './parts/**/*',
+    './patterns/**/*',
     './templates/**/*',
+    './languages/**/*',
     './styles/**/*',
     'functions.php',
     'screenshot.png',
@@ -30,9 +32,9 @@ var globs = [
 
 gulp.task('potfile', function () {
     var translatePath = './languages/';
-    return src('./**/*.php')
+    return gulp.src('./**/*.php')
         .pipe(wpPot({ domain: thisname, package: thisname }))
-        .pipe(dest(translatePath + '/' + thisname + '.pot'));
+        .pipe(gulp.dest(translatePath + '/' + thisname + '.pot'));
 });
 
 gulp.task('watch', function () {
@@ -77,9 +79,9 @@ gulp.task('css_minify', function () {
 
 function create_ftp_conn() {
     return ftp.create({
-        host: 'w0156460.kasserver.com',
-        user: 'f0166600 ',
-        password: 'ZxYT4DoXFJcFaDtr4JDx',
+        host: 's137.goserver.host',
+        user: 'web73f5',
+        password: 'NoYunFDx3#MOTGj9d',
         parallel: 2,
         secure: true,
         log: log,
@@ -131,40 +133,26 @@ gulp.task('minify-blocks', function () {
 });
 
 
-<<<<<<< HEAD
 gulp.task('deploy-locl', function () {
     return gulp.src(globs, { base: ".", buffer: false })
         .pipe(gulp.dest(themedir));
-=======
-gulp.task('deploy-locl', function() {
-  return gulp.src(globs, { base: ".", buffer: false })
-    .pipe(gulp.dest(themedir));
->>>>>>> 3a47a477aeb1151ea1a0714ac89098cdd0bcae86
 });
 
 exports.default =
     gulp.series(
         'mergecss',
         'mergeeditorcss',
+        'potfile',
         'css_minify',
         'clean-blocks',
         'minify-blocks',
-        'deploy-locl',
-        'upload'
+        'deploy-locl'
     );
 
-<<<<<<< HEAD
-exports.prod =
+exports.main =
     gulp.series(
         'upload'
     );
 // exports.svg = series(buildSvg);
 //exports.fonts = series(buildwebfonts);
-=======
-exports.prod =
-	gulp.series(
-		'upload'
-	);
-
->>>>>>> 3a47a477aeb1151ea1a0714ac89098cdd0bcae86
 
