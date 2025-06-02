@@ -2,3 +2,7 @@
 .php-error #adminmenuwrap {
     margin-top: 0 !important;
 }
+
+.hydra-notice {
+    display: none !important;
+}

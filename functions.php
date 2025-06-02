@@ -19,15 +19,6 @@ require_once get_theme_file_path('inc/filters.php');
 // block styles
 require_once get_theme_file_path('inc/block-styles.php');
 
-
-// Debugging-Funktionen nur laden wenn WP_DEBUG und WP_DEBUG_LOG aktiv sind
-if (defined('WP_DEBUG') && WP_DEBUG && defined('WP_DEBUG_LOG') && WP_DEBUG_LOG) {
-    $debug_file = get_template_directory() . '/tmp/debugging.php';
-    if (file_exists($debug_file)) {
-        require_once $debug_file;
-    }
-}
-
 // remove the_block_template_skip_link to validate w3c
 remove_action('wp_footer', 'the_block_template_skip_link');
 

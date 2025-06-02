@@ -1,1 +1,77 @@
-/node_modules
+# Ignore files with 'copy' in the filename
+*copy*
+*Copy*
+*COPY*
+
+# Dependencies
+node_modules/
+vendor/
+bower_components/
+
+# Environment and config
+.env
+.env.*
+wp-config.php
+*.config.js
+
+# IDE and Editor files
+.idea/
+.vscode/
+*.sublime-project
+*.sublime-workspace
+.phpstorm.meta.php
+*.code-workspace
+
+# System files
+.DS_Store
+Thumbs.db
+desktop.ini
+*.log
+.Spotlight-V100
+.Trashes
+
+# Build and compiled files
+dist/
+build/
+*.min.css
+*.min.js
+.sass-cache/
+*.css.map
+*.js.map
+
+# Temporary and backup files
+*~
+*.bak
+*.swp
+*.swo
+.tmp/
+tmp/
+temp/
+
+# Package manager files
+yarn-error.log
+npm-debug.log*
+yarn-debug.log*
+package-lock.json
+composer.lock
+
+# Testing and coverage
+coverage/
+.nyc_output/
+__tests__/
+test-results/
+
+# WordPress specific
+wp-content/uploads/
+wp-content/upgrade/
+wp-content/backup*/
+wp-content/cache/
+wp-content/debug.log
+
+# Misc
+*.zip
+*.tar.gz
+*.rar
+.htaccess
+sitemap.xml
+sitemap.xml.gz

@@ -566,9 +566,9 @@
 }
 .editor-styles-wrapper input[type=submit] {
   background-color: var(--wp--preset--color--base);
-  border-radius: 10px;
+  border-radius: 2px;
+  border: 1px solid var(--wp--preset--color--accent);
   padding: var(--wp--preset--spacing--small) var(--wp--preset--spacing--medium);
-  border: 2px solid var(--wp--preset--color--accent);
   color: var(--wp--preset--color--accent);
   font-family: var(--wp--preset--font-family--roboto-flex);
   font-size: var(--wp--preset--font-size--normal);
@@ -586,9 +586,9 @@
 .editor-styles-wrapper textarea {
   width: 100%;
   border: 1px solid var(--wp--preset--color--base-3);
-  border-radius: 10px;
+  padding: var(--wp--preset--spacing--small) var(--wp--preset--spacing--medium);
+  border-radius: 2px;
   box-sizing: border-box;
-  padding: var(--wp--preset--spacing--small);
   font-family: var(--wp--preset--font-family--roboto-flex);
   font-size: var(--wp--preset--font-size--normal);
   background-color: var(--wp--preset--color--base-2);
