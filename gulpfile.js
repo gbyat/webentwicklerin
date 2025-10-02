@@ -8,11 +8,10 @@ const rename = require('gulp-rename');
 const concat = require('gulp-concat');
 const wpPot = require('gulp-wp-pot');
 const log = require('fancy-log');
-// const Rsync = require('rsync');
 const { exec } = require('child_process');
-/* const fs = require('fs');
+const fs = require('fs');
 const path = require('path');
-const crypto = require('crypto'); */
+const babel = require('gulp-babel');
 
 const web_path = "C:\\inetpub\\wwwroot\\wp_webentwicklerin\\wp-content\\themes\\";
 const thisname = 'webentwicklerin';
@@ -27,11 +26,91 @@ var globs = [
     './templates/**/*',
     './languages/**/*',
     './styles/**/*',
+    './blocks/**/*',
     'functions.php',
     'screenshot.png',
     'theme.json',
     'style.css'
 ];
+
+// SVG to PHP Task - Generate icons.php from SVG files
+gulp.task('generate-icons', function (done) {
+    const svgDir = './src/svg/';
+    const outputFile = './inc/icons.php';
+
+    if (!fs.existsSync(svgDir)) {
+        log.error('SVG directory not found:', svgDir);
+        done();
+        return;
+    }
+
+    const files = fs.readdirSync(svgDir).filter(file => file.endsWith('.svg'));
+
+    if (files.length === 0) {
+        log.error('No SVG files found in:', svgDir);
+        done();
+        return;
+    }
+
+    let phpContent = `<?php
+/**
+ * Generated SVG Icons
+ * 
+ * This file is auto-generated from src/svg/*.svg files
+ * DO NOT EDIT MANUALLY - run 'gulp generate-icons' to rebuild
+ * 
+ * @package webentwicklerin
+ * @since 2.0.0
+ */
+
+if (!function_exists('webethm_get_icons')) {
+    function webethm_get_icons() {
+        return [
+`;
+
+    files.forEach(file => {
+        const iconName = path.basename(file, '.svg');
+        let svgContent = fs.readFileSync(path.join(svgDir, file), 'utf8');
+
+        // Clean SVG
+        svgContent = svgContent
+            .replace(/<\?xml.*?\?>/g, '')
+            .replace(/<!DOCTYPE[^>]*>/g, '')
+            .replace(/<title[^>]*>[\s\S]*?<\/title[^>]*>/gi, '')
+            .replace(/<!--[\s\S]*?-->/g, '')
+            .replace(/<desc[^>]*>[\s\S]*?<\/desc[^>]*>/gi, '')
+            .replace(/\s+/g, ' ')
+            .trim();
+
+        // Escape for PHP
+        svgContent = svgContent.replace(/'/g, "\\'");
+
+        phpContent += `            '${iconName}' => '${svgContent}',\n`;
+    });
+
+    phpContent += `        ];
+    }
+}
+
+/* Make icons available in JavaScript for the block editor */
+
+if (!function_exists('webethm_enqueue_icons_script')) {
+    function webethm_enqueue_icons_script() {
+        $icons = webethm_get_icons();
+        wp_add_inline_script(
+            'wp-blocks',
+            'window.webentwicklerinIcons = ' . wp_json_encode($icons) . ';',
+            'before'
+        );
+    }
+    add_action('enqueue_block_editor_assets', 'webethm_enqueue_icons_script');
+}
+`;
+
+    fs.writeFileSync(outputFile, phpContent);
+    log.info('Generated icons.php with', files.length, 'icons');
+    done();
+});
 
 gulp.task('potfile', function () {
     var translatePath = './languages/';
@@ -40,384 +119,72 @@ gulp.task('potfile', function () {
         .pipe(gulp.dest(translatePath + '/' + thisname + '.pot'));
 });
 
-gulp.task('watch', function () {
-    gulp.watch(['./scss/**/*.scss']).on(
-        'change',
-        gulp.series(
-            'mergecss',
-            'mergeeditorcss',
-            'css_minify'
-        )
-    );
-});
-
-gulp.task('mergecss', function () {
-    var srce = "./scss/**/*.scss";
-    var dst = "./assets/css/";
-    return gulp.src(srce)
+gulp.task('sass', function () {
+    return gulp.src('./scss/style.scss')
         .pipe(sass().on('error', sass.logError))
-        .pipe(concat('style.css'))
         .pipe(autoprefixer())
-        .pipe(gulp.dest(dst));
-});
-
-gulp.task('mergeeditorcss', function () {
-    var srce = "./scss-editor/**/*.scss";
-    var dst = "./assets/css/";
-    return gulp.src(srce)
-        .pipe(sass().on('error', sass.logError))
-        .pipe(concat('editor-style.css'))
-        .pipe(autoprefixer())
-        .pipe(gulp.dest(dst));
-});
-
-gulp.task('css_minify', function () {
-    return gulp.src(['./assets/css/style.css', './assets/css/editor-style.css'])
-        .pipe(rename({ suffix: ".min" }))
+        .pipe(rename('style.css'))
+        .pipe(gulp.dest('./assets/css'))
         .pipe(cssnano({ zindex: false }))
+        .pipe(rename({ basename: 'style', suffix: '.min' }))
         .pipe(gulp.dest('./assets/css'));
 });
 
-// Neue Deploy-Task mit rsync
-/* gulp.task('deploy', function (cb) {
-    const rsync = new Rsync()
-        .executable('C:/cygwin64/bin/rsync.exe')  // Using forward slashes
-        .shell('C:/cygwin64/bin/ssh.exe')         // Explicitly set SSH path
-        .flags('avzP')
-        .source('.')
-        .destination(`web73@s137.goserver.host:${storage}`)
-        .exclude('node_modules')
-        .exclude('.git')
-        .exclude('.git*')
-        .exclude('*.log')
-        .exclude('.DS_Store')
-        .exclude('package*.json')
-        .exclude('gulpfile.js')
-        .exclude('.*')
-        .option('e', `C:/cygwin64/bin/ssh.exe -i "${process.env.USERPROFILE}/.ssh/id_rsa"`);
-
-    // Log the command
-    console.log('Executing rsync command:');
-    console.log(rsync.command());
-
-    rsync.execute(function (error, code, cmd) {
-        if (error) {
-            console.error('Error:', error);
-            console.error('Exit Code:', code);
-            console.error('Command:', cmd);
-        } else {
-            console.log('Deployment completed successfully.');
-        }
-        cb(error);
-    });
-}); */
-
-// Funktion zum Berechnen des MD5-Hashes einer Datei
-function calculateFileHash(filePath) {
-    try {
-        const fileBuffer = fs.readFileSync(filePath);
-        const hashSum = crypto.createHash('md5');
-        hashSum.update(fileBuffer);
-        return hashSum.digest('hex');
-    } catch (err) {
-        return null;
-    }
-}
-
-// Funktion zum Speichern/Laden der Hashes
-const hashFile = '.deploy-hashes.json';
-function saveHashes(hashes) {
-    fs.writeFileSync(hashFile, JSON.stringify(hashes, null, 2));
-}
-
-function loadHashes() {
-    try {
-        return JSON.parse(fs.readFileSync(hashFile));
-    } catch (err) {
-        return {};
-    }
-}
-
-/* // Verbesserte Deploy task
-gulp.task('deploy', function (cb) {
-    const files = [
-        'assets', 'inc', 'parts', 'patterns', 'templates',
-        'languages', 'styles', 'functions.php',
-        'screenshot.png', 'theme.json', 'style.css'
-    ];
-
-    console.log('Starting deployment...');
-    const previousHashes = loadHashes();
-    const currentHashes = {};
-    const changedFiles = [];
-
-    // Prüfe welche Dateien sich geändert haben
-    files.forEach(file => {
-        if (fs.existsSync(file)) {
-            if (fs.lstatSync(file).isDirectory()) {
-                // Für Verzeichnisse: Rekursiv alle Dateien prüfen
-                function checkDirectory(dir) {
-                    fs.readdirSync(dir).forEach(item => {
-                        const fullPath = path.join(dir, item);
-                        if (fs.lstatSync(fullPath).isDirectory()) {
-                            checkDirectory(fullPath);
-                        } else {
-                            const hash = calculateFileHash(fullPath);
-                            currentHashes[fullPath] = hash;
-                            if (hash !== previousHashes[fullPath]) {
-                                changedFiles.push(dir);
-                            }
-                        }
-                    });
-                }
-                checkDirectory(file);
-            } else {
-                // Für einzelne Dateien
-                const hash = calculateFileHash(file);
-                currentHashes[file] = hash;
-                if (hash !== previousHashes[file]) {
-                    changedFiles.push(file);
-                }
-            }
-        }
-    });
-
-    // Entferne Duplikate
-    const uniqueChangedFiles = [...new Set(changedFiles)];
-
-    if (uniqueChangedFiles.length === 0) {
-        console.log('No changes detected. Skipping deployment.');
-        cb();
-        return;
-    }
-
-    console.log('Changed files/directories:', uniqueChangedFiles);
-
-    // Erstelle SCP commands nur für geänderte Dateien
-    const scpCommands = uniqueChangedFiles.map(file => {
-        return new Promise((resolve, reject) => {
-            const cmd = `scp -r "${file}" web73@s137.goserver.host:${storage}/`;
-            console.log(`Deploying: ${file}`);
-
-            exec(cmd, (error, stdout, stderr) => {
-                if (error) {
-                    console.error(`Error deploying ${file}: ${error}`);
-                    reject(error);
-                    return;
-                }
-                if (stdout) console.log(stdout);
-                if (stderr) console.log(stderr);
-                console.log(`Successfully deployed ${file}`);
-                resolve();
-            });
-        });
-    });
-
-    // Führe die SCP commands aus
-    Promise.all(scpCommands)
-        .then(() => {
-            console.log('Deployment completed successfully!');
-            // Speichere neue Hashes
-            saveHashes(currentHashes);
-            cb();
-        })
-        .catch((error) => {
-            console.error('Deployment failed:', error);
-            cb(error);
-        });
-});
- */
-
-
-// Server Konfigurationen
-const servers = {
-    production: {
-        host: 'web73@s137.goserver.host',
-        path: '/home/www/wp-webentwicklerin/wp-content/themes/webentwicklerin',
-        port: 22,
-        minDeployInterval: 5 * 60 * 1000  // 5 Minuten in Millisekunden
-    },
-    test: {
-        host: 'ssh-w0156460@w0156460.kasserver.com',
-        path: '/www/htdocs/w0156460/webentwicklerin/wp-content/themes/webentwicklerin'
-    }
-};
-
-// Variable für den Zeitpunkt des letzten Deployments
-let lastDeployTime = 0;
-
-gulp.task('deploy', function (cb) {
-    let server = 'production'; // Default
-    if (process.env.SERVER) {
-        const requestedServer = process.env.SERVER.trim();
-        if (servers[requestedServer]) {
-            server = requestedServer;
-        } else {
-            console.error(`Warnung: Server "${requestedServer}" nicht gefunden, verwende Production.`);
-        }
-    }
-
-    console.log(`Using server configuration: ${server}`);
-
-    const now = Date.now();
-    const timeSinceLastDeploy = now - lastDeployTime;
-
-    if (servers[server].minDeployInterval && timeSinceLastDeploy < servers[server].minDeployInterval) {
-        const waitTime = Math.ceil((servers[server].minDeployInterval - timeSinceLastDeploy) / 1000 / 60);
-        console.error(`Bitte warte noch ${waitTime} Minuten bis zum nächsten Deploy.`);
-        cb(new Error('Deploy-Intervall noch nicht erreicht'));
-        return;
-    }
-
-    const wslSource = process.cwd().replace(/\\/g, '/').replace(/^(\w):/, '/mnt/$1').toLowerCase();
-    const portOption = servers[server].port ? `-p ${servers[server].port}` : '';
-    const rsyncCommand = `wsl rsync -avz --delete --delete-excluded --force --progress --timeout=60 -e "ssh ${portOption}" --exclude=node_modules --exclude=.git --exclude=*.log --exclude=.DS_Store --exclude=package*.json --exclude=gulpfile.js --exclude=scss --exclude=scss-editor --exclude=.* "${wslSource}/" "${servers[server].host}:${servers[server].path}/"`;
-
-    console.log('Starting deployment...');
-    console.log(`Target: ${servers[server].host}`);
-    console.log('Command:', rsyncCommand);
-
-    exec(rsyncCommand, { maxBuffer: 1024 * 1024 * 10 }, function (error, stdout, stderr) {
-        if (error) {
-            console.error('Error:', error);
-            if (stderr) console.error('stderr:', stderr);
-            cb(error);
-            return;
-        }
-        console.log(stdout);
-        console.log('Deployment completed successfully!');
-        lastDeployTime = Date.now();
-        cb();
-    });
-});
-
-/**
- * $env:SERVER="test"; gulp deploy
- * $env:SERVER="" setzt variable zurück
- */
-
-// Dry-Run Task
-gulp.task('deploydry', function (cb) {
-    const wslSource = process.cwd().replace(/\\/g, '/').replace(/^(\w):/, '/mnt/$1').toLowerCase();
-    const rsyncCommand = `wsl rsync -avzn --delete --progress --exclude='node_modules' --exclude='.git*' --exclude='*.log' --exclude='.DS_Store' --exclude='package*.json' --exclude='gulpfile.js' --exclude='.*' "${wslSource}/" web73@s137.goserver.host:${storage}/`;
-
-    console.log('Simulating deployment (dry-run)...');
-    exec(rsyncCommand, { maxBuffer: 1024 * 1024 * 10 }, function (error, stdout, stderr) {
-        if (error) {
-            console.error('Error:', error);
-            if (stderr) console.error('stderr:', stderr);
-            cb(error);
-            return;
-        }
-        console.log(stdout);
-        console.log('Dry run completed. No files were actually transferred.');
-        cb();
-    });
-});
-
-
-// Simple rsync test task
-gulp.task('testrsync', function (cb) {
-    const server = process.env.SERVER || 'production';
-
-    // Einfacher rsync Befehl mit minimalen Optionen
-    const rsyncCommand = `wsl rsync -av ./style.css "${servers[server].host}:${servers[server].path}/test.css"`;
-
-    console.log('Testing rsync connection...');
-    console.log(`Target: ${servers[server].host}`);
-    console.log('Command:', rsyncCommand);
-
-    exec(rsyncCommand, function (error, stdout, stderr) {
-        if (error) {
-            console.error('Error:', error);
-            if (stderr) console.error('stderr:', stderr);
-            cb(error);
-            return;
-        }
-        console.log(stdout);
-        console.log('Test completed successfully!');
-        cb();
-    });
-});
-
-/* 
-// Actual Deploy Task
-gulp.task('deploy', function (cb) {
-    const wslSource = process.cwd().replace(/\\/g, '/').replace(/^(\w):/, '/mnt/$1').toLowerCase();
-    const rsyncCommand = `wsl rsync -avz --delete --progress --exclude='node_modules' --exclude='.git*' --exclude='*.log' --exclude='.DS_Store' --exclude='package*.json' --exclude='gulpfile.js' --exclude='.*' "${wslSource}/" web73@s137.goserver.host:${storage}/`;
-
-    console.log('Starting deployment...');
-    exec(rsyncCommand, { maxBuffer: 1024 * 1024 * 10 }, function (error, stdout, stderr) {
-        if (error) {
-            console.error('Error:', error);
-            if (stderr) console.error('stderr:', stderr);
-            cb(error);
-            return;
-        }
-        console.log(stdout);
-        console.log('Deployment completed successfully!');
-        cb();
-    });
-}); */
-
-
-gulp.task('clean-blocks', function () {
-    return gulp.src('assets/css/blocks/*.min.css', {
-        read: false,
-        allowEmpty: true,
-    })
-        .pipe(clean());
-});
-
-gulp.task('minify-blocks', function () {
-    return gulp.src('assets/css/blocks/*.css')
+gulp.task('sass-editor', function () {
+    return gulp.src('./scss-editor/editor-style.scss')
+        .pipe(sass().on('error', sass.logError))
+        .pipe(autoprefixer())
+        .pipe(rename('editor-style.css'))
+        .pipe(gulp.dest('./assets/css'))
         .pipe(cssnano({ zindex: false }))
+        .pipe(rename({ basename: 'editor-style', suffix: '.min' }))
+        .pipe(gulp.dest('./assets/css'));
+});
+
+gulp.task('minify-js', function () {
+    return gulp.src('./assets/js/theme-scripts.js')
         .pipe(rename({ suffix: '.min' }))
-        .pipe(gulp.dest('assets/css/blocks'));
+        .pipe(gulp.dest('./assets/js'));
 });
 
-gulp.task('deploy-locl', function () {
-    return gulp.src(globs, { base: ".", buffer: false })
-        .pipe(gulp.dest(themedir));
+gulp.task('build-blocks-js', function () {
+    return gulp.src('./src/blocks/icon/index.js')
+        .pipe(babel({
+            presets: [
+                ['@wordpress/babel-preset-default', {
+                    wordpress: true
+                }]
+            ]
+        }))
+        .pipe(gulp.dest('./blocks/icon'));
 });
 
-
-// Simple SSH connection test
-gulp.task('testconnection', function (cb) {
-    const server = process.env.SERVER || 'production';
-
-    const sshCommand = `wsl ssh ${servers[server].host} "pwd"`;
-
-    console.log('Testing SSH connection...');
-    console.log(`Target: ${servers[server].host}`);
-    console.log('Command:', sshCommand);
-
-    exec(sshCommand, function (error, stdout, stderr) {
-        if (error) {
-            console.error('Connection Error:', error);
-            if (stderr) console.error('stderr:', stderr);
-            cb(error);
-            return;
-        }
-        console.log('Connection successful!');
-        console.log('Current remote directory:', stdout);
-        cb();
-    });
+gulp.task('build-blocks-assets', function () {
+    return gulp.src([
+        './src/blocks/icon/block.json',
+        './src/blocks/icon/editor.css',
+        './src/blocks/icon/style.css',
+        './src/blocks/icon/render.php'
+    ])
+        .pipe(gulp.dest('./blocks/icon'));
 });
 
+gulp.task('build-blocks', gulp.series('build-blocks-js', 'build-blocks-assets'));
 
+gulp.task('watch', function () {
+    gulp.watch('./scss/**/*.scss', gulp.series('sass'));
+    gulp.watch('./scss-editor/editor-style.scss', gulp.series('sass-editor'));
+    gulp.watch('./src/svg/**/*.svg', gulp.series('generate-icons'));
+    gulp.watch('./src/blocks/**/*', gulp.series('build-blocks'));
+});
 
-// Update exports
-exports.default = gulp.series(
-    'mergecss',
-    'mergeeditorcss',
-    'potfile',
-    'css_minify',
-    'clean-blocks',
-    'minify-blocks',
-    'deploy-locl'
-);
+gulp.task('build', gulp.series(
+    'generate-icons',
+    'sass',
+    'sass-editor',
+    'minify-js',
+    'build-blocks',
+    'potfile'
+));
 
-exports.deploy = gulp.series('deploy');
-exports.dry = gulp.series('deploydry');
-
+gulp.task('default', gulp.series('build', 'watch'));

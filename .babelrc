@@ -1,5 +1,10 @@
 {
 	"presets": [
-		"@wordpress/babel-preset-default"
+		[
+			"@wordpress/babel-preset-default",
+			{
+				"wordpress": true
+			}
+		]
 	]
 }

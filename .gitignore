@@ -75,3 +75,6 @@ wp-content/debug.log
 .htaccess
 sitemap.xml
 sitemap.xml.gz
+
+# New line for gulpfile.js
+gulpfile.js

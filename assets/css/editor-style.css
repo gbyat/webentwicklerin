@@ -1,6 +1,9 @@
-
 @charset "UTF-8";
 .editor-styles-wrapper {
+  /* 
+  .wp-block-cover.page-heading {
+      background-color: var(--wp--preset--color--contrast);
+  } */
   /** korrigiert "überlaufen" von einer blockgruppe über den html-rand hinaus - bug? hinzugefügt am 22.01.2025*/
   /* :root :where(.wp-element-button, .wp-block-button__link) {
       border-radius: 1px !important;
@@ -126,9 +129,6 @@
 .editor-styles-wrapper .wp-block-navigation__responsive-container-content .wp-block-navigation > ul {
   margin-top: 0;
   padding-top: 0;
-}
-.editor-styles-wrapper .wp-block-cover.page-heading {
-  background-color: var(--wp--preset--color--contrast);
 }
 .editor-styles-wrapper .blog .site-header + main > .wp-block-query,
 .editor-styles-wrapper .page .site-header + main > .wp-block-columns,

@@ -21,6 +21,11 @@
         position: static !important;
     }
 
+    .wp-block-navigation {
+        --navigation-layout-justification-setting: left !important;
+        --navigation-layout-justify: left !important;
+    }
+
 }
 
 @media (min-width: 960px) {
@@ -49,6 +54,9 @@
         height: 0;
         overflow: hidden;
     }
+/*     .wp-block-navigation__responsive-dialog {
+        overflow: hidden !important;
+    } */
 }
 
 @media (max-width: 960px) {
@@ -56,6 +64,7 @@
     .site-header .wp-block-navigation .has-child .wp-block-navigation__submenu-container {
         position: static !important;
     }
+
 
 
     .wp-block-navigation__container .wp-block-navigation-submenu .wp-block-navigation-submenu .wp-block-navigation__submenu-icon {

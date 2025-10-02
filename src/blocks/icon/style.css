@@ -1,0 +1,99 @@
+.wp-block-webentwicklerin-icon {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.wp-block-webentwicklerin-icon__link {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	color: inherit;
+	text-decoration: none;
+	width: 100%;
+}
+
+.wp-block-webentwicklerin-icon__inner {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	flex-shrink: 0;
+}
+
+/* Icon Layout Variants */
+.wp-block-webentwicklerin-icon.icon-position-left,
+.wp-block-webentwicklerin-icon.icon-position-right {
+	flex-direction: row;
+}
+
+.wp-block-webentwicklerin-icon.icon-position-right .wp-block-webentwicklerin-icon__link,
+.wp-block-webentwicklerin-icon.icon-position-right {
+	flex-direction: row-reverse;
+}
+
+.wp-block-webentwicklerin-icon.icon-position-top,
+.wp-block-webentwicklerin-icon.icon-position-bottom {
+	flex-direction: column;
+}
+
+.wp-block-webentwicklerin-icon.icon-position-bottom .wp-block-webentwicklerin-icon__link,
+.wp-block-webentwicklerin-icon.icon-position-bottom {
+	flex-direction: column-reverse;
+}
+
+/* Icon color comes from CSS var --icon-base-color (fallback currentColor) */
+.wp-block-webentwicklerin-icon svg {
+	width: 100%;
+	height: 100%;
+	transition: fill 0.3s ease;
+}
+
+.wp-block-webentwicklerin-icon svg path,
+.wp-block-webentwicklerin-icon svg polygon,
+.wp-block-webentwicklerin-icon svg circle,
+.wp-block-webentwicklerin-icon svg rect,
+.wp-block-webentwicklerin-icon svg line,
+.wp-block-webentwicklerin-icon svg ellipse,
+.wp-block-webentwicklerin-icon svg polyline,
+.wp-block-webentwicklerin-icon svg g {
+	fill: var(--icon-base-color, currentColor) !important;
+	transition: fill 0.3s ease;
+}
+
+/* Screen reader text */
+.wp-block-webentwicklerin-icon .screen-reader-text {
+	clip: rect(1px, 1px, 1px, 1px);
+	clip-path: inset(50%);
+	height: 1px;
+	width: 1px;
+	margin: -1px;
+	overflow: hidden;
+	padding: 0;
+	position: absolute;
+	word-wrap: normal;
+}
+
+/* Icon text */
+.wp-block-webentwicklerin-icon .icon-text {
+	color: inherit;
+}
+
+/* Hover state */
+.wp-block-webentwicklerin-icon:hover,
+.wp-block-webentwicklerin-icon__link:hover {
+	/* change only icon/background on hover; text color remains unabhängig */
+	background-color: var(--hover-bg-color) !important;
+}
+
+.wp-block-webentwicklerin-icon:hover svg path,
+.wp-block-webentwicklerin-icon:hover svg polygon,
+.wp-block-webentwicklerin-icon:hover svg circle,
+.wp-block-webentwicklerin-icon:hover svg rect,
+.wp-block-webentwicklerin-icon:hover svg line,
+.wp-block-webentwicklerin-icon:hover svg ellipse,
+.wp-block-webentwicklerin-icon:hover svg polyline,
+.wp-block-webentwicklerin-icon:hover svg g {
+	fill: var(--hover-icon-color, var(--icon-base-color, currentColor)) !important;
+}
+
