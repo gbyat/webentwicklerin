@@ -18,10 +18,8 @@
 require_once get_theme_file_path('inc/filters.php');
 // Block styles
 require_once get_theme_file_path('inc/block-styles.php');
-// Generated icons
-require_once get_theme_file_path('inc/icons.php');
-// Register custom blocks
-require_once get_theme_file_path('inc/register-blocks.php');
+// Update menu links on permalink changes
+require_once get_theme_file_path('inc/update-menu-links.php');
 
 // remove the_block_template_skip_link to validate w3c
 remove_action('wp_footer', 'the_block_template_skip_link');
@@ -42,7 +40,7 @@ add_action('after_setup_theme', function () {
 
 
 add_action('wp_body_open', function () {
-    echo sprintf(wp_kses_post('<span id="topofpage" class="screen-reader-text" aria-label="%s"></span>'), esc_html__('Anchor link to top of page', 'webentwicklerin'));
+    echo sprintf(wp_kses_post('<span id="topofpage" class="screen-reader-text">%s</span>'), esc_html__('Anchor link to top of page', 'webentwicklerin'));
 });
 
 
@@ -61,6 +59,12 @@ add_action('wp_enqueue_scripts', function () {
         wp_get_theme()->get('Version'),
         true
     );
+
+    // Dequeue jQuery if not needed (improve performance)
+    if (!is_admin() && !is_customize_preview()) {
+        wp_dequeue_script('jquery');
+        wp_deregister_script('jquery');
+    }
 });
 
 
@@ -84,91 +88,16 @@ add_action('enqueue_block_editor_assets', function () {
 });
 
 
-/** svg files saeubern - für verwendung als inline SVG vorbereiten */
-function webethm_svg_inline_replacer($service)
-{
-    // Sanitize filename to prevent path traversal
-    $service = sanitize_file_name($service);
-    $service = basename($service, '.svg');
-
-    $path = get_template_directory() . '/assets/svg';
-    $filepath = trailingslashit($path) . $service . '.svg';
-
-    // Verify the file is within the allowed directory
-    if (strpos(realpath($filepath), realpath($path)) !== 0) {
-        return '';
-    }
-
-    if (!file_exists($filepath)) {
-        return '';
-    }
-
-    $svg = file_get_contents($filepath);
-    $svg = preg_replace('/<\?xml.*\?>/', '', $svg);
-    $svg = preg_replace('/<\!DOCTYPE[^>]*>/', '', $svg);
-    $svg = preg_replace('/<title[^>]*>([\s\S]*?)<\/title[^>]*>/i', '', $svg);
-    $svg = preg_replace('/<!--(.|\s)*?-->/i', '', $svg);
-    $svg = preg_replace('/<desc[^>]*>([\s\S]*?)<\/desc[^>]*>/i', '', $svg);
-    return trim($svg);
-}
-
-/** 
- * Get icon library from generated icons.php
- * (Backwards compatible wrapper)
+/**
+ * Simple "Go to top" link in the footer using a UTF-8 arrow.
+ *
+ * @since 2.0.0
  */
-function webethm_icon_library()
-{
-    if (function_exists('webethm_get_icons')) {
-        return webethm_get_icons();
-    }
-    return [];
-}
-
 add_action('wp_footer', function () {
-    $icons = webethm_icon_library();
-
-    if (!is_array($icons) || !isset($icons['arrow-up'])) {
-        return;
-    }
-
-    $allowed_svg_tags = array(
-        'svg' => array(
-            'class' => true,
-            'aria-hidden' => true,
-            'aria-labelledby' => true,
-            'role' => true,
-            'xmlns' => true,
-            'xmlns:xlink' => true,
-            'width' => true,
-            'height' => true,
-            'viewbox' => true,
-            'id' => true,
-            'version' => true,
-            'xml:space' => true,
-            'preserveaspectratio' => true,
-        ),
-        'g' => array('fill' => true, 'transform' => true),
-        'title' => array('title' => true),
-        'path' => array(
-            'd' => true,
-            'fill' => true,
-            'stroke' => true,
-            'stroke-width' => true,
-            'stroke-linecap' => true,
-            'stroke-linejoin' => true,
-        ),
-        'polygon' => array('points' => true, 'fill' => true, 'stroke' => true),
-        'polyline' => array('points' => true, 'fill' => true, 'stroke' => true, 'stroke-width' => true),
-        'circle' => array('cx' => true, 'cy' => true, 'r' => true, 'fill' => true, 'stroke' => true),
-        'rect' => array('x' => true, 'y' => true, 'width' => true, 'height' => true, 'fill' => true, 'stroke' => true),
-        'line' => array('x1' => true, 'y1' => true, 'x2' => true, 'y2' => true, 'stroke' => true, 'stroke-width' => true),
-        'ellipse' => array('cx' => true, 'cy' => true, 'rx' => true, 'ry' => true, 'fill' => true, 'stroke' => true),
-    );
-
     printf(
-        '<div id="gototop" class="animated hidden"><a class="icon-arrow-up" href="#topofpage" aria-label="%s">%s</a></div>',
+        '<div id="gototop" class="animated hidden"><a href="#topofpage" class="gototop-link" aria-label="%s">%s</a></div>',
         esc_attr__('Go to top of page', 'webentwicklerin'),
-        wp_kses($icons['arrow-up'], $allowed_svg_tags)
+        '&#8593;'
     );
 });
 

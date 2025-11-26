@@ -9,6 +9,18 @@ form .columns {
     }
 }
 
+@media (max-width: 460px) {
+    form .columns {
+        flex-direction: column;
+    }
+
+    form .columns-2.einszwei>*:first-child,
+    form .columns-2.einszwei>*:last-child,
+    form .columns-2>* {
+        flex-basis: 100%;
+    }
+}
+
 form .columns-2>* {
     flex-basis: 48.5%;
 }
@@ -51,8 +63,8 @@ select,
 textarea {
     width: 100%;
     border: 1px solid var(--wp--preset--color--base-3);
-    padding: var(--wp--preset--spacing--small) var(--wp--preset--spacing--medium);
-    border-radius: 2px;
+    padding: var(--wp--preset--spacing--tiny);
+    border-radius: 5px;
     box-sizing: border-box;
     font-family: var(--wp--preset--font-family--roboto-flex);
     font-size: var(--wp--preset--font-size--normal);
@@ -66,18 +78,14 @@ textarea {
     }
 }
 
-.wpcf7-submit {
-    width: 100%;
+.wp-block-categories-dropdown select {
+    padding: var(--wp--preset--spacing--small);
 }
 
-@media (max-width: 460px) {
-    form .columns {
-        flex-direction: column;
-    }
+textarea {
+    height: 150px;
+}
 
-    form .columns-2.einszwei>*:first-child,
-    form .columns-2.einszwei>*:last-child,
-    form .columns-2>* {
-        flex-basis: 100%;
-    }
+.wpcf7-submit {
+    width: 100%;
 }

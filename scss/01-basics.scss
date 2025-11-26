@@ -21,7 +21,7 @@ strong {
 }
 
 a {
-    text-underline-offset: var(--wp--preset--spacing--tiny, 3px);
+    text-underline-offset: var(--wp--preset--spacing--tiny, 1px);
 }
 
 // Utility Classes
@@ -31,22 +31,6 @@ a {
 
 p:empty {
     display: none !important;
-}
-
-// Animation Classes
-.animated {
-    animation-duration: 1s;
-    animation-fill-mode: both;
-    -webkit-animation-duration: 1s;
-    -webkit-animation-fill-mode: both;
-}
-
-.fadeIn {
-    animation-name: fadeIn;
-}
-
-.fadeOut {
-    animation-name: fadeOut;
 }
 
 // Block Spacing Reset

@@ -1,3 +1,19 @@
+// Animation Classes
+.animated {
+    animation-duration: 1s;
+    animation-fill-mode: both;
+    -webkit-animation-duration: 1s;
+    -webkit-animation-fill-mode: both;
+}
+
+.fadeIn {
+    animation-name: fadeIn;
+}
+
+.fadeOut {
+    animation-name: fadeOut;
+}
+
 @keyframes fadeIn {
     0% {
         opacity: 0;
@@ -15,29 +31,5 @@
 
     100% {
         opacity: 0;
-    }
-}
-
-@keyframes gradient-animation {
-    0% {
-        background-position: 0% 50%;
-    }
-
-    100% {
-        background-position: 100% 50%;
-    }
-}
-
-@keyframes color-animation {
-    0% {
-        background-color: var(--wp--preset--color--accent);
-    }
-
-    50% {
-        background-color: var(--wp--preset--color--accent-3);
-    }
-
-    100% {
-        background-color: var(--wp--preset--color--accent);
     }
 }

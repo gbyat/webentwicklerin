@@ -2,12 +2,16 @@ window.addEventListener('scroll', function () {
     var offset = 130;
     var duration = 500;
     removeAnchorFromURL();
+
+    var gototopElement = document.getElementById('gototop');
+    if (!gototopElement) return; // Exit if element doesn't exist yet
+
     if (window.scrollY > offset) {
-        document.getElementById('gototop').classList.remove('hidden', 'fadeOut');
-        document.getElementById('gototop').classList.add('fadeIn');
+        gototopElement.classList.remove('hidden', 'fadeOut');
+        gototopElement.classList.add('fadeIn');
     } else {
-        document.getElementById('gototop').classList.remove('fadeIn');
-        document.getElementById('gototop').classList.add('fadeOut');
+        gototopElement.classList.remove('fadeIn');
+        gototopElement.classList.add('fadeOut');
     }
 });
 
