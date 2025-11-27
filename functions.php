@@ -20,6 +20,8 @@ require_once get_theme_file_path('inc/filters.php');
 require_once get_theme_file_path('inc/block-styles.php');
 // Update menu links on permalink changes
 require_once get_theme_file_path('inc/update-menu-links.php');
+// Theme update checker
+require_once get_theme_file_path('inc/theme-updater.php');
 
 // remove the_block_template_skip_link to validate w3c
 remove_action('wp_footer', 'the_block_template_skip_link');

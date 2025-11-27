@@ -55,6 +55,9 @@ yarn-debug.log*
 package-lock.json
 composer.lock
 
+# Local configuration files
+gulpfile.local.js
+
 # Testing and coverage
 coverage/
 .nyc_output/
@@ -75,6 +78,3 @@ wp-content/debug.log
 .htaccess
 sitemap.xml
 sitemap.xml.gz
-
-# New line for gulpfile.js
-gulpfile.js
