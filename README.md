@@ -3,7 +3,7 @@
 **Contributors:** webentwicklerin, Gabriele Laesser
 **Tags:** full-site-editing, editor-style, block-styles, block-patterns
 **Requires at least:** 6.5
-**Tested up to:** 6.8
+**Tested up to:** 6.9
 **Requires PHP:** 8.0
 **Stable tag:** 0.1.2
 **License:** GPLv2 or later
