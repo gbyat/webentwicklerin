@@ -51,18 +51,6 @@
   position: relative;
   z-index: 9;
 }
-.editor-styles-wrapper .site-header,
-.editor-styles-wrapper main,
-.editor-styles-wrapper .site-footer {
-  width: 100%;
-}
-.editor-styles-wrapper main {
-  flex: 1;
-}
-.editor-styles-wrapper .wp-site-blocks > .site-footer {
-  flex: 1;
-  background: var(--wp--preset--color--contrast);
-}
 .editor-styles-wrapper #menu-icon {
   width: 40px !important;
   height: auto;

@@ -3,20 +3,6 @@
     z-index: 9;
 }
 
-.site-header,
-main,
-.site-footer {
-    width: 100%;
-}
-
-main {
-    flex: 1
-}
-
-.wp-site-blocks>.site-footer {
-    flex: 1;
-    background: var(--wp--preset--color--contrast);
-}
 
 #menu-icon {
     width: 40px !important;
