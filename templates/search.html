@@ -1,35 +1,9 @@
-<!-- wp:template-part {"slug":"header","theme":"webentwicklerin","tagName":"header","className":"site-header"} /-->
+<!-- wp:template-part {"slug":"header"} /-->
 
-<!-- wp:group {"tagName":"main","style":{"spacing":{"padding":{"top":"var:preset|spacing|120","bottom":"var:preset|spacing|120"}}},"layout":{"type":"constrained"}} -->
-<main class="wp-block-group"
-	style="padding-top:var(--wp--preset--spacing--120);padding-bottom:var(--wp--preset--spacing--120)">
-	<!-- wp:query-title {"type":"search","level":2} /-->
-
-	<!-- wp:search {"label":"Search","showLabel":false,"buttonText":"Search","style":{"border":{"radius":"15px"}},"textColor":"base"} /-->
-
-	<!-- wp:query {"queryId":2,"query":{"perPage":10,"pages":0,"offset":0,"postType":"post","order":"desc","orderBy":"date","author":"","search":"","exclude":[],"sticky":"","inherit":true},"layout":{"type":"constrained"}} -->
-	<div class="wp-block-query">
-		<!-- wp:post-template {"style":{"spacing":{"blockGap":"var:preset|spacing|30"}},"layout":{"type":"default"}} -->
-		<!-- wp:post-title {"level":3,"isLink":true,"style":{"spacing":{"margin":{"top":"0","bottom":"0"}}},"fontSize":"medium"} /-->
-
-		<!-- wp:group {"style":{"spacing":{"margin":{"top":"0","bottom":"0"}}},"layout":{"type":"flex","allowOrientation":false}} -->
-		<div class="wp-block-group" style="margin-top:0;margin-bottom:0"><!-- wp:post-date {"textColor":"contrast"} /-->
-
-			<!-- wp:post-terms {"term":"category"} /-->
-		</div>
-		<!-- /wp:group -->
-
-		<!-- wp:post-excerpt {"moreText":"Read more","showMoreOnNewLine":false} /-->
-		<!-- /wp:post-template -->
-
-		<!-- wp:query-pagination {"paginationArrow":"chevron","layout":{"type":"flex","justifyContent":"space-between"}} -->
-		<!-- wp:query-pagination-previous {"label":"zurück"} /-->
-
-		<!-- wp:query-pagination-next {"label":"weiter"} /-->
-		<!-- /wp:query-pagination -->
-	</div>
-	<!-- /wp:query -->
+<!-- wp:group {"tagName":"main","layout":{"type":"constrained"}} -->
+<main class="wp-block-group">
+	<!-- wp:pattern {"slug":"webentwicklerin/hidden-search"} /-->
 </main>
 <!-- /wp:group -->
 
-<!-- wp:template-part {"slug":"footer","theme":"webentwicklerin","tagName":"footer","className":"site-footer"} /-->
+<!-- wp:template-part {"slug":"footer"} /-->

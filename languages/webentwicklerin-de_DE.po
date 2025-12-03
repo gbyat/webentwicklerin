@@ -3,7 +3,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: webentwicklerin\n"
-"POT-Creation-Date: 2025-01-22 11:45+0000\n"
+"POT-Creation-Date: 2025-12-03 09:45+0000\n"
 "PO-Revision-Date: \n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -13,29 +13,22 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Poedit-Basepath: ..\n"
-"X-Poedit-KeywordsList: __;_e;_ex:1,2c;_n:1,2;_n_noop:1,2;_nx:1,2,4c;_nx_noop:1,2,3c;_x:1,2c;esc_attr__;esc_attr_e;esc_attr_x:1,2c;esc_html__;esc_html_e;esc_html_x:1,2c\n"
+"X-Poedit-KeywordsList: "
+"__;_e;_ex:1,2c;_n:1,2;_n_noop:1,2;_nx:1,2,4c;_nx_noop:1,2,3c;_x:1,2c;esc_attr__;esc_attr_e;esc_attr_x:1,2c;esc_html__;esc_html_e;esc_html_x:1,2c\n"
 "X-Poedit-SourceCharset: UTF-8\n"
-"X-Generator: Poedit 3.5\n"
+"X-Generator: Poedit 3.8\n"
 "X-Poedit-SearchPath-0: .\n"
 "X-Poedit-SearchPathExcluded-0: *.js\n"
 
-#: functions.php:42
+#: functions.php:45
 msgid "Anchor link to top of page"
 msgstr "Ankerlink an den Anfang der Seite"
 
-#: functions.php:135
+#: functions.php:108
 msgid "Go to top of page"
 msgstr "An den Anfang der Seite navigieren"
 
-#: inc/block-styles.php:19
-msgid "Clipped Background"
-msgstr "Geklippter Hintergrund"
-
-#: inc/block-styles.php:31
-msgid "Animated border"
-msgstr "Animierter Randbereich"
-
-#: inc/block-styles.php:84
+#: inc/block-styles.php:9
 msgid "Colored Bullets"
 msgstr "Farbige Aufzählungszeichen"
 
@@ -44,13 +37,27 @@ msgctxt "Used if post or pages has no title"
 msgid "(No title)"
 msgstr "(kein Titel)"
 
+#: inc/theme-updater.php:177
+msgid "Theme Update Available"
+msgstr "Theme-Update verfügbar"
+
+#: inc/theme-updater.php:179
+msgid "Version %s is available. You are currently running version %s."
+msgstr "Version %s ist verfügbar. Sie verwenden derzeit Version %s."
+
+#: inc/theme-updater.php:184
+msgid "Update now"
+msgstr "Jetzt aktualisieren"
+
 #: patterns/hidden-404.php:16
 msgid "Page not found"
 msgstr "Die Seite wurde nicht gefunden"
 
 #: patterns/hidden-404.php:19
 msgid "It looks like nothing was found at this location. Maybe try a search?"
-msgstr "Es scheint, dass an dieser Stelle nichts gefunden worden. Vielleicht hilft eine erneute Suche?"
+msgstr ""
+"Es scheint, dass an dieser Stelle nichts gefunden worden. Vielleicht hilft "
+"eine erneute Suche?"
 
 #. translators: %s: Copyright year.
 #: patterns/hidden-footer-links.php:23
@@ -62,7 +69,38 @@ msgctxt "copyright date format"
 msgid "Y"
 msgstr "Y"
 
+#: patterns/hidden-index.php:29, patterns/hidden-search.php:30
+msgctxt "Link text for post excerpts."
+msgid "Read more"
+msgstr "Beitrag lesen"
+
+#: patterns/hidden-index.php:35, patterns/hidden-search.php:34
+msgctxt "Previous posts pagination link."
+msgid "Previous"
+msgstr "zurück"
+
+#: patterns/hidden-index.php:37, patterns/hidden-search.php:36
+msgctxt "Next posts pagination link."
+msgid "Next"
+msgstr "weiter"
+
 #: patterns/hidden-no-results.php:10
 msgctxt "Message explaining that there are no results returned from a search"
 msgid "No posts were found."
 msgstr "Keine Beiträge gefunden."
+
+#: patterns/hidden-search.php:15
+msgctxt "Search form label."
+msgid "Search"
+msgstr "Suche"
+
+#: patterns/hidden-search.php:15
+msgctxt "Search button text."
+msgid "Search"
+msgstr "suchen"
+
+#~ msgid "Clipped Background"
+#~ msgstr "Geklippter Hintergrund"
+
+#~ msgid "Animated border"
+#~ msgstr "Animierter Randbereich"

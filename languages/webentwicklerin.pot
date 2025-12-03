@@ -6,7 +6,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2025-12-03 09:23+0000\n"
+"POT-Creation-Date: 2025-12-03 10:10+0000\n"
 "X-Poedit-Basepath: ..\n"
 "X-Poedit-KeywordsList: __;_e;_ex:1,2c;_n:1,2;_n_noop:1,2;_nx:1,2,4c;_nx_noop:1,2,3c;_x:1,2c;esc_attr__;esc_attr_e;esc_attr_x:1,2c;esc_html__;esc_html_e;esc_html_x:1,2c\n"
 "X-Poedit-SearchPath-0: .\n"
@@ -18,7 +18,7 @@ msgstr ""
 msgid "Anchor link to top of page"
 msgstr ""
 
-#: functions.php:101
+#: functions.php:108
 msgid "Go to top of page"
 msgstr ""
 
@@ -43,25 +43,54 @@ msgstr ""
 msgid "Update now"
 msgstr ""
 
-#: patterns/hidden-404.php:16
+#: patterns/hidden-404.php:17
 msgid "Page not found"
 msgstr ""
 
-#: patterns/hidden-404.php:19
+#: patterns/hidden-404.php:20
 msgid "It looks like nothing was found at this location. Maybe try a search?"
 msgstr ""
 
+#: patterns/hidden-block-heading.php:16
+msgid "Blog"
+msgstr ""
+
 #. translators: %s: Copyright year.
-#: patterns/hidden-footer-links.php:23
+#: patterns/hidden-footer-links.php:24
 msgid "Copyright %s"
 msgstr ""
 
-#: patterns/hidden-footer-links.php:24
+#: patterns/hidden-footer-links.php:25
 msgctxt "copyright date format"
 msgid "Y"
 msgstr ""
 
-#: patterns/hidden-no-results.php:10
+#: patterns/hidden-index.php:30, patterns/hidden-search.php:31
+msgctxt "Link text for post excerpts."
+msgid "Read more"
+msgstr ""
+
+#: patterns/hidden-index.php:36, patterns/hidden-search.php:35
+msgctxt "Previous posts pagination link."
+msgid "Previous"
+msgstr ""
+
+#: patterns/hidden-index.php:38, patterns/hidden-search.php:37
+msgctxt "Next posts pagination link."
+msgid "Next"
+msgstr ""
+
+#: patterns/hidden-no-results.php:14
 msgctxt "Message explaining that there are no results returned from a search"
 msgid "No posts were found."
+msgstr ""
+
+#: patterns/hidden-search.php:16
+msgctxt "Search form label."
+msgid "Search"
+msgstr ""
+
+#: patterns/hidden-search.php:16
+msgctxt "Search button text."
+msgid "Search"
 msgstr ""

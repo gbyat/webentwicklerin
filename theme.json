@@ -648,5 +648,22 @@
 				}
 			}
 		}
+	],
+	"customTemplates": [
+		{
+			"name": "page-no-title",
+			"postTypes": ["page"],
+			"title": "Page No Title"
+		},
+		{
+			"name": "page-plain",
+			"postTypes": ["page"],
+			"title": "Page Plain"
+		},
+		{
+			"name": "page-blank",
+			"postTypes": ["page"],
+			"title": "Page Blank"
+		}
 	]
 }

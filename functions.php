@@ -62,6 +62,13 @@ add_action('wp_enqueue_scripts', function () {
         true
     );
 
+    // Load JSON translations for block templates and JS using this theme's text domain.
+    wp_set_script_translations(
+        'webethm-init',
+        'webentwicklerin',
+        get_template_directory() . '/languages'
+    );
+
     // Dequeue jQuery if not needed (improve performance)
     if (!is_admin() && !is_customize_preview()) {
         wp_dequeue_script('jquery');
