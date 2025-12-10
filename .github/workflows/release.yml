@@ -20,12 +20,6 @@ jobs:
           git fetch --depth=1 origin ${GITHUB_REF}
           git checkout FETCH_HEAD
 
-      - name: Setup PHP
-        uses: shivammathur/setup-php@v2
-        with:
-          php-version: "8.3"
-          tools: composer
-
       - name: Install dependencies
         run: npm install
 
