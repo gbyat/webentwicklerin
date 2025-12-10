@@ -1,6 +1,6 @@
 {
 	"name": "webentwicklerin",
-	"version": "0.1.7",
+	"version": "0.1.8",
 	"description": "Modern WordPress Block Theme",
 	"author": "webentwicklerin",
 	"license": "GPL-2.0-or-later",
@@ -9,11 +9,12 @@
 		"build": "gulp build",
 		"watch": "gulp watch",
 		"dev": "npm run watch",
+		"pot": "gulp potfile",
 		"release:patch": "node scripts/release.js patch",
 		"release:minor": "node scripts/release.js minor",
 		"release:major": "node scripts/release.js major",
 		"sync-version": "node scripts/sync-version.js",
-		"update-changelog": "node scripts/update-changelog.js"
+		"status": "node scripts/status.js"
 	},
 	"devDependencies": {
 		"gulp": "^4.0.2",

@@ -39,10 +39,77 @@ try {
     console.log('📦 Adding all changes to git...');
     execSync('git add -A', { stdio: 'inherit' });
 
-    // Commit all changes
+    // Build detailed commit message (Subject + Body from commits since last tag)
+    console.log('📝 Preparing commit message from recent commits...');
+
+    const COMMIT_SEPARATOR = '---COMMIT_SEPARATOR---';
+    let lastTag = '';
+    try {
+        lastTag = execSync('git describe --tags --abbrev=0', {
+            encoding: 'utf8',
+            stdio: ['pipe', 'pipe', 'ignore'],
+        }).trim();
+    } catch (e) {
+        lastTag = '';
+    }
+
+    let commitBody = '';
+    try {
+        const gitCommand = lastTag
+            ? `git log ${lastTag}..HEAD --pretty=format:"%B${COMMIT_SEPARATOR}" --no-merges`
+            : `git log -20 --pretty=format:"%B${COMMIT_SEPARATOR}" --no-merges`;
+
+        const raw = execSync(gitCommand, {
+            encoding: 'utf8',
+            stdio: ['pipe', 'pipe', 'ignore'],
+        }).trim();
+
+        const commits = raw
+            .split(COMMIT_SEPARATOR)
+            .map((commit) => commit.trim())
+            .filter((commit) => commit.length > 0)
+            .filter((commit) => {
+                const firstLine = commit.split('\n')[0].trim();
+                return (
+                    firstLine &&
+                    !firstLine.match(/^Release v\d+\.\d+\.\d+$/i) &&
+                    !firstLine.match(/^Bump version/i) &&
+                    !firstLine.match(/^Version update$/i)
+                );
+            });
+
+        if (commits.length > 0) {
+            commitBody = commits
+                .map((commit) => {
+                    const lines = commit
+                        .split('\n')
+                        .map((l) => l.trim())
+                        .filter((l) => l.length > 0);
+                    const subject = lines[0];
+                    const body = lines.slice(1);
+
+                    if (body.length > 0) {
+                        return `- ${subject}\n  ${body.join('\n  ')}`;
+                    }
+                    return `- ${subject}`;
+                })
+                .join('\n');
+        }
+    } catch (e) {
+        commitBody = '';
+    }
+
+    // Commit all changes with generated message
     console.log('💾 Committing changes...');
     try {
-        execSync(`git commit -m "Release v${newVersion}"`, { stdio: 'inherit' });
+        const tmpCommitMsg = path.join(__dirname, '..', 'tmp-release-commitmsg.txt');
+        const fullMessage = commitBody
+            ? `Release v${newVersion}\n\n${commitBody}\n`
+            : `Release v${newVersion}\n`;
+        fs.writeFileSync(tmpCommitMsg, fullMessage, 'utf8');
+
+        execSync(`git commit -F "${tmpCommitMsg}"`, { stdio: 'inherit' });
+        fs.unlinkSync(tmpCommitMsg);
     } catch (e) {
         console.log('ℹ️  Nothing to commit (that\'s okay)');
     }

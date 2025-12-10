@@ -66,7 +66,19 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
         // Get current date
         const dateStr = new Date().toISOString().split('T')[0];
 
-        // Get git commits since last tag
+        // Extract all commit messages already in CHANGELOG to avoid duplicates
+        const existingCommits = new Set();
+        const changelogLines = changelogContent.split('\n');
+        changelogLines.forEach(line => {
+            // Match lines that start with "- " (changelog entries)
+            const match = line.match(/^-\s+(.+)$/);
+            if (match) {
+                const commitMsg = match[1].trim();
+                existingCommits.add(commitMsg);
+            }
+        });
+
+        // Get git commits since last tag with full messages (Subject + Body)
         let gitLog = '';
         try {
             // First, try to get the last tag
@@ -81,24 +93,125 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
                 lastTag = '';
             }
 
-            // Get commits since last tag (or last 10 if no tags)
+            // Get commits since last tag with full messages (Subject + Body)
+            // Use a unique separator to handle multiline commits
+            const COMMIT_SEPARATOR = '---COMMIT_SEPARATOR---';
             const gitCommand = lastTag
-                ? `git log ${lastTag}..HEAD --oneline --pretty=format:"- %s"`
-                : 'git log -10 --oneline --pretty=format:"- %s"';
+                ? `git log ${lastTag}..HEAD --pretty=format:"%B${COMMIT_SEPARATOR}" --no-merges`
+                : `git log -20 --pretty=format:"%B${COMMIT_SEPARATOR}" --no-merges`;
 
-            gitLog = execSync(gitCommand, {
+            let allCommitsRaw = execSync(gitCommand, {
                 encoding: 'utf8',
                 stdio: ['pipe', 'pipe', 'ignore']
             }).trim();
+
+            // Split by separator and process each commit
+            const allCommits = allCommitsRaw
+                .split(COMMIT_SEPARATOR)
+                .map(commit => commit.trim())
+                .filter(commit => commit.length > 0)
+                .filter(commit => {
+                    // Filter out release commits and empty lines
+                    const firstLine = commit.split('\n')[0].trim();
+                    return firstLine &&
+                        !firstLine.match(/^Release v\d+\.\d+\.\d+$/i) &&
+                        !firstLine.match(/^Bump version/i) &&
+                        !firstLine.match(/^Version update$/i);
+                });
+
+            // Filter out commits that are already in CHANGELOG
+            const newCommits = allCommits.filter(commit => {
+                const firstLine = commit.split('\n')[0].trim();
+                return !existingCommits.has(firstLine);
+            });
+
+            // Format commits for changelog
+            // For multiline commits: first line as main entry, body lines indented
+            if (newCommits.length > 0) {
+                gitLog = newCommits.map(commit => {
+                    const lines = commit.split('\n').map(l => l.trim()).filter(l => l.length > 0);
+                    const subject = lines[0];
+                    const body = lines.slice(1);
+
+                    if (body.length > 0) {
+                        // Multiline commit: subject + indented body lines
+                        return `- ${subject}\n  ${body.join('\n  ')}`;
+                    } else {
+                        // Single line commit
+                        return `- ${subject}`;
+                    }
+                }).join('\n');
+            } else {
+                gitLog = '';
+            }
         } catch (e) {
             // Fallback if git fails
             gitLog = '- Version update';
         }
 
+        // Get unreleased changes if they exist
+        const unreleasedMatch = changelogContent.match(/## \[Unreleased\]([\s\S]*?)(?=## \[|$)/);
+        let unreleasedContent = '';
+        if (unreleasedMatch && unreleasedMatch[1]) {
+            unreleasedContent = unreleasedMatch[1].trim();
+        }
+
+        // Combine unreleased content and git log, prioritizing unreleased
+        let changelogEntry = '';
+        if (unreleasedContent) {
+            changelogEntry = unreleasedContent;
+        } else if (gitLog) {
+            changelogEntry = gitLog;
+        } else {
+            // If no commits found, try to get commits from the last 20 commits
+            try {
+                const COMMIT_SEPARATOR = '---COMMIT_SEPARATOR---';
+                const allCommitsRaw = execSync(`git log -20 --pretty=format:"%B${COMMIT_SEPARATOR}" --no-merges`, {
+                    encoding: 'utf8',
+                    stdio: ['pipe', 'pipe', 'ignore']
+                }).trim();
+
+                const allCommits = allCommitsRaw
+                    .split(COMMIT_SEPARATOR)
+                    .map(commit => commit.trim())
+                    .filter(commit => commit.length > 0)
+                    .filter(commit => {
+                        const firstLine = commit.split('\n')[0].trim();
+                        return firstLine &&
+                            !firstLine.match(/^Release v\d+\.\d+\.\d+$/i) &&
+                            !firstLine.match(/^Bump version/i) &&
+                            !firstLine.match(/^Version update$/i);
+                    });
+
+                const newCommits = allCommits.filter(commit => {
+                    const firstLine = commit.split('\n')[0].trim();
+                    return !existingCommits.has(firstLine);
+                });
+
+                if (newCommits.length > 0) {
+                    changelogEntry = newCommits.slice(0, 10).map(commit => {
+                        const lines = commit.split('\n').map(l => l.trim()).filter(l => l.length > 0);
+                        const subject = lines[0];
+                        const body = lines.slice(1);
+
+                        if (body.length > 0) {
+                            return `- ${subject}\n  ${body.join('\n  ')}`;
+                        } else {
+                            return `- ${subject}`;
+                        }
+                    }).join('\n');
+                } else {
+                    changelogEntry = '- Version update';
+                }
+            } catch (e) {
+                changelogEntry = '- Version update';
+            }
+        }
+
         // Create new changelog entry
         const newEntry = `## [${version}] - ${dateStr}
 
-${gitLog || '- Version update'}
+${changelogEntry}
 
 `;
 

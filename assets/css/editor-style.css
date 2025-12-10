@@ -26,6 +26,13 @@
 .editor-styles-wrapper a {
   text-underline-offset: var(--wp--preset--spacing--tiny, 1px);
 }
+.editor-styles-wrapper a:focus-visible,
+.editor-styles-wrapper button:focus-visible,
+.editor-styles-wrapper input[type=submit]:focus-visible,
+.editor-styles-wrapper [role=button]:focus-visible {
+  outline: 2px solid var(--wp--preset--color--accent);
+  outline-offset: 2px;
+}
 .editor-styles-wrapper .hidden {
   display: none !important;
 }
@@ -128,12 +135,12 @@
   display: inline-block;
 }
 .editor-styles-wrapper .wp-block-post-excerpt__more-link::after {
-  content: "»";
+  content: " »";
   margin-left: 0;
   transition: margin-left 0.3s ease;
 }
 .editor-styles-wrapper .wp-block-post-excerpt__more-link:hover::after {
-  margin-left: 6px;
+  margin-left: 4px;
 }
 .editor-styles-wrapper figure.wp-block-post-featured-image {
   overflow: hidden;

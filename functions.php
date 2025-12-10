@@ -23,26 +23,31 @@ require_once get_theme_file_path('inc/update-menu-links.php');
 // Theme update checker
 require_once get_theme_file_path('inc/theme-updater.php');
 
-// remove the_block_template_skip_link to validate w3c
-remove_action('wp_footer', 'the_block_template_skip_link');
-
-
 /**
- * Add theme support for block styles and editor style.
+ * Theme setup: i18n, patterns and skip link support.
  *
  * @since 1.0.0
  *
  * @return void
  */
-
-add_action('after_setup_theme', function () {
+add_action('init', function () {
     load_theme_textdomain('webentwicklerin', get_template_directory() . '/languages');
     remove_theme_support('core-block-patterns');
+
+    // Ensure the core skip link target is present for accessibility.
+    add_theme_support('block-template-skip-link');
 });
 
-
+// Custom skip link to main content for keyboard users.
 add_action('wp_body_open', function () {
-    echo sprintf(wp_kses_post('<span id="topofpage" class="screen-reader-text">%s</span>'), esc_html__('Anchor link to top of page', 'webentwicklerin'));
+    echo sprintf(
+        '<a class="skip-link screen-reader-text" href="#site-content">%s</a>',
+        esc_html__('Skip to main content', 'webentwicklerin')
+    );
+    echo sprintf(
+        wp_kses_post('<span id="topofpage" class="screen-reader-text">%s</span>'),
+        esc_html__('Anchor link to top of page', 'webentwicklerin')
+    );
 });
 
 
@@ -60,13 +65,6 @@ add_action('wp_enqueue_scripts', function () {
         [],
         wp_get_theme()->get('Version'),
         true
-    );
-
-    // Load JSON translations for block templates and JS using this theme's text domain.
-    wp_set_script_translations(
-        'webethm-init',
-        'webentwicklerin',
-        get_template_directory() . '/languages'
     );
 
     // Dequeue jQuery if not needed (improve performance)

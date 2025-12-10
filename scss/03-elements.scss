@@ -23,13 +23,13 @@ svg {
     display: inline-block;
 
     &::after {
-        content: "»";
+        content: " »";
         margin-left: 0;
         transition: margin-left 0.3s ease;
     }
 
     &:hover::after {
-        margin-left: 6px;
+        margin-left: 4px;
     }
 }
 

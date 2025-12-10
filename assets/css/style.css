@@ -54,6 +54,14 @@ a {
   text-underline-offset: var(--wp--preset--spacing--tiny, 1px);
 }
 
+a:focus-visible,
+button:focus-visible,
+input[type=submit]:focus-visible,
+[role=button]:focus-visible {
+  outline: 2px solid var(--wp--preset--color--accent);
+  outline-offset: 2px;
+}
+
 .hidden {
   display: none !important;
 }
@@ -177,12 +185,12 @@ svg {
   display: inline-block;
 }
 .wp-block-post-excerpt__more-link::after {
-  content: "»";
+  content: " »";
   margin-left: 0;
   transition: margin-left 0.3s ease;
 }
 .wp-block-post-excerpt__more-link:hover::after {
-  margin-left: 6px;
+  margin-left: 4px;
 }
 
 figure.wp-block-post-featured-image {
