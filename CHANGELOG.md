@@ -5,6 +5,14 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.1.10] - 2026-01-21
+
+- Update CSS styles for improved link behavior and layout adjustments
+  - Added `text-decoration: none !important;` to `#gototop a` and its hover state for consistent link appearance.
+  - Removed unnecessary flex-direction property from `.wp-block-cover` to streamline layout.
+  - Updated copyright year in `webentwicklerin.pot` and adjusted POT creation date.
+
+
 ## [0.1.9] - 2025-12-10
 
 - Remove PHP setup step from release workflow
@@ -76,3 +84,4 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 [0.1.7]: https://github.com/gbyat/webentwicklerin/releases/tag/v0.1.7
 [0.1.8]: https://github.com/gbyat/webentwicklerin/releases/tag/v0.1.8
 [0.1.9]: https://github.com/gbyat/webentwicklerin/releases/tag/v0.1.9
+[0.1.10]: https://github.com/gbyat/webentwicklerin/releases/tag/v0.1.10
