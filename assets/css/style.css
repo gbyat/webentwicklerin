@@ -159,16 +159,13 @@ p:empty {
 }
 #gototop a:hover {
   color: var(--wp--preset--color--base) !important;
+  text-decoration: none !important;
 }
 
 img,
 svg {
   max-width: 100%;
   height: auto;
-}
-
-.wp-block-cover {
-  flex-direction: column;
 }
 
 /** korrigiert "überlaufen" von einer blockgruppe über den html-rand hinaus - bug? hinzugefügt am 22.01.2025*/

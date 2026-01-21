@@ -116,14 +116,12 @@
 }
 .editor-styles-wrapper #gototop a:hover {
   color: var(--wp--preset--color--base) !important;
+  text-decoration: none !important;
 }
 .editor-styles-wrapper img,
 .editor-styles-wrapper svg {
   max-width: 100%;
   height: auto;
-}
-.editor-styles-wrapper .wp-block-cover {
-  flex-direction: column;
 }
 .editor-styles-wrapper .wp-block-categories .wp-block-categories__label {
   width: auto;
