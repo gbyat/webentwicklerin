@@ -7,6 +7,16 @@
   /** korrigiert "überlaufen" von einer blockgruppe über den html-rand hinaus - bug? hinzugefügt am 22.01.2025*/
   /** old blog */
 }
+.editor-styles-wrapper *,
+.editor-styles-wrapper *::before,
+.editor-styles-wrapper *::after {
+  box-sizing: border-box;
+}
+.editor-styles-wrapper .wp-site-blocks *,
+.editor-styles-wrapper .wp-site-blocks *::before,
+.editor-styles-wrapper .wp-site-blocks *::after {
+  box-sizing: border-box;
+}
 .editor-styles-wrapper html {
   scroll-behavior: smooth;
 }
@@ -96,8 +106,8 @@
   margin: var(--wp--preset--spacing--tiny) auto;
 }
 .editor-styles-wrapper #gototop {
-  height: 28px;
-  width: 28px;
+  height: 42px;
+  width: 42px;
   padding: var(--wp--preset--spacing--tiny);
   background-color: var(--wp--preset--color--accent);
   text-align: center;

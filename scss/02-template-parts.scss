@@ -36,6 +36,7 @@
         padding-top: 0;
     }
 }
+
 /* 
 .wp-block-cover.page-heading {
     background-color: var(--wp--preset--color--contrast);
@@ -62,8 +63,8 @@
 }
 
 #gototop {
-    height: 28px;
-    width: 28px;
+    height: 42px;
+    width: 42px;
     padding: var(--wp--preset--spacing--tiny);
     background-color: var(--wp--preset--color--accent);
     text-align: center;
@@ -80,6 +81,7 @@
     a {
         color: var(--wp--preset--color--base) !important;
         text-decoration: none !important;
+
         &:hover {
             color: var(--wp--preset--color--base) !important;
             text-decoration: none !important;

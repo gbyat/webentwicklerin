@@ -30,6 +30,18 @@
     opacity: 0;
   }
 }
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+.wp-site-blocks *,
+.wp-site-blocks *::before,
+.wp-site-blocks *::after {
+  box-sizing: border-box;
+}
+
 html {
   scroll-behavior: smooth;
 }
@@ -139,8 +151,8 @@ p:empty {
 }
 
 #gototop {
-  height: 28px;
-  width: 28px;
+  height: 42px;
+  width: 42px;
   padding: var(--wp--preset--spacing--tiny);
   background-color: var(--wp--preset--color--accent);
   text-align: center;

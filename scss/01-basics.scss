@@ -1,4 +1,17 @@
 // Basic HTML Elements
+// Use border-box so padding and border do not increase the element's visual width
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
+
+.wp-site-blocks *,
+.wp-site-blocks *::before,
+.wp-site-blocks *::after {
+    box-sizing: border-box;
+}
+
 html {
     scroll-behavior: smooth;
 }

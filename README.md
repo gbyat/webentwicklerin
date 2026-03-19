@@ -25,6 +25,16 @@ webentwicklerin is a modern WordPress block theme designed for Full Site Editing
 - Responsive layout
 - Customizable color palette
 - Editor styles support
+- Configurable navigation responsive breakpoint and mobile menu icon alignment
+
+### Navigation Responsive Settings
+
+The theme extends the core Navigation block with two additional settings in the block inspector panel **Responsive Settings**:
+
+- **Responsive navigation breakpoint (px)** -- Controls the viewport width at which the navigation switches from the desktop menu to the mobile toggle icon. Accepts values between 320 and 1920. Only available when the Navigation block's Overlay menu is set to *Mobile*. Default: 600.
+- **Mobile menu icon alignment** -- Positions the mobile menu toggle icon independently from the menu's content justification. Options: *Inherit* (native behavior), *Left*, *Center*, *Right*. Available when Overlay menu is set to *Mobile* or *Always*. Default: Inherit.
+
+Both settings are stored per Navigation block, so different navigations on the same page can use different values. The alignment is previewed live in the block editor and applied via scoped inline CSS on the frontend.
 
 ## Requirements
 

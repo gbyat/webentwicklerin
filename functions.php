@@ -22,6 +22,8 @@ require_once get_theme_file_path('inc/block-styles.php');
 require_once get_theme_file_path('inc/update-menu-links.php');
 // Theme update checker
 require_once get_theme_file_path('inc/theme-updater.php');
+// Navigation breakpoint control
+require_once get_theme_file_path('inc/navigation-breakpoint.php');
 
 /**
  * Theme setup: i18n, patterns and skip link support.
@@ -91,6 +93,20 @@ add_action('enqueue_block_editor_assets', function () {
         get_theme_file_uri('assets/css/editor-style.min.css'),
         [],
         wp_get_theme()->get('Version')
+    );
+
+    wp_enqueue_script(
+        'webentwicklerin-navigation-breakpoint-control',
+        get_theme_file_uri('assets/js/navigation-breakpoint-control.js'),
+        ['wp-blocks', 'wp-block-editor', 'wp-components', 'wp-compose', 'wp-element', 'wp-hooks', 'wp-i18n'],
+        wp_get_theme()->get('Version'),
+        true
+    );
+
+    wp_set_script_translations(
+        'webentwicklerin-navigation-breakpoint-control',
+        'webentwicklerin',
+        get_theme_file_path('languages')
     );
 });
 
