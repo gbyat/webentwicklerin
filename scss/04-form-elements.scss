@@ -45,7 +45,7 @@ input[type="submit"] {
     border: 1px solid var(--wp--preset--color--accent);
     padding: var(--wp--preset--spacing--small) var(--wp--preset--spacing--medium);
     color: var(--wp--preset--color--accent);
-    font-family: var(--wp--preset--font-family--roboto-flex);
+    font-family: var(--wp--preset--font-family--roboto);
     font-size: var(--wp--preset--font-size--normal);
     font-weight: 400;
     cursor: pointer;
@@ -66,7 +66,7 @@ textarea {
     padding: var(--wp--preset--spacing--tiny);
     border-radius: 5px;
     box-sizing: border-box;
-    font-family: var(--wp--preset--font-family--roboto-flex);
+    font-family: var(--wp--preset--font-family--roboto);
     font-size: var(--wp--preset--font-size--normal);
     background-color: var(--wp--preset--color--base-2);
     transition: border-color 0.3s ease;

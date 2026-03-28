@@ -21,14 +21,6 @@ body {
     -webkit-font-smoothing: antialiased;
 }
 
-// Typography
-h1,
-h2,
-h3,
-h4 {
-    font-stretch: 80%;
-}
-
 strong {
     font-weight: 700;
 }
@@ -66,11 +58,5 @@ p:empty {
 @media screen and (prefers-reduced-motion: reduce) {
     html {
         scroll-behavior: auto;
-    }
-}
-
-@media (max-width: 480px) {
-    .mobile-less-stretch {
-        font-stretch: 65%;
     }
 }

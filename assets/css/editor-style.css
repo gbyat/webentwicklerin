@@ -24,12 +24,6 @@
   -moz-osx-font-smoothing: grayscale;
   -webkit-font-smoothing: antialiased;
 }
-.editor-styles-wrapper h1,
-.editor-styles-wrapper h2,
-.editor-styles-wrapper h3,
-.editor-styles-wrapper h4 {
-  font-stretch: 80%;
-}
 .editor-styles-wrapper strong {
   font-weight: 700;
 }
@@ -57,11 +51,6 @@
 @media screen and (prefers-reduced-motion: reduce) {
   .editor-styles-wrapper html {
     scroll-behavior: auto;
-  }
-}
-@media (max-width: 480px) {
-  .editor-styles-wrapper .mobile-less-stretch {
-    font-stretch: 65%;
   }
 }
 .editor-styles-wrapper .site-header {
@@ -324,7 +313,7 @@
   border: 1px solid var(--wp--preset--color--accent);
   padding: var(--wp--preset--spacing--small) var(--wp--preset--spacing--medium);
   color: var(--wp--preset--color--accent);
-  font-family: var(--wp--preset--font-family--roboto-flex);
+  font-family: var(--wp--preset--font-family--roboto);
   font-size: var(--wp--preset--font-size--normal);
   font-weight: 400;
   cursor: pointer;
@@ -343,7 +332,7 @@
   padding: var(--wp--preset--spacing--tiny);
   border-radius: 5px;
   box-sizing: border-box;
-  font-family: var(--wp--preset--font-family--roboto-flex);
+  font-family: var(--wp--preset--font-family--roboto);
   font-size: var(--wp--preset--font-size--normal);
   background-color: var(--wp--preset--color--base-2);
   transition: border-color 0.3s ease;

@@ -1,12 +1,13 @@
 {
   "assets\\css\\admin-style.css": "c8e2aa2df4ba22c764b92c547ab619b4",
-  "assets\\css\\editor-style.css": "485c9d95688724751a3be385a2a49a9e",
-  "assets\\css\\editor-style.min.css": "d451f73c5b2fd0f14008553ca271a17c",
+  "assets\\css\\editor-style.css": "f08c2f80df9db2a6b21043cf8429dff5",
+  "assets\\css\\editor-style.min.css": "a3a67c4fe77b8ed4274c8f0944a05aa1",
   "assets\\css\\style-login.css": "7e775858f8e0e526c79e08dcea825716",
-  "assets\\css\\style.css": "d62e047e112165d23895ca2c2cbeac74",
-  "assets\\css\\style.min.css": "b70bd348c4c1a93e586e4a06b54bde8b",
+  "assets\\css\\style.css": "4d28e380311cee75d1a8efd667db3e0f",
+  "assets\\css\\style.min.css": "1f09fe0a7c50d52506fdbb9fa0c4553a",
   "assets\\fonts\\robotoflex-license.txt": "6e1cd7edbe987e276142937e38395911",
-  "assets\\fonts\\RobotoFlex-VariableFont_GRAD,XTRA,YOPQ,YTAS,YTDE,YTFI,YTLC,YTUC,opsz,slnt,wdth,wght.woff2": "23669d4afe23ced1efaad5c9c244172e",
+  "assets\\fonts\\Roboto-400.woff2": "73f0a88bbca1bec19fb1303c689d04c6",
+  "assets\\fonts\\Roboto-700.woff2": "b52fac2bb93c5858f3f2675e4b52e1de",
   "assets\\fonts\\robotoflex.txt": "b75d63eabda5e06f558d6ff12349fcd1",
   "assets\\images\\example2.jpg": "44683a1455c355a5a78c4a57fdf3d459",
   "assets\\images\\login-background.jpg": "4268a7dd9e1e9646b356703eb6fd8b87",
@@ -40,6 +41,6 @@
   "styles\\s1-redblue.json": "832ff26c5b3cdc2117953555d5735773",
   "functions.php": "6ffa0b413ad8aecb9a68e838d076ad5c",
   "screenshot.png": "3d88cd3843c19fd9bf5ff3cd2fd13d37",
-  "theme.json": "868e06eb7f3471a99293b761bc7a661a",
+  "theme.json": "b59940dbc43cbf21313a1272f2d233c9",
   "style.css": "1517e9969806350793289800a51e6580"
 }

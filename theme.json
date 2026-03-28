@@ -142,19 +142,23 @@
 					"fontFamily": "\"Times New Roman\",\"New York\",Times,\"Noto Serif\",serif"
 				},
 				{
-					"name": "Roboto Flex",
-					"slug": "roboto-flex",
-					"fontFamily": "Roboto Flex,\"Segoe UI\",\"Helvetica Neue\",sans-serif",
+					"name": "Roboto",
+					"slug": "roboto",
+					"fontFamily": "Roboto,\"Segoe UI\",\"Helvetica Neue\",sans-serif",
 					"fontFace": [
 						{
-							"fontFamily": "Roboto Flex",
-							"fontWeight": "100 1000",
-							"fontStretch": "25% 151%",
-							"fontStyle": "normal italic",
+							"fontFamily": "Roboto",
+							"fontWeight": "400",
+							"fontStyle": "normal",
 							"fontDisplay": "swap",
-							"src": [
-								"file:./assets/fonts/RobotoFlex-VariableFont_GRAD,XTRA,YOPQ,YTAS,YTDE,YTFI,YTLC,YTUC,opsz,slnt,wdth,wght.woff2"
-							]
+							"src": ["file:./assets/fonts/Roboto-400.woff2"]
+						},
+						{
+							"fontFamily": "Roboto",
+							"fontWeight": "700",
+							"fontStyle": "normal",
+							"fontDisplay": "swap",
+							"src": ["file:./assets/fonts/Roboto-700.woff2"]
 						}
 					]
 				},
@@ -320,9 +324,9 @@
 	"styles": {
 		"typography": {
 			"fontSize": "var(--wp--preset--font-size--normal)",
-			"fontFamily": "var(--wp--preset--font-family--roboto-flex)",
+			"fontFamily": "var(--wp--preset--font-family--roboto)",
 			"lineHeight": "1.7",
-			"fontWeight": "300"
+			"fontWeight": "400"
 		},
 		"blocks": {
 			"core/code": {
@@ -457,7 +461,7 @@
 					"text": "var(--wp--preset--color--accent)"
 				},
 				"typography": {
-					"fontFamily": "var(--wp--preset--font-family--roboto-flex)",
+					"fontFamily": "var(--wp--preset--font-family--roboto)",
 					"fontWeight": "400",
 					"letterSpacing": "0.5px"
 				},
@@ -513,9 +517,6 @@
 					}
 				}
 			},
-			"core/quote": {
-				"css": "p { font-stretch: 130%; }"
-			},
 			"core/post-excerpt": {
 				"elements": {
 					"more-link": {
@@ -550,7 +551,7 @@
 			},
 			"heading": {
 				"typography": {
-					"fontFamily": "var(--wp--preset--font-family--roboto-flex)",
+					"fontFamily": "var(--wp--preset--font-family--roboto)",
 					"fontWeight": "600"
 				},
 				"color": {
