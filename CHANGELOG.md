@@ -5,6 +5,16 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.2.1] - 2026-03-28
+
+- Update font handling and CSS styles
+  - Replaced "Roboto Flex" with "Roboto" in theme.json and CSS files for consistent typography.
+  - Updated font files to include specific weights for "Roboto" and removed the "Roboto Flex" variable font.
+  - Cleaned up CSS by removing unnecessary font-stretch properties and ensuring consistent font-family usage across stylesheets.
+- Refactor jQuery handling in functions.php
+  - Simplified the condition for dequeuing jQuery by removing the check for the customizer preview, improving performance for non-admin users.
+
+
 ## [0.2.0] - 2026-03-19
 
 - Enhance navigation and layout features
@@ -95,3 +105,4 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 [0.1.9]: https://github.com/gbyat/webentwicklerin/releases/tag/v0.1.9
 [0.1.10]: https://github.com/gbyat/webentwicklerin/releases/tag/v0.1.10
 [0.2.0]: https://github.com/gbyat/webentwicklerin/releases/tag/v0.2.0
+[0.2.1]: https://github.com/gbyat/webentwicklerin/releases/tag/v0.2.1
