@@ -69,8 +69,7 @@ add_action('wp_enqueue_scripts', function () {
         true
     );
 
-    // Dequeue jQuery if not needed (improve performance)
-    if (!is_admin() && !is_customize_preview()) {
+    if (!is_admin()) {
         wp_dequeue_script('jquery');
         wp_deregister_script('jquery');
     }
