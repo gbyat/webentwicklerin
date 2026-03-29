@@ -24,6 +24,8 @@ require_once get_theme_file_path('inc/update-menu-links.php');
 require_once get_theme_file_path('inc/theme-updater.php');
 // Navigation breakpoint control
 require_once get_theme_file_path('inc/navigation-breakpoint.php');
+// Force font-display: swap for Font Library fonts (user Theme JSON layer only)
+require_once get_theme_file_path('inc/font-display-swap.php');
 
 /**
  * Theme setup: i18n, patterns and skip link support.
@@ -74,6 +76,24 @@ add_action('wp_enqueue_scripts', function () {
         wp_deregister_script('jquery');
     }
 });
+
+
+/**
+ * Remove Dashicons on the front end for guests to reduce render-blocking CSS.
+ * Logged-in users keep Dashicons (e.g. admin bar). Re-enable if icons break.
+ *
+ * @since 2.0.0
+ */
+add_action(
+    'wp_enqueue_scripts',
+    function () {
+        if (is_user_logged_in()) {
+            return;
+        }
+        wp_dequeue_style('dashicons');
+    },
+    100
+);
 
 
 add_action('admin_enqueue_scripts', function () {
