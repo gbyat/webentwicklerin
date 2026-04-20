@@ -26,9 +26,11 @@ require_once get_theme_file_path('inc/theme-updater.php');
 require_once get_theme_file_path('inc/navigation-breakpoint.php');
 // Force font-display: swap for Font Library fonts (user Theme JSON layer only)
 require_once get_theme_file_path('inc/font-display-swap.php');
+// Accessibility helpers and labels.
+require_once get_theme_file_path('inc/a11y.php');
 
 /**
- * Theme setup: i18n, patterns and skip link support.
+ * Theme setup: i18n and pattern support.
  *
  * @since 1.0.0
  *
@@ -37,21 +39,6 @@ require_once get_theme_file_path('inc/font-display-swap.php');
 add_action('init', function () {
     load_theme_textdomain('webentwicklerin', get_template_directory() . '/languages');
     remove_theme_support('core-block-patterns');
-
-    // Ensure the core skip link target is present for accessibility.
-    add_theme_support('block-template-skip-link');
-});
-
-// Custom skip link to main content for keyboard users.
-add_action('wp_body_open', function () {
-    echo sprintf(
-        '<a class="skip-link screen-reader-text" href="#site-content">%s</a>',
-        esc_html__('Skip to main content', 'webentwicklerin')
-    );
-    echo sprintf(
-        wp_kses_post('<span id="topofpage" class="screen-reader-text">%s</span>'),
-        esc_html__('Anchor link to top of page', 'webentwicklerin')
-    );
 });
 
 
@@ -126,20 +113,6 @@ add_action('enqueue_block_editor_assets', function () {
         'webentwicklerin-navigation-breakpoint-control',
         'webentwicklerin',
         get_theme_file_path('languages')
-    );
-});
-
-
-/**
- * Simple "Go to top" link in the footer using a UTF-8 arrow.
- *
- * @since 2.0.0
- */
-add_action('wp_footer', function () {
-    printf(
-        '<div id="gototop" class="animated hidden"><a href="#topofpage" class="gototop-link" aria-label="%s">%s</a></div>',
-        esc_attr__('Go to top of page', 'webentwicklerin'),
-        '&#8593;'
     );
 });
 
