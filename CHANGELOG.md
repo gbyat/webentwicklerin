@@ -5,6 +5,15 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.3.0] - 2026-04-20
+
+- Enhance accessibility features and update translations
+  - Added accessibility helpers and labels by including a new file for improved user experience.
+  - Removed custom skip link functionality from functions.php to streamline code.
+  - Updated German translations in .po and .mo files, including new entries for pagination and accessibility labels.
+  - Adjusted POT creation date in language files for consistency.
+
+
 ## [0.2.2] - 2026-04-17
 
 - Add font-display swap for Font Library and remove Dashicons for guests
@@ -114,3 +123,4 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 [0.2.0]: https://github.com/gbyat/webentwicklerin/releases/tag/v0.2.0
 [0.2.1]: https://github.com/gbyat/webentwicklerin/releases/tag/v0.2.1
 [0.2.2]: https://github.com/gbyat/webentwicklerin/releases/tag/v0.2.2
+[0.3.0]: https://github.com/gbyat/webentwicklerin/releases/tag/v0.3.0
