@@ -159,9 +159,6 @@
 .editor-styles-wrapper .wp-block-post-featured-image:hover {
   transition: all 0.7s ease-in-out;
 }
-.editor-styles-wrapper .wp-block-post:not(:hover) .wp-block-post-featured-image {
-  filter: grayscale(90%);
-}
 .editor-styles-wrapper .is-style-main-navigation .wp-block-navigation__responsive-container:not(.is-menu-open) .wp-block-navigation__container > .wp-block-navigation-item .wp-block-navigation__submenu-container .wp-block-navigation-item .wp-block-navigation-item__content {
   padding: 0.35rem 1rem;
 }
