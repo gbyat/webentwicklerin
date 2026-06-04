@@ -17,10 +17,15 @@ window.addEventListener('scroll', function () {
 
 function removeAnchorFromURL() {
     setTimeout(function () {
-        if (window.location.hash) {
-            var noHashURL = window.location.href.replace(window.location.hash, '');
-            window.history.replaceState(null, null, noHashURL);
+        var hash = window.location.hash;
+        if (!hash) {
+            return;
         }
+        if (hash === '#site-content' || hash === '#wp--skip-link--target') {
+            return;
+        }
+        var noHashURL = window.location.href.replace(hash, '');
+        window.history.replaceState(null, null, noHashURL);
     }, 2000);
 }
 

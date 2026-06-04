@@ -52,6 +52,9 @@
 .editor-styles-wrapper .skip-link:focus, .editor-styles-wrapper .skip-link:focus-visible {
   top: 0;
 }
+.editor-styles-wrapper main#site-content {
+  scroll-margin-top: var(--wp-admin--admin-bar--height, 0px);
+}
 .editor-styles-wrapper .hidden {
   display: none !important;
 }

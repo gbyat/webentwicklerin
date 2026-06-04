@@ -44,7 +44,10 @@ add_action('wp_footer', function () {
 });
 
 /**
- * Make the main content skip target programmatically focusable.
+ * Ensure the first <main> is a working skip-link target on every template.
+ *
+ * Templates edited in the Site Editor or without an anchor attribute may omit
+ * id="site-content"; the skip link would then not reach main content.
  *
  * @since 2.0.0
  *
@@ -55,24 +58,45 @@ add_action('wp_footer', function () {
 add_filter(
 	'render_block',
 	function ($block_content, $block) {
+		static $main_target_set = false;
+
+		if ($main_target_set) {
+			return $block_content;
+		}
+
 		if ('core/group' !== ($block['blockName'] ?? '')) {
 			return $block_content;
 		}
 
-		if (empty($block['attrs']['anchor']) || 'site-content' !== $block['attrs']['anchor']) {
+		if (empty($block['attrs']['tagName']) || 'main' !== $block['attrs']['tagName']) {
 			return $block_content;
 		}
 
-		if (false !== stripos($block_content, 'tabindex=')) {
-			return $block_content;
+		$main_target_set = true;
+
+		if (! preg_match('/<main[^>]*\bid=["\']site-content["\']/i', $block_content)) {
+			if (preg_match('/<main[^>]*\bid=/i', $block_content)) {
+				$block_content = preg_replace(
+					'/(<main[^>]*\s)id=(["\'])[^"\']*\2/i',
+					'$1id=$2site-content$2',
+					$block_content,
+					1
+				);
+			} else {
+				$block_content = preg_replace('/<main\b/i', '<main id="site-content"', $block_content, 1);
+			}
 		}
 
-		return preg_replace(
-			'/<main\b([^>]*)>/i',
-			'<main$1 tabindex="-1">',
-			$block_content,
-			1
-		);
+		if (false === stripos($block_content, 'tabindex=')) {
+			$block_content = preg_replace(
+				'/<main\b([^>]*)>/i',
+				'<main$1 tabindex="-1">',
+				$block_content,
+				1
+			);
+		}
+
+		return $block_content;
 	},
 	10,
 	2

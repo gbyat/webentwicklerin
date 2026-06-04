@@ -82,6 +82,10 @@ input[type=submit]:focus-visible,
   top: 0;
 }
 
+main#site-content {
+  scroll-margin-top: var(--wp-admin--admin-bar--height, 0px);
+}
+
 .hidden {
   display: none !important;
 }

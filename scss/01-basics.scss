@@ -56,6 +56,11 @@ input[type="submit"]:focus-visible,
     }
 }
 
+// Scroll/focus target for skip link (admin bar offset when logged in)
+main#site-content {
+    scroll-margin-top: var(--wp-admin--admin-bar--height, 0px);
+}
+
 // Utility Classes
 .hidden {
     display: none !important;
