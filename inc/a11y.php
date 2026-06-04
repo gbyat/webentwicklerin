@@ -8,18 +8,10 @@
  */
 
 /**
- * Ensure block template skip-link support is enabled.
+ * Output a skip link and top anchor for assistive technology users.
  *
- * @since 2.0.0
- *
- * @return void
- */
-add_action('init', function () {
-	add_theme_support('block-template-skip-link');
-});
-
-/**
- * Output a custom skip link and top anchor for assistive technology users.
+ * Uses theme .skip-link styles (visible on :focus) instead of screen-reader-text
+ * alone, which is not reliably styled on the block theme front end.
  *
  * @since 2.0.0
  *
@@ -27,7 +19,7 @@ add_action('init', function () {
  */
 add_action('wp_body_open', function () {
 	echo sprintf(
-		'<a class="skip-link screen-reader-text" href="#site-content">%s</a>',
+		'<a class="skip-link" href="#site-content">%s</a>',
 		esc_html__('Skip to main content', 'webentwicklerin')
 	);
 	echo sprintf(
@@ -50,6 +42,41 @@ add_action('wp_footer', function () {
 		'&#8593;'
 	);
 });
+
+/**
+ * Make the main content skip target programmatically focusable.
+ *
+ * @since 2.0.0
+ *
+ * @param string $block_content Rendered block HTML.
+ * @param array  $block         Block data.
+ * @return string
+ */
+add_filter(
+	'render_block',
+	function ($block_content, $block) {
+		if ('core/group' !== ($block['blockName'] ?? '')) {
+			return $block_content;
+		}
+
+		if (empty($block['attrs']['anchor']) || 'site-content' !== $block['attrs']['anchor']) {
+			return $block_content;
+		}
+
+		if (false !== stripos($block_content, 'tabindex=')) {
+			return $block_content;
+		}
+
+		return preg_replace(
+			'/<main\b([^>]*)>/i',
+			'<main$1 tabindex="-1">',
+			$block_content,
+			1
+		);
+	},
+	10,
+	2
+);
 
 /**
  * Build a contextual label prefix for pagination accessibility text.

@@ -55,16 +55,43 @@ strong {
   font-weight: 700;
 }
 
-a {
-  text-underline-offset: var(--wp--preset--spacing--tiny, 1px);
-}
-
 a:focus-visible,
 button:focus-visible,
 input[type=submit]:focus-visible,
 [role=button]:focus-visible {
   outline: 2px solid var(--wp--preset--color--accent);
   outline-offset: 2px;
+}
+
+.skip-link {
+  background-color: var(--wp--preset--color--base-2);
+  border: 2px solid var(--wp--preset--color--accent);
+  clip: rect(1px, 1px, 1px, 1px);
+  clip-path: inset(50%);
+  color: var(--wp--preset--color--contrast);
+  font-size: var(--wp--preset--font-size--normal);
+  font-weight: 700;
+  height: 1px;
+  left: 0;
+  margin: -1px;
+  overflow: hidden;
+  padding: 0;
+  position: absolute;
+  text-decoration: none;
+  top: 0;
+  width: 1px;
+  word-wrap: normal;
+  z-index: 100000;
+}
+.skip-link:focus, .skip-link:focus-visible {
+  clip: auto;
+  clip-path: none;
+  display: block;
+  height: auto;
+  margin: 0;
+  overflow: visible;
+  padding: var(--wp--preset--spacing--small) var(--wp--preset--spacing--medium);
+  width: auto;
 }
 
 .hidden {
