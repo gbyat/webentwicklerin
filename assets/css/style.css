@@ -64,34 +64,22 @@ input[type=submit]:focus-visible,
 }
 
 .skip-link {
+  position: absolute;
+  top: -100%;
+  left: 0;
+  z-index: 100000;
+  padding: var(--wp--preset--spacing--small) var(--wp--preset--spacing--medium);
   background-color: var(--wp--preset--color--base-2);
   border: 2px solid var(--wp--preset--color--accent);
-  clip: rect(1px, 1px, 1px, 1px);
-  clip-path: inset(50%);
   color: var(--wp--preset--color--contrast);
   font-size: var(--wp--preset--font-size--normal);
   font-weight: 700;
-  height: 1px;
-  left: 0;
-  margin: -1px;
-  overflow: hidden;
-  padding: 0;
-  position: absolute;
   text-decoration: none;
-  top: 0;
-  width: 1px;
-  word-wrap: normal;
-  z-index: 100000;
+  white-space: nowrap;
+  transition: top 0.2s ease;
 }
 .skip-link:focus, .skip-link:focus-visible {
-  clip: auto;
-  clip-path: none;
-  display: block;
-  height: auto;
-  margin: 0;
-  overflow: visible;
-  padding: var(--wp--preset--spacing--small) var(--wp--preset--spacing--medium);
-  width: auto;
+  top: 0;
 }
 
 .hidden {
