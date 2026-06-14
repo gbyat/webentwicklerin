@@ -1,80 +1,45 @@
-form .columns {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
-    margin: var(--wp--preset--spacing--medium) 0;
+// Form styles not yet covered by theme.json (focus, select, native submit).
 
-    p {
-        margin: 0;
-    }
-}
-
-@media (max-width: 460px) {
-    form .columns {
-        flex-direction: column;
-    }
-
-    form .columns-2.einszwei>*:first-child,
-    form .columns-2.einszwei>*:last-child,
-    form .columns-2>* {
-        flex-basis: 100%;
-    }
-}
-
-form .columns-2>* {
-    flex-basis: 48.5%;
-}
-
-form .columns-2.einszwei>*:first-child {
-    flex-basis: 28%;
-}
-
-form .columns-2.einszwei>*:last-child {
-    flex-basis: 69%;
-}
-
-.is-style-outline.wp-block-button .wp-block-button__link:hover {
-    background-color: var(--wp--preset--color--accent);
-    color: var(--wp--preset--color--base);
-    border-color: var(--wp--preset--color--accent);
-}
-
-input[type="submit"] {
-    background-color: var(--wp--preset--color--base);
-    border-radius: 2px;
-    border: 1px solid var(--wp--preset--color--accent);
-    padding: var(--wp--preset--spacing--small) var(--wp--preset--spacing--medium);
-    color: var(--wp--preset--color--accent);
-    font-family: var(--wp--preset--font-family--roboto);
-    font-size: var(--wp--preset--font-size--normal);
-    font-weight: 400;
-    cursor: pointer;
-    transition: all 0.3s ease;
-
-    &:hover {
-        background-color: var(--wp--preset--color--accent);
-        color: var(--wp--preset--color--base);
+textarea,
+input:where([type=email], [type=number], [type=password], [type=search], [type=text], [type=tel], [type=url]),
+select {
+    &:focus-visible {
         border-color: var(--wp--preset--color--accent);
+        outline: 2px solid var(--wp--preset--color--accent);
+        outline-offset: 2px;
     }
 }
 
-input:not([type=radio]):not([type=checkbox]):not([type=submit]):not([type=button]):not([type=image]):not([type=file]),
-select,
-textarea {
+select {
     width: 100%;
+    box-sizing: border-box;
     border: 1px solid var(--wp--preset--color--base-3);
     padding: var(--wp--preset--spacing--tiny);
     border-radius: 5px;
-    box-sizing: border-box;
     font-family: var(--wp--preset--font-family--roboto);
     font-size: var(--wp--preset--font-size--normal);
     background-color: var(--wp--preset--color--base-2);
-    transition: border-color 0.3s ease;
+    color: var(--wp--preset--color--contrast);
+}
 
-    &:focus,
-    &:focus-visible {
-        border-color: var(--wp--preset--color--accent) !important;
-        outline: none !important;
+// Native submit buttons: mirror elements.button (theme.json), not covered by .wp-element-button.
+
+input[type="submit"],
+button[type="submit"],
+.submit-button {
+    background-color: var(--wp--preset--color--accent-2);
+    border: 1px solid var(--wp--preset--color--transparent);
+    border-radius: var(--wp--custom--button--border-radius);
+    color: var(--wp--preset--color--base);
+    cursor: pointer;
+    font-family: var(--wp--preset--font-family--roboto);
+    font-size: var(--wp--preset--font-size--normal);
+    font-weight: 700;
+    padding: calc(0.375em + 2px) calc(0.875em + 2px);
+    transition: all 0.3s ease;
+
+    &:hover {
+        border-color: var(--wp--preset--color--accent);
     }
 }
 
@@ -83,9 +48,5 @@ textarea {
 }
 
 textarea {
-    height: 150px;
-}
-
-.wpcf7-submit {
-    width: 100%;
+    min-height: 150px;
 }

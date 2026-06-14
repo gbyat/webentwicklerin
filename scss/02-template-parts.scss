@@ -3,88 +3,43 @@
     z-index: 9;
 }
 
+// Sticky offset when logged in (admin bar).
+$sticky-top: calc(0px + var(--wp-admin--admin-bar--position-offset, var(--wp-admin--admin-bar--height, 0px)));
 
-#menu-icon {
-    width: 40px !important;
-    height: auto;
-
-    path {
-        fill: var(--wp--preset--color--accent);
-    }
+@mixin sticky-bar {
+    --wp-admin--admin-bar--position-offset: var(--wp-admin--admin-bar--height, 0px);
+    position: sticky;
+    top: $sticky-top;
+    z-index: 10;
 }
 
-.wp-block-navigation__responsive-container {
-    &.is-menu-open {
-        max-width: 100%;
-        padding: var(--wp--preset--spacing--medium) 10%;
-
-        .wp-block-navigation__responsive-container-content {
-            .wp-block-navigation__submenu-container {
-                padding-top: 0 !important;
-            }
-        }
-    }
-
-    &:not(.has-background).is-menu-open {
-        opacity: 0.95 !important;
-    }
+// 1. Entire header sticky: set Position → Sticky on the outermost group inside the header template part.
+.wp-block-template-part:has(> .is-position-sticky),
+header.site-header:has(> .is-position-sticky) {
+    @include sticky-bar;
 }
 
-.wp-block-navigation__responsive-container-content {
-    .wp-block-navigation>ul {
-        margin-top: 0;
-        padding-top: 0;
-    }
-}
-
-/* 
-.wp-block-cover.page-heading {
-    background-color: var(--wp--preset--color--contrast);
-} */
-
-.blog .site-header+main>.wp-block-query,
-.page .site-header+main>.wp-block-columns,
-.archive .site-header+main>.wp-block-columns,
-.single .site-header+main>.wp-block-columns,
-.site-header+main>.entry-content {
+.wp-block-template-part:has(> .is-position-sticky) > .is-position-sticky,
+header.site-header:has(> .is-position-sticky) > .is-position-sticky {
     position: relative;
+    top: auto;
 }
 
-.is-content-justification-space-between {
-    justify-content: space-between;
+// 2. Detached nav: navigation as a template sibling (group or template part with sticky direct child).
+.wp-site-blocks > .is-position-sticky,
+.wp-site-blocks > .wp-block-template-part:has(> .is-position-sticky) {
+    @include sticky-bar;
 }
 
-.wp-block-term-description {
-    margin-top: 0;
-
-    p {
-        margin: var(--wp--preset--spacing--tiny) auto;
-    }
+.wp-site-blocks > .wp-block-template-part:has(> .is-position-sticky) > .is-position-sticky {
+    position: relative;
+    top: auto;
 }
 
-#gototop {
-    height: 42px;
-    width: 42px;
-    padding: var(--wp--preset--spacing--tiny);
-    background-color: var(--wp--preset--color--accent);
-    text-align: center;
+// Scroll-to-top pattern: fixed bottom-right; JS adds .hidden until scroll offset.
+.scroll-to-top {
     position: fixed;
-    right: var(--wp--preset--spacing--small);
     bottom: var(--wp--preset--spacing--small);
+    right: var(--wp--preset--spacing--small);
     z-index: 999;
-    transition: background-color 0.3s ease;
-
-    &:hover {
-        background-color: var(--wp--preset--color--accent-2) !important;
-    }
-
-    a {
-        color: var(--wp--preset--color--base) !important;
-        text-decoration: none !important;
-
-        &:hover {
-            color: var(--wp--preset--color--base) !important;
-            text-decoration: none !important;
-        }
-    }
 }

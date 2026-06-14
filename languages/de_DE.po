@@ -3,7 +3,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: webentwicklerin\n"
-"POT-Creation-Date: 2026-04-20 12:17+0000\n"
+"POT-Creation-Date: 2026-06-12 21:20+0000\n"
 "PO-Revision-Date: \n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -20,62 +20,58 @@ msgstr ""
 "X-Poedit-SearchPath-0: .\n"
 "X-Poedit-SearchPathExcluded-0: *.js\n"
 
-#: inc/a11y.php:31
+#: inc/a11y.php:23
 msgid "Skip to main content"
 msgstr "Direkt zum Inhalt springen"
 
-#: inc/a11y.php:35
+#: inc/a11y.php:27
 msgid "Anchor link to top of page"
 msgstr "Ankerlink an den Anfang der Seite"
 
-#: inc/a11y.php:49
-msgid "Go to top of page"
-msgstr "An den Anfang der Seite navigieren"
-
-#: inc/a11y.php:64
+#: inc/a11y.php:100
 msgid "Blog pagination"
 msgstr "Blog-Seitennummerierung"
 
-#: inc/a11y.php:68
+#: inc/a11y.php:104
 msgid "Category pagination"
 msgstr "Paginierung nach Kategorie"
 
-#: inc/a11y.php:72
+#: inc/a11y.php:108
 msgid "Tag pagination"
 msgstr "Tag-Paginierung"
 
-#: inc/a11y.php:76
+#: inc/a11y.php:112
 msgid "Taxonomy pagination"
 msgstr "Paginierung nach Taxonomie"
 
-#: inc/a11y.php:80
+#: inc/a11y.php:116
 msgid "Search results pagination"
 msgstr "Paginierung der Suchergebnisse"
 
-#: inc/a11y.php:84, inc/a11y.php:88
+#: inc/a11y.php:120, inc/a11y.php:124
 msgid "Archive pagination"
 msgstr "Seitennummerierung"
 
-#: inc/a11y.php:91
+#: inc/a11y.php:127
 msgid "Pagination"
 msgstr "Paginierung"
 
 #. translators: %s: Pagination context, e.g. Blog pagination.
-#: inc/a11y.php:133
+#: inc/a11y.php:169
 msgid "%s, previous page"
 msgstr "%s, vorherige Seite"
 
 #. translators: %s: Pagination context, e.g. Blog pagination.
-#: inc/a11y.php:151
+#: inc/a11y.php:187
 msgid "%s, next page"
 msgstr "%s, nächste Seite"
 
 #. translators: 1: Pagination context, 2: Page number.
-#: inc/a11y.php:181
+#: inc/a11y.php:217
 msgid "%1$s, page %2$s"
 msgstr "%1$s, Seite %2$s"
 
-#: inc/block-styles.php:9
+#: inc/block-styles.php:23
 msgid "Colored Bullets"
 msgstr "Farbige Aufzählungszeichen"
 
@@ -149,6 +145,14 @@ msgstr "Suche"
 msgctxt "Search button text."
 msgid "Search"
 msgstr "suchen"
+
+#: patterns/scroll-to-top.php:14
+msgid "Go to top of page"
+msgstr "An den Anfang der Seite navigieren"
+
+#: patterns/scroll-to-top.php:25
+msgid "↑"
+msgstr "↑"
 
 #~ msgid "Clipped Background"
 #~ msgstr "Geklippter Hintergrund"

@@ -3,7 +3,7 @@
 /**
  * Accessibility helpers and filters.
  *
- * @package webethm
+ * @package webentwicklerin
  * @since 2.0.0
  */
 
@@ -25,21 +25,6 @@ add_action('wp_body_open', function () {
 	echo sprintf(
 		wp_kses_post('<span id="topofpage" class="screen-reader-text">%s</span>'),
 		esc_html__('Anchor link to top of page', 'webentwicklerin')
-	);
-});
-
-/**
- * Output a footer "go to top" control with an accessible label.
- *
- * @since 2.0.0
- *
- * @return void
- */
-add_action('wp_footer', function () {
-	printf(
-		'<div id="gototop" class="animated hidden"><a href="#topofpage" class="gototop-link" aria-label="%s">%s</a></div>',
-		esc_attr__('Go to top of page', 'webentwicklerin'),
-		'&#8593;'
 	);
 });
 
@@ -242,4 +227,38 @@ add_filter(
 	},
 	10,
 	1
+);
+
+/**
+ * Add an accessible name to scroll-to-top buttons on the front end.
+ *
+ * core/button does not support ariaLabel in saved markup; adding it in the
+ * pattern breaks block validation in the editor.
+ *
+ * @since 2.0.0
+ *
+ * @param string $block_content Rendered block HTML.
+ * @param array  $block         Block data.
+ * @return string
+ */
+add_filter(
+	'render_block_core/button',
+	function ($block_content, $block) {
+		if ( empty( $block['attrs']['url'] ) || '#topofpage' !== $block['attrs']['url'] ) {
+			return $block_content;
+		}
+
+		if ( false !== stripos( $block_content, 'aria-label=' ) ) {
+			return $block_content;
+		}
+
+		return preg_replace(
+			'/(<a\b)/',
+			'$1 aria-label="' . esc_attr__( 'Go to top of page', 'webentwicklerin' ) . '"',
+			$block_content,
+			1
+		);
+	},
+	10,
+	2
 );

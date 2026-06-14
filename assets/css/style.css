@@ -1,4 +1,3 @@
-@charset "UTF-8";
 .animated {
   animation-duration: 1s;
   animation-fill-mode: both;
@@ -30,6 +29,13 @@
     opacity: 0;
   }
 }
+@media screen and (prefers-reduced-motion: reduce) {
+  .animated,
+  .fadeIn,
+  .fadeOut {
+    animation: none !important;
+  }
+}
 *,
 *::before,
 *::after {
@@ -44,6 +50,7 @@
 
 html {
   scroll-behavior: smooth;
+  scroll-padding-top: var(--webentwicklerin-scroll-padding-top, var(--wp-admin--admin-bar--height, 0px));
 }
 
 body {
@@ -58,6 +65,8 @@ strong {
 a:focus-visible,
 button:focus-visible,
 input[type=submit]:focus-visible,
+button[type=submit]:focus-visible,
+.submit-button:focus-visible,
 [role=button]:focus-visible {
   outline: 2px solid var(--wp--preset--color--accent);
   outline-offset: 2px;
@@ -82,8 +91,9 @@ input[type=submit]:focus-visible,
   top: 0;
 }
 
-main#site-content {
-  scroll-margin-top: var(--wp-admin--admin-bar--height, 0px);
+main#site-content,
+:target {
+  scroll-margin-top: var(--webentwicklerin-scroll-padding-top, var(--wp-admin--admin-bar--height, 0px));
 }
 
 .hidden {
@@ -104,81 +114,47 @@ p:empty {
   html {
     scroll-behavior: auto;
   }
+  .skip-link {
+    transition: none;
+  }
 }
 .site-header {
   position: relative;
   z-index: 9;
 }
 
-#menu-icon {
-  width: 40px !important;
-  height: auto;
-}
-#menu-icon path {
-  fill: var(--wp--preset--color--accent);
-}
-
-.wp-block-navigation__responsive-container.is-menu-open {
-  max-width: 100%;
-  padding: var(--wp--preset--spacing--medium) 10%;
-}
-.wp-block-navigation__responsive-container.is-menu-open .wp-block-navigation__responsive-container-content .wp-block-navigation__submenu-container {
-  padding-top: 0 !important;
-}
-.wp-block-navigation__responsive-container:not(.has-background).is-menu-open {
-  opacity: 0.95 !important;
+.wp-block-template-part:has(> .is-position-sticky),
+header.site-header:has(> .is-position-sticky) {
+  --wp-admin--admin-bar--position-offset: var(--wp-admin--admin-bar--height, 0px);
+  position: sticky;
+  top: calc(0px + var(--wp-admin--admin-bar--position-offset, var(--wp-admin--admin-bar--height, 0px)));
+  z-index: 10;
 }
 
-.wp-block-navigation__responsive-container-content .wp-block-navigation > ul {
-  margin-top: 0;
-  padding-top: 0;
-}
-
-/* 
-.wp-block-cover.page-heading {
-    background-color: var(--wp--preset--color--contrast);
-} */
-.blog .site-header + main > .wp-block-query,
-.page .site-header + main > .wp-block-columns,
-.archive .site-header + main > .wp-block-columns,
-.single .site-header + main > .wp-block-columns,
-.site-header + main > .entry-content {
+.wp-block-template-part:has(> .is-position-sticky) > .is-position-sticky,
+header.site-header:has(> .is-position-sticky) > .is-position-sticky {
   position: relative;
+  top: auto;
 }
 
-.is-content-justification-space-between {
-  justify-content: space-between;
+.wp-site-blocks > .is-position-sticky,
+.wp-site-blocks > .wp-block-template-part:has(> .is-position-sticky) {
+  --wp-admin--admin-bar--position-offset: var(--wp-admin--admin-bar--height, 0px);
+  position: sticky;
+  top: calc(0px + var(--wp-admin--admin-bar--position-offset, var(--wp-admin--admin-bar--height, 0px)));
+  z-index: 10;
 }
 
-.wp-block-term-description {
-  margin-top: 0;
-}
-.wp-block-term-description p {
-  margin: var(--wp--preset--spacing--tiny) auto;
+.wp-site-blocks > .wp-block-template-part:has(> .is-position-sticky) > .is-position-sticky {
+  position: relative;
+  top: auto;
 }
 
-#gototop {
-  height: 42px;
-  width: 42px;
-  padding: var(--wp--preset--spacing--tiny);
-  background-color: var(--wp--preset--color--accent);
-  text-align: center;
+.scroll-to-top {
   position: fixed;
-  right: var(--wp--preset--spacing--small);
   bottom: var(--wp--preset--spacing--small);
+  right: var(--wp--preset--spacing--small);
   z-index: 999;
-  transition: background-color 0.3s ease;
-}
-#gototop:hover {
-  background-color: var(--wp--preset--color--accent-2) !important;
-}
-#gototop a {
-  color: var(--wp--preset--color--base) !important;
-  text-decoration: none !important;
-}
-#gototop a:hover {
-  color: var(--wp--preset--color--base) !important;
-  text-decoration: none !important;
 }
 
 img,
@@ -187,74 +163,12 @@ svg {
   height: auto;
 }
 
-/** korrigiert "überlaufen" von einer blockgruppe über den html-rand hinaus - bug? hinzugefügt am 22.01.2025*/
 .wp-block-categories .wp-block-categories__label {
   width: auto;
 }
 
 .wp-block-categories .wp-block-categories__label.screen-reader-text {
   width: 1px;
-}
-
-/** old blog */
-.wp-block-post-excerpt__more-link {
-  display: inline-block;
-}
-.wp-block-post-excerpt__more-link::after {
-  content: " »";
-  margin-left: 0;
-  transition: margin-left 0.3s ease;
-}
-.wp-block-post-excerpt__more-link:hover::after {
-  margin-left: 4px;
-}
-
-.wp-block-column.post-wrapper .wp-block-post-template .is-layout-flow.wp-block-group {
-  margin-bottom: 1.5em !important;
-}
-
-main#wp--skip-link--target.is-layout-constrained.wp-container-21.wp-block-group.site-content.has-background-background-color.has-background {
-  background-color: var(--wp--preset--color--white);
-}
-
-.wp-block-post-comments-form .comment-form input:not([type=submit]):not([type=checkbox]),
-.wp-block-post-comments-form .comment-form textarea,
-input#wp-block-search__input-3.wp-block-search__input {
-  color: var(--wp--preset--color--foreground);
-  background-color: #f9f9f9;
-}
-
-.wp-block-post-comments-form input:not([type=submit]),
-.wp-block-post-comments-form textarea {
-  border-color: #eee;
-}
-
-.wp-block-post-featured-image,
-.wp-block-post-featured-image:hover {
-  transition: all 0.7s ease-in-out;
-}
-
-.is-style-main-navigation .wp-block-navigation__responsive-container:not(.is-menu-open) .wp-block-navigation__container > .wp-block-navigation-item .wp-block-navigation__submenu-container .wp-block-navigation-item .wp-block-navigation-item__content {
-  padding: 0.35rem 1rem;
-}
-
-.relevanssi-live-search-result p,
-.relevanssi-live-search-result-status p {
-  font-size: 0.9em;
-  padding: 0 0.75em;
-}
-
-.relevanssi_related_post img {
-  height: auto;
-}
-
-.relevanssi_related_post h4 {
-  font-weight: 400;
-  font-size: 18px;
-}
-
-.is-content-justification-space-between .post-navigation-link-next {
-  text-align: right;
 }
 
 @media screen and (min-width: 768px) {
@@ -270,82 +184,44 @@ input#wp-block-search__input-3.wp-block-search__input {
     margin-left: 1%;
   }
 }
-form .columns {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between;
-  margin: var(--wp--preset--spacing--medium) 0;
-}
-form .columns p {
-  margin: 0;
-}
-
-@media (max-width: 460px) {
-  form .columns {
-    flex-direction: column;
-  }
-  form .columns-2.einszwei > *:first-child,
-  form .columns-2.einszwei > *:last-child,
-  form .columns-2 > * {
-    flex-basis: 100%;
-  }
-}
-form .columns-2 > * {
-  flex-basis: 48.5%;
-}
-
-form .columns-2.einszwei > *:first-child {
-  flex-basis: 28%;
-}
-
-form .columns-2.einszwei > *:last-child {
-  flex-basis: 69%;
-}
-
-.is-style-outline.wp-block-button .wp-block-button__link:hover {
-  background-color: var(--wp--preset--color--accent);
-  color: var(--wp--preset--color--base);
+textarea:focus-visible,
+input:where([type=email], [type=number], [type=password], [type=search], [type=text], [type=tel], [type=url]):focus-visible,
+select:focus-visible {
   border-color: var(--wp--preset--color--accent);
+  outline: 2px solid var(--wp--preset--color--accent);
+  outline-offset: 2px;
 }
 
-input[type=submit] {
-  background-color: var(--wp--preset--color--base);
-  border-radius: 2px;
-  border: 1px solid var(--wp--preset--color--accent);
-  padding: var(--wp--preset--spacing--small) var(--wp--preset--spacing--medium);
-  color: var(--wp--preset--color--accent);
-  font-family: var(--wp--preset--font-family--roboto);
-  font-size: var(--wp--preset--font-size--normal);
-  font-weight: 400;
-  cursor: pointer;
-  transition: all 0.3s ease;
-}
-input[type=submit]:hover {
-  background-color: var(--wp--preset--color--accent);
-  color: var(--wp--preset--color--base);
-  border-color: var(--wp--preset--color--accent);
-}
-
-input:not([type=radio]):not([type=checkbox]):not([type=submit]):not([type=button]):not([type=image]):not([type=file]),
-select,
-textarea {
+select {
   width: 100%;
+  box-sizing: border-box;
   border: 1px solid var(--wp--preset--color--base-3);
   padding: var(--wp--preset--spacing--tiny);
   border-radius: 5px;
-  box-sizing: border-box;
   font-family: var(--wp--preset--font-family--roboto);
   font-size: var(--wp--preset--font-size--normal);
   background-color: var(--wp--preset--color--base-2);
-  transition: border-color 0.3s ease;
+  color: var(--wp--preset--color--contrast);
 }
-input:not([type=radio]):not([type=checkbox]):not([type=submit]):not([type=button]):not([type=image]):not([type=file]):focus, input:not([type=radio]):not([type=checkbox]):not([type=submit]):not([type=button]):not([type=image]):not([type=file]):focus-visible,
-select:focus,
-select:focus-visible,
-textarea:focus,
-textarea:focus-visible {
-  border-color: var(--wp--preset--color--accent) !important;
-  outline: none !important;
+
+input[type=submit],
+button[type=submit],
+.submit-button {
+  background-color: var(--wp--preset--color--accent-2);
+  border: 1px solid var(--wp--preset--color--transparent);
+  border-radius: var(--wp--custom--button--border-radius);
+  color: var(--wp--preset--color--base);
+  cursor: pointer;
+  font-family: var(--wp--preset--font-family--roboto);
+  font-size: var(--wp--preset--font-size--normal);
+  font-weight: 700;
+  padding: calc(0.375em + 2px) calc(0.875em + 2px);
+  transition: all 0.3s ease;
+}
+input[type=submit]:hover,
+button[type=submit]:hover,
+.submit-button:hover {
+  border-color: var(--wp--preset--color--accent);
 }
 
 .wp-block-categories-dropdown select {
@@ -353,31 +229,757 @@ textarea:focus-visible {
 }
 
 textarea {
-  height: 150px;
+  min-height: 150px;
 }
 
-.wpcf7-submit {
+.wp-block-post-featured-image.is-style-blur-backdrop[style*=aspect-ratio] {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  box-sizing: border-box;
+  display: grid;
+  min-width: 0;
+  line-height: 0;
+  --featured-image-blur: 15px;
   width: 100%;
+  max-width: 100%;
+}
+.wp-block-post-featured-image.is-style-blur-backdrop[style*=aspect-ratio]::before {
+  content: "";
+  grid-area: 1/1;
+  width: 100%;
+  aspect-ratio: inherit;
+  pointer-events: none;
+}
+.wp-block-post-featured-image.is-style-blur-backdrop[style*=aspect-ratio] .featured-image-blur-backdrop, .wp-block-post-featured-image.is-style-blur-backdrop[style*=aspect-ratio]::after,
+.wp-block-post-featured-image.is-style-blur-backdrop[style*=aspect-ratio] > a {
+  grid-area: 1/1;
+  min-width: 0;
+  min-height: 0;
+  width: 100%;
+  height: 100%;
+}
+.wp-block-post-featured-image.is-style-blur-backdrop[style*=aspect-ratio] > img {
+  grid-area: 1/1;
+  justify-self: center;
+  align-self: center;
+  width: auto;
+  height: auto;
+  max-width: 100%;
+  max-height: 100%;
+  min-width: 0;
+  min-height: 0;
+}
+.wp-block-post-featured-image.is-style-blur-backdrop[style*=aspect-ratio] .featured-image-blur-backdrop {
+  z-index: 0;
+  box-sizing: border-box;
+  background-image: var(--featured-image-url);
+  background-size: cover;
+  background-position: center;
+  transform: scale(1.15);
+  filter: blur(var(--featured-image-blur, 15px)) saturate(1.15);
+  pointer-events: none;
+}
+.wp-block-post-featured-image.is-style-blur-backdrop[style*=aspect-ratio]::after {
+  content: "";
+  z-index: 0;
+  box-sizing: border-box;
+  background: rgba(0, 0, 0, 0.12);
+  pointer-events: none;
+}
+.wp-block-post-featured-image.is-style-blur-backdrop[style*=aspect-ratio] > a {
+  padding-top: var(--featured-image-inset-top, 0);
+  padding-right: var(--featured-image-inset-right, 0);
+  padding-bottom: var(--featured-image-inset-bottom, 0);
+  padding-left: var(--featured-image-inset-left, 0);
+}
+.wp-block-post-featured-image.is-style-blur-backdrop[style*=aspect-ratio] > img {
+  padding-top: var(--featured-image-inset-top, 0);
+  padding-right: var(--featured-image-inset-right, 0);
+  padding-bottom: var(--featured-image-inset-bottom, 0);
+  padding-left: var(--featured-image-inset-left, 0);
+}
+.wp-block-post-featured-image.is-style-blur-backdrop[style*=aspect-ratio] > a {
+  z-index: 1;
+  box-sizing: border-box;
+  display: flex !important;
+  align-items: center;
+  justify-content: center;
+  width: 100% !important;
+  height: 100% !important;
+  max-width: 100% !important;
+  margin: 0 !important;
+  line-height: 0;
+  text-decoration: none !important;
+  overflow: hidden;
+}
+.wp-block-post-featured-image.is-style-blur-backdrop[style*=aspect-ratio] img {
+  position: relative;
+  z-index: 1;
+  box-sizing: border-box !important;
+  display: block;
+  width: auto !important;
+  height: auto !important;
+  max-width: 100% !important;
+  max-height: 100% !important;
+  margin: 0 !important;
+  -o-object-fit: contain !important;
+     object-fit: contain !important;
+  -o-object-position: center center;
+     object-position: center center;
+}
+.wp-block-post-featured-image.is-style-blur-backdrop[style*=aspect-ratio]:has(> figcaption) {
+  grid-template-rows: 1fr auto;
+}
+.wp-block-post-featured-image.is-style-blur-backdrop[style*=aspect-ratio]:has(> figcaption)::before,
+.wp-block-post-featured-image.is-style-blur-backdrop[style*=aspect-ratio]:has(> figcaption) .featured-image-blur-backdrop, .wp-block-post-featured-image.is-style-blur-backdrop[style*=aspect-ratio]:has(> figcaption)::after,
+.wp-block-post-featured-image.is-style-blur-backdrop[style*=aspect-ratio]:has(> figcaption) > a,
+.wp-block-post-featured-image.is-style-blur-backdrop[style*=aspect-ratio]:has(> figcaption) > img {
+  grid-row: 1;
+  grid-column: 1;
+}
+.wp-block-post-featured-image.is-style-blur-backdrop[style*=aspect-ratio]:has(> figcaption) > figcaption {
+  position: relative;
+  z-index: 2;
+  grid-row: 2;
+  grid-column: 1;
+  line-height: var(--wp--custom--line-height, 1.5);
 }
 
-@media (min-width: 960px) {
-  .mobilesonly {
-    display: none !important;
-    width: 0;
-    height: 0;
-    overflow: hidden;
-  }
+.wp-block-post-featured-image.is-style-blur-backdrop:not([style*=aspect-ratio]) {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  box-sizing: border-box;
+  display: grid;
+  min-width: 0;
+  line-height: 0;
+  --featured-image-blur: 15px;
+  width: 100%;
+  max-width: 100%;
 }
-@media (max-width: 960px) {
-  .desktoponly {
-    display: none !important;
-    width: 0;
-    height: 0;
-    overflow: hidden;
-  }
+.wp-block-post-featured-image.is-style-blur-backdrop:not([style*=aspect-ratio])::before {
+  content: "";
+  grid-area: 1/1;
+  width: 100%;
+  aspect-ratio: inherit;
+  pointer-events: none;
 }
-@media screen and (max-width: 960px) {
-  .wp-block-navigation__responsive-container .wp-block-navigation__responsive-container-content {
-    align-items: flex-start !important;
-  }
+.wp-block-post-featured-image.is-style-blur-backdrop:not([style*=aspect-ratio]) .featured-image-blur-backdrop, .wp-block-post-featured-image.is-style-blur-backdrop:not([style*=aspect-ratio])::after,
+.wp-block-post-featured-image.is-style-blur-backdrop:not([style*=aspect-ratio]) > a {
+  grid-area: 1/1;
+  min-width: 0;
+  min-height: 0;
+  width: 100%;
+  height: 100%;
+}
+.wp-block-post-featured-image.is-style-blur-backdrop:not([style*=aspect-ratio]) > img {
+  grid-area: 1/1;
+  justify-self: center;
+  align-self: center;
+  width: auto;
+  height: auto;
+  max-width: 100%;
+  max-height: 100%;
+  min-width: 0;
+  min-height: 0;
+}
+.wp-block-post-featured-image.is-style-blur-backdrop:not([style*=aspect-ratio]) .featured-image-blur-backdrop {
+  z-index: 0;
+  box-sizing: border-box;
+  background-image: var(--featured-image-url);
+  background-size: cover;
+  background-position: center;
+  transform: scale(1.15);
+  filter: blur(var(--featured-image-blur, 15px)) saturate(1.15);
+  pointer-events: none;
+}
+.wp-block-post-featured-image.is-style-blur-backdrop:not([style*=aspect-ratio])::after {
+  content: "";
+  z-index: 0;
+  box-sizing: border-box;
+  background: rgba(0, 0, 0, 0.12);
+  pointer-events: none;
+}
+.wp-block-post-featured-image.is-style-blur-backdrop:not([style*=aspect-ratio]) > a {
+  padding-top: var(--featured-image-inset-top, 0);
+  padding-right: var(--featured-image-inset-right, 0);
+  padding-bottom: var(--featured-image-inset-bottom, 0);
+  padding-left: var(--featured-image-inset-left, 0);
+}
+.wp-block-post-featured-image.is-style-blur-backdrop:not([style*=aspect-ratio]) > img {
+  padding-top: var(--featured-image-inset-top, 0);
+  padding-right: var(--featured-image-inset-right, 0);
+  padding-bottom: var(--featured-image-inset-bottom, 0);
+  padding-left: var(--featured-image-inset-left, 0);
+}
+.wp-block-post-featured-image.is-style-blur-backdrop:not([style*=aspect-ratio]) > a {
+  z-index: 1;
+  box-sizing: border-box;
+  display: flex !important;
+  align-items: center;
+  justify-content: center;
+  width: 100% !important;
+  height: 100% !important;
+  max-width: 100% !important;
+  margin: 0 !important;
+  line-height: 0;
+  text-decoration: none !important;
+  overflow: hidden;
+}
+.wp-block-post-featured-image.is-style-blur-backdrop:not([style*=aspect-ratio]) img {
+  position: relative;
+  z-index: 1;
+  box-sizing: border-box !important;
+  display: block;
+  width: auto !important;
+  height: auto !important;
+  max-width: 100% !important;
+  max-height: 100% !important;
+  margin: 0 !important;
+  -o-object-fit: contain !important;
+     object-fit: contain !important;
+  -o-object-position: center center;
+     object-position: center center;
+}
+.wp-block-post-featured-image.is-style-blur-backdrop:not([style*=aspect-ratio]):has(> figcaption) {
+  grid-template-rows: 1fr auto;
+}
+.wp-block-post-featured-image.is-style-blur-backdrop:not([style*=aspect-ratio]):has(> figcaption)::before,
+.wp-block-post-featured-image.is-style-blur-backdrop:not([style*=aspect-ratio]):has(> figcaption) .featured-image-blur-backdrop, .wp-block-post-featured-image.is-style-blur-backdrop:not([style*=aspect-ratio]):has(> figcaption)::after,
+.wp-block-post-featured-image.is-style-blur-backdrop:not([style*=aspect-ratio]):has(> figcaption) > a,
+.wp-block-post-featured-image.is-style-blur-backdrop:not([style*=aspect-ratio]):has(> figcaption) > img {
+  grid-row: 1;
+  grid-column: 1;
+}
+.wp-block-post-featured-image.is-style-blur-backdrop:not([style*=aspect-ratio]):has(> figcaption) > figcaption {
+  position: relative;
+  z-index: 2;
+  grid-row: 2;
+  grid-column: 1;
+  line-height: var(--wp--custom--line-height, 1.5);
+}
+
+.wp-block-image.is-style-blur-backdrop[style*=aspect-ratio] {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  box-sizing: border-box;
+  display: grid;
+  min-width: 0;
+  line-height: 0;
+  --featured-image-blur: 15px;
+  width: -moz-fit-content;
+  width: fit-content;
+  max-width: 100%;
+  margin-inline: auto;
+}
+.wp-block-image.is-style-blur-backdrop[style*=aspect-ratio]::before {
+  content: "";
+  grid-area: 1/1;
+  width: 100%;
+  aspect-ratio: inherit;
+  pointer-events: none;
+}
+.wp-block-image.is-style-blur-backdrop[style*=aspect-ratio] .featured-image-blur-backdrop, .wp-block-image.is-style-blur-backdrop[style*=aspect-ratio]::after,
+.wp-block-image.is-style-blur-backdrop[style*=aspect-ratio] > a {
+  grid-area: 1/1;
+  min-width: 0;
+  min-height: 0;
+  width: 100%;
+  height: 100%;
+}
+.wp-block-image.is-style-blur-backdrop[style*=aspect-ratio] > img {
+  grid-area: 1/1;
+  justify-self: center;
+  align-self: center;
+  width: auto;
+  height: auto;
+  max-width: 100%;
+  max-height: 100%;
+  min-width: 0;
+  min-height: 0;
+}
+.wp-block-image.is-style-blur-backdrop[style*=aspect-ratio] .featured-image-blur-backdrop {
+  z-index: 0;
+  box-sizing: border-box;
+  background-image: var(--featured-image-url);
+  background-size: cover;
+  background-position: center;
+  transform: scale(1.15);
+  filter: blur(var(--featured-image-blur, 15px)) saturate(1.15);
+  pointer-events: none;
+}
+.wp-block-image.is-style-blur-backdrop[style*=aspect-ratio]::after {
+  content: "";
+  z-index: 0;
+  box-sizing: border-box;
+  background: rgba(0, 0, 0, 0.12);
+  pointer-events: none;
+}
+.wp-block-image.is-style-blur-backdrop[style*=aspect-ratio] > a {
+  padding-top: var(--featured-image-inset-top, 0);
+  padding-right: var(--featured-image-inset-right, 0);
+  padding-bottom: var(--featured-image-inset-bottom, 0);
+  padding-left: var(--featured-image-inset-left, 0);
+}
+.wp-block-image.is-style-blur-backdrop[style*=aspect-ratio] > img {
+  padding-top: var(--featured-image-inset-top, 0);
+  padding-right: var(--featured-image-inset-right, 0);
+  padding-bottom: var(--featured-image-inset-bottom, 0);
+  padding-left: var(--featured-image-inset-left, 0);
+}
+.wp-block-image.is-style-blur-backdrop[style*=aspect-ratio] > a {
+  z-index: 1;
+  box-sizing: border-box;
+  display: flex !important;
+  align-items: center;
+  justify-content: center;
+  width: 100% !important;
+  height: 100% !important;
+  max-width: 100% !important;
+  margin: 0 !important;
+  line-height: 0;
+  text-decoration: none !important;
+  overflow: hidden;
+}
+.wp-block-image.is-style-blur-backdrop[style*=aspect-ratio] img {
+  position: relative;
+  z-index: 1;
+  box-sizing: border-box !important;
+  display: block;
+  width: auto !important;
+  height: auto !important;
+  max-width: 100% !important;
+  max-height: 100% !important;
+  margin: 0 !important;
+  -o-object-fit: contain !important;
+     object-fit: contain !important;
+  -o-object-position: center center;
+     object-position: center center;
+}
+.wp-block-image.is-style-blur-backdrop[style*=aspect-ratio]:has(> figcaption) {
+  grid-template-rows: 1fr auto;
+}
+.wp-block-image.is-style-blur-backdrop[style*=aspect-ratio]:has(> figcaption)::before,
+.wp-block-image.is-style-blur-backdrop[style*=aspect-ratio]:has(> figcaption) .featured-image-blur-backdrop, .wp-block-image.is-style-blur-backdrop[style*=aspect-ratio]:has(> figcaption)::after,
+.wp-block-image.is-style-blur-backdrop[style*=aspect-ratio]:has(> figcaption) > a,
+.wp-block-image.is-style-blur-backdrop[style*=aspect-ratio]:has(> figcaption) > img {
+  grid-row: 1;
+  grid-column: 1;
+}
+.wp-block-image.is-style-blur-backdrop[style*=aspect-ratio]:has(> figcaption) > figcaption {
+  position: relative;
+  z-index: 2;
+  grid-row: 2;
+  grid-column: 1;
+  line-height: var(--wp--custom--line-height, 1.5);
+}
+.wp-block-image.is-style-blur-backdrop[style*=aspect-ratio].alignleft {
+  margin-inline: 0 auto;
+}
+.wp-block-image.is-style-blur-backdrop[style*=aspect-ratio].alignright {
+  margin-inline: auto 0;
+}
+.wp-block-image.is-style-blur-backdrop[style*=aspect-ratio].alignwide, .wp-block-image.is-style-blur-backdrop[style*=aspect-ratio].alignfull {
+  width: 100%;
+  margin-inline: 0;
+}
+
+.wp-block-image.is-style-blur-backdrop:not([style*=aspect-ratio]) {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  box-sizing: border-box;
+  display: block;
+  width: -moz-fit-content;
+  width: fit-content;
+  max-width: 100%;
+  margin-inline: auto;
+  line-height: 0;
+  --featured-image-blur: 15px;
+}
+.wp-block-image.is-style-blur-backdrop:not([style*=aspect-ratio]) .featured-image-blur-backdrop {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  box-sizing: border-box;
+  background-image: var(--featured-image-url);
+  background-size: cover;
+  background-position: center;
+  transform: scale(1.15);
+  filter: blur(var(--featured-image-blur, 15px)) saturate(1.15);
+  pointer-events: none;
+}
+.wp-block-image.is-style-blur-backdrop:not([style*=aspect-ratio])::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  box-sizing: border-box;
+  background: rgba(0, 0, 0, 0.12);
+  pointer-events: none;
+}
+.wp-block-image.is-style-blur-backdrop:not([style*=aspect-ratio]) > a {
+  position: relative;
+  z-index: 1;
+  box-sizing: border-box;
+  display: flex !important;
+  align-items: center;
+  justify-content: center;
+  width: auto;
+  margin: 0 !important;
+  padding-top: var(--featured-image-inset-top, 0);
+  padding-right: var(--featured-image-inset-right, 0);
+  padding-bottom: var(--featured-image-inset-bottom, 0);
+  padding-left: var(--featured-image-inset-left, 0);
+  line-height: 0;
+  text-decoration: none !important;
+}
+.wp-block-image.is-style-blur-backdrop:not([style*=aspect-ratio]) > img {
+  position: relative;
+  z-index: 1;
+  box-sizing: border-box !important;
+  display: block;
+  width: auto !important;
+  height: auto !important;
+  max-width: 100% !important;
+  margin: 0 auto !important;
+  padding-top: var(--featured-image-inset-top, 0);
+  padding-right: var(--featured-image-inset-right, 0);
+  padding-bottom: var(--featured-image-inset-bottom, 0);
+  padding-left: var(--featured-image-inset-left, 0);
+}
+.wp-block-image.is-style-blur-backdrop:not([style*=aspect-ratio]) img {
+  position: relative;
+  z-index: 1;
+  box-sizing: border-box !important;
+  display: block;
+  width: auto !important;
+  height: auto !important;
+  max-width: 100% !important;
+  margin: 0 !important;
+}
+.wp-block-image.is-style-blur-backdrop:not([style*=aspect-ratio]).alignleft {
+  margin-inline: 0 auto;
+}
+.wp-block-image.is-style-blur-backdrop:not([style*=aspect-ratio]).alignright {
+  margin-inline: auto 0;
+}
+.wp-block-image.is-style-blur-backdrop:not([style*=aspect-ratio]) > figcaption {
+  position: relative;
+  z-index: 2;
+  line-height: var(--wp--custom--line-height, 1.5);
+}
+
+.wp-block-gallery.is-style-blur-backdrop .wp-block-image[style*=aspect-ratio],
+.wp-block-gallery.is-style-blur-backdrop .blocks-gallery-item figure[style*=aspect-ratio],
+.wp-block-gallery .wp-block-image.is-style-blur-backdrop[style*=aspect-ratio],
+.wp-block-gallery .blocks-gallery-item figure.is-style-blur-backdrop[style*=aspect-ratio] {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  box-sizing: border-box;
+  display: grid;
+  min-width: 0;
+  line-height: 0;
+  --featured-image-blur: 15px;
+  width: -moz-fit-content;
+  width: fit-content;
+  max-width: 100%;
+  margin-inline: auto;
+  width: 100%;
+  margin-inline: 0;
+}
+.wp-block-gallery.is-style-blur-backdrop .wp-block-image[style*=aspect-ratio]::before,
+.wp-block-gallery.is-style-blur-backdrop .blocks-gallery-item figure[style*=aspect-ratio]::before,
+.wp-block-gallery .wp-block-image.is-style-blur-backdrop[style*=aspect-ratio]::before,
+.wp-block-gallery .blocks-gallery-item figure.is-style-blur-backdrop[style*=aspect-ratio]::before {
+  content: "";
+  grid-area: 1/1;
+  width: 100%;
+  aspect-ratio: inherit;
+  pointer-events: none;
+}
+.wp-block-gallery.is-style-blur-backdrop .wp-block-image[style*=aspect-ratio] .featured-image-blur-backdrop, .wp-block-gallery.is-style-blur-backdrop .wp-block-image[style*=aspect-ratio]::after,
+.wp-block-gallery.is-style-blur-backdrop .wp-block-image[style*=aspect-ratio] > a,
+.wp-block-gallery.is-style-blur-backdrop .blocks-gallery-item figure[style*=aspect-ratio] .featured-image-blur-backdrop,
+.wp-block-gallery.is-style-blur-backdrop .blocks-gallery-item figure[style*=aspect-ratio]::after,
+.wp-block-gallery.is-style-blur-backdrop .blocks-gallery-item figure[style*=aspect-ratio] > a,
+.wp-block-gallery .wp-block-image.is-style-blur-backdrop[style*=aspect-ratio] .featured-image-blur-backdrop,
+.wp-block-gallery .wp-block-image.is-style-blur-backdrop[style*=aspect-ratio]::after,
+.wp-block-gallery .wp-block-image.is-style-blur-backdrop[style*=aspect-ratio] > a,
+.wp-block-gallery .blocks-gallery-item figure.is-style-blur-backdrop[style*=aspect-ratio] .featured-image-blur-backdrop,
+.wp-block-gallery .blocks-gallery-item figure.is-style-blur-backdrop[style*=aspect-ratio]::after,
+.wp-block-gallery .blocks-gallery-item figure.is-style-blur-backdrop[style*=aspect-ratio] > a {
+  grid-area: 1/1;
+  min-width: 0;
+  min-height: 0;
+  width: 100%;
+  height: 100%;
+}
+.wp-block-gallery.is-style-blur-backdrop .wp-block-image[style*=aspect-ratio] > img,
+.wp-block-gallery.is-style-blur-backdrop .blocks-gallery-item figure[style*=aspect-ratio] > img,
+.wp-block-gallery .wp-block-image.is-style-blur-backdrop[style*=aspect-ratio] > img,
+.wp-block-gallery .blocks-gallery-item figure.is-style-blur-backdrop[style*=aspect-ratio] > img {
+  grid-area: 1/1;
+  justify-self: center;
+  align-self: center;
+  width: auto;
+  height: auto;
+  max-width: 100%;
+  max-height: 100%;
+  min-width: 0;
+  min-height: 0;
+}
+.wp-block-gallery.is-style-blur-backdrop .wp-block-image[style*=aspect-ratio] .featured-image-blur-backdrop,
+.wp-block-gallery.is-style-blur-backdrop .blocks-gallery-item figure[style*=aspect-ratio] .featured-image-blur-backdrop,
+.wp-block-gallery .wp-block-image.is-style-blur-backdrop[style*=aspect-ratio] .featured-image-blur-backdrop,
+.wp-block-gallery .blocks-gallery-item figure.is-style-blur-backdrop[style*=aspect-ratio] .featured-image-blur-backdrop {
+  z-index: 0;
+  box-sizing: border-box;
+  background-image: var(--featured-image-url);
+  background-size: cover;
+  background-position: center;
+  transform: scale(1.15);
+  filter: blur(var(--featured-image-blur, 15px)) saturate(1.15);
+  pointer-events: none;
+}
+.wp-block-gallery.is-style-blur-backdrop .wp-block-image[style*=aspect-ratio]::after,
+.wp-block-gallery.is-style-blur-backdrop .blocks-gallery-item figure[style*=aspect-ratio]::after,
+.wp-block-gallery .wp-block-image.is-style-blur-backdrop[style*=aspect-ratio]::after,
+.wp-block-gallery .blocks-gallery-item figure.is-style-blur-backdrop[style*=aspect-ratio]::after {
+  content: "";
+  z-index: 0;
+  box-sizing: border-box;
+  background: rgba(0, 0, 0, 0.12);
+  pointer-events: none;
+}
+.wp-block-gallery.is-style-blur-backdrop .wp-block-image[style*=aspect-ratio] > a,
+.wp-block-gallery.is-style-blur-backdrop .blocks-gallery-item figure[style*=aspect-ratio] > a,
+.wp-block-gallery .wp-block-image.is-style-blur-backdrop[style*=aspect-ratio] > a,
+.wp-block-gallery .blocks-gallery-item figure.is-style-blur-backdrop[style*=aspect-ratio] > a {
+  padding-top: var(--featured-image-inset-top, 0);
+  padding-right: var(--featured-image-inset-right, 0);
+  padding-bottom: var(--featured-image-inset-bottom, 0);
+  padding-left: var(--featured-image-inset-left, 0);
+}
+.wp-block-gallery.is-style-blur-backdrop .wp-block-image[style*=aspect-ratio] > img,
+.wp-block-gallery.is-style-blur-backdrop .blocks-gallery-item figure[style*=aspect-ratio] > img,
+.wp-block-gallery .wp-block-image.is-style-blur-backdrop[style*=aspect-ratio] > img,
+.wp-block-gallery .blocks-gallery-item figure.is-style-blur-backdrop[style*=aspect-ratio] > img {
+  padding-top: var(--featured-image-inset-top, 0);
+  padding-right: var(--featured-image-inset-right, 0);
+  padding-bottom: var(--featured-image-inset-bottom, 0);
+  padding-left: var(--featured-image-inset-left, 0);
+}
+.wp-block-gallery.is-style-blur-backdrop .wp-block-image[style*=aspect-ratio] > a,
+.wp-block-gallery.is-style-blur-backdrop .blocks-gallery-item figure[style*=aspect-ratio] > a,
+.wp-block-gallery .wp-block-image.is-style-blur-backdrop[style*=aspect-ratio] > a,
+.wp-block-gallery .blocks-gallery-item figure.is-style-blur-backdrop[style*=aspect-ratio] > a {
+  z-index: 1;
+  box-sizing: border-box;
+  display: flex !important;
+  align-items: center;
+  justify-content: center;
+  width: 100% !important;
+  height: 100% !important;
+  max-width: 100% !important;
+  margin: 0 !important;
+  line-height: 0;
+  text-decoration: none !important;
+  overflow: hidden;
+}
+.wp-block-gallery.is-style-blur-backdrop .wp-block-image[style*=aspect-ratio] img,
+.wp-block-gallery.is-style-blur-backdrop .blocks-gallery-item figure[style*=aspect-ratio] img,
+.wp-block-gallery .wp-block-image.is-style-blur-backdrop[style*=aspect-ratio] img,
+.wp-block-gallery .blocks-gallery-item figure.is-style-blur-backdrop[style*=aspect-ratio] img {
+  position: relative;
+  z-index: 1;
+  box-sizing: border-box !important;
+  display: block;
+  width: auto !important;
+  height: auto !important;
+  max-width: 100% !important;
+  max-height: 100% !important;
+  margin: 0 !important;
+  -o-object-fit: contain !important;
+     object-fit: contain !important;
+  -o-object-position: center center;
+     object-position: center center;
+}
+.wp-block-gallery.is-style-blur-backdrop .wp-block-image[style*=aspect-ratio]:has(> figcaption),
+.wp-block-gallery.is-style-blur-backdrop .blocks-gallery-item figure[style*=aspect-ratio]:has(> figcaption),
+.wp-block-gallery .wp-block-image.is-style-blur-backdrop[style*=aspect-ratio]:has(> figcaption),
+.wp-block-gallery .blocks-gallery-item figure.is-style-blur-backdrop[style*=aspect-ratio]:has(> figcaption) {
+  grid-template-rows: 1fr auto;
+}
+.wp-block-gallery.is-style-blur-backdrop .wp-block-image[style*=aspect-ratio]:has(> figcaption)::before,
+.wp-block-gallery.is-style-blur-backdrop .wp-block-image[style*=aspect-ratio]:has(> figcaption) .featured-image-blur-backdrop, .wp-block-gallery.is-style-blur-backdrop .wp-block-image[style*=aspect-ratio]:has(> figcaption)::after,
+.wp-block-gallery.is-style-blur-backdrop .wp-block-image[style*=aspect-ratio]:has(> figcaption) > a,
+.wp-block-gallery.is-style-blur-backdrop .wp-block-image[style*=aspect-ratio]:has(> figcaption) > img,
+.wp-block-gallery.is-style-blur-backdrop .blocks-gallery-item figure[style*=aspect-ratio]:has(> figcaption)::before,
+.wp-block-gallery.is-style-blur-backdrop .blocks-gallery-item figure[style*=aspect-ratio]:has(> figcaption) .featured-image-blur-backdrop,
+.wp-block-gallery.is-style-blur-backdrop .blocks-gallery-item figure[style*=aspect-ratio]:has(> figcaption)::after,
+.wp-block-gallery.is-style-blur-backdrop .blocks-gallery-item figure[style*=aspect-ratio]:has(> figcaption) > a,
+.wp-block-gallery.is-style-blur-backdrop .blocks-gallery-item figure[style*=aspect-ratio]:has(> figcaption) > img,
+.wp-block-gallery .wp-block-image.is-style-blur-backdrop[style*=aspect-ratio]:has(> figcaption)::before,
+.wp-block-gallery .wp-block-image.is-style-blur-backdrop[style*=aspect-ratio]:has(> figcaption) .featured-image-blur-backdrop,
+.wp-block-gallery .wp-block-image.is-style-blur-backdrop[style*=aspect-ratio]:has(> figcaption)::after,
+.wp-block-gallery .wp-block-image.is-style-blur-backdrop[style*=aspect-ratio]:has(> figcaption) > a,
+.wp-block-gallery .wp-block-image.is-style-blur-backdrop[style*=aspect-ratio]:has(> figcaption) > img,
+.wp-block-gallery .blocks-gallery-item figure.is-style-blur-backdrop[style*=aspect-ratio]:has(> figcaption)::before,
+.wp-block-gallery .blocks-gallery-item figure.is-style-blur-backdrop[style*=aspect-ratio]:has(> figcaption) .featured-image-blur-backdrop,
+.wp-block-gallery .blocks-gallery-item figure.is-style-blur-backdrop[style*=aspect-ratio]:has(> figcaption)::after,
+.wp-block-gallery .blocks-gallery-item figure.is-style-blur-backdrop[style*=aspect-ratio]:has(> figcaption) > a,
+.wp-block-gallery .blocks-gallery-item figure.is-style-blur-backdrop[style*=aspect-ratio]:has(> figcaption) > img {
+  grid-row: 1;
+  grid-column: 1;
+}
+.wp-block-gallery.is-style-blur-backdrop .wp-block-image[style*=aspect-ratio]:has(> figcaption) > figcaption,
+.wp-block-gallery.is-style-blur-backdrop .blocks-gallery-item figure[style*=aspect-ratio]:has(> figcaption) > figcaption,
+.wp-block-gallery .wp-block-image.is-style-blur-backdrop[style*=aspect-ratio]:has(> figcaption) > figcaption,
+.wp-block-gallery .blocks-gallery-item figure.is-style-blur-backdrop[style*=aspect-ratio]:has(> figcaption) > figcaption {
+  position: relative;
+  z-index: 2;
+  grid-row: 2;
+  grid-column: 1;
+  line-height: var(--wp--custom--line-height, 1.5);
+}
+.wp-block-gallery.is-style-blur-backdrop .wp-block-image[style*=aspect-ratio].alignleft,
+.wp-block-gallery.is-style-blur-backdrop .blocks-gallery-item figure[style*=aspect-ratio].alignleft,
+.wp-block-gallery .wp-block-image.is-style-blur-backdrop[style*=aspect-ratio].alignleft,
+.wp-block-gallery .blocks-gallery-item figure.is-style-blur-backdrop[style*=aspect-ratio].alignleft {
+  margin-inline: 0 auto;
+}
+.wp-block-gallery.is-style-blur-backdrop .wp-block-image[style*=aspect-ratio].alignright,
+.wp-block-gallery.is-style-blur-backdrop .blocks-gallery-item figure[style*=aspect-ratio].alignright,
+.wp-block-gallery .wp-block-image.is-style-blur-backdrop[style*=aspect-ratio].alignright,
+.wp-block-gallery .blocks-gallery-item figure.is-style-blur-backdrop[style*=aspect-ratio].alignright {
+  margin-inline: auto 0;
+}
+.wp-block-gallery.is-style-blur-backdrop .wp-block-image[style*=aspect-ratio].alignwide, .wp-block-gallery.is-style-blur-backdrop .wp-block-image[style*=aspect-ratio].alignfull,
+.wp-block-gallery.is-style-blur-backdrop .blocks-gallery-item figure[style*=aspect-ratio].alignwide,
+.wp-block-gallery.is-style-blur-backdrop .blocks-gallery-item figure[style*=aspect-ratio].alignfull,
+.wp-block-gallery .wp-block-image.is-style-blur-backdrop[style*=aspect-ratio].alignwide,
+.wp-block-gallery .wp-block-image.is-style-blur-backdrop[style*=aspect-ratio].alignfull,
+.wp-block-gallery .blocks-gallery-item figure.is-style-blur-backdrop[style*=aspect-ratio].alignwide,
+.wp-block-gallery .blocks-gallery-item figure.is-style-blur-backdrop[style*=aspect-ratio].alignfull {
+  width: 100%;
+  margin-inline: 0;
+}
+
+.wp-block-gallery.is-style-blur-backdrop .wp-block-image:not([style*=aspect-ratio]),
+.wp-block-gallery.is-style-blur-backdrop .blocks-gallery-item figure:not([style*=aspect-ratio]),
+.wp-block-gallery .wp-block-image.is-style-blur-backdrop:not([style*=aspect-ratio]),
+.wp-block-gallery .blocks-gallery-item figure.is-style-blur-backdrop:not([style*=aspect-ratio]) {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  box-sizing: border-box;
+  display: block;
+  width: -moz-fit-content;
+  width: fit-content;
+  max-width: 100%;
+  margin-inline: auto;
+  line-height: 0;
+  --featured-image-blur: 15px;
+  width: 100%;
+  margin-inline: 0;
+}
+.wp-block-gallery.is-style-blur-backdrop .wp-block-image:not([style*=aspect-ratio]) .featured-image-blur-backdrop,
+.wp-block-gallery.is-style-blur-backdrop .blocks-gallery-item figure:not([style*=aspect-ratio]) .featured-image-blur-backdrop,
+.wp-block-gallery .wp-block-image.is-style-blur-backdrop:not([style*=aspect-ratio]) .featured-image-blur-backdrop,
+.wp-block-gallery .blocks-gallery-item figure.is-style-blur-backdrop:not([style*=aspect-ratio]) .featured-image-blur-backdrop {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  box-sizing: border-box;
+  background-image: var(--featured-image-url);
+  background-size: cover;
+  background-position: center;
+  transform: scale(1.15);
+  filter: blur(var(--featured-image-blur, 15px)) saturate(1.15);
+  pointer-events: none;
+}
+.wp-block-gallery.is-style-blur-backdrop .wp-block-image:not([style*=aspect-ratio])::after,
+.wp-block-gallery.is-style-blur-backdrop .blocks-gallery-item figure:not([style*=aspect-ratio])::after,
+.wp-block-gallery .wp-block-image.is-style-blur-backdrop:not([style*=aspect-ratio])::after,
+.wp-block-gallery .blocks-gallery-item figure.is-style-blur-backdrop:not([style*=aspect-ratio])::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  box-sizing: border-box;
+  background: rgba(0, 0, 0, 0.12);
+  pointer-events: none;
+}
+.wp-block-gallery.is-style-blur-backdrop .wp-block-image:not([style*=aspect-ratio]) > a,
+.wp-block-gallery.is-style-blur-backdrop .blocks-gallery-item figure:not([style*=aspect-ratio]) > a,
+.wp-block-gallery .wp-block-image.is-style-blur-backdrop:not([style*=aspect-ratio]) > a,
+.wp-block-gallery .blocks-gallery-item figure.is-style-blur-backdrop:not([style*=aspect-ratio]) > a {
+  position: relative;
+  z-index: 1;
+  box-sizing: border-box;
+  display: flex !important;
+  align-items: center;
+  justify-content: center;
+  width: auto;
+  margin: 0 !important;
+  padding-top: var(--featured-image-inset-top, 0);
+  padding-right: var(--featured-image-inset-right, 0);
+  padding-bottom: var(--featured-image-inset-bottom, 0);
+  padding-left: var(--featured-image-inset-left, 0);
+  line-height: 0;
+  text-decoration: none !important;
+}
+.wp-block-gallery.is-style-blur-backdrop .wp-block-image:not([style*=aspect-ratio]) > img,
+.wp-block-gallery.is-style-blur-backdrop .blocks-gallery-item figure:not([style*=aspect-ratio]) > img,
+.wp-block-gallery .wp-block-image.is-style-blur-backdrop:not([style*=aspect-ratio]) > img,
+.wp-block-gallery .blocks-gallery-item figure.is-style-blur-backdrop:not([style*=aspect-ratio]) > img {
+  position: relative;
+  z-index: 1;
+  box-sizing: border-box !important;
+  display: block;
+  width: auto !important;
+  height: auto !important;
+  max-width: 100% !important;
+  margin: 0 auto !important;
+  padding-top: var(--featured-image-inset-top, 0);
+  padding-right: var(--featured-image-inset-right, 0);
+  padding-bottom: var(--featured-image-inset-bottom, 0);
+  padding-left: var(--featured-image-inset-left, 0);
+}
+.wp-block-gallery.is-style-blur-backdrop .wp-block-image:not([style*=aspect-ratio]) img,
+.wp-block-gallery.is-style-blur-backdrop .blocks-gallery-item figure:not([style*=aspect-ratio]) img,
+.wp-block-gallery .wp-block-image.is-style-blur-backdrop:not([style*=aspect-ratio]) img,
+.wp-block-gallery .blocks-gallery-item figure.is-style-blur-backdrop:not([style*=aspect-ratio]) img {
+  position: relative;
+  z-index: 1;
+  box-sizing: border-box !important;
+  display: block;
+  width: auto !important;
+  height: auto !important;
+  max-width: 100% !important;
+  margin: 0 !important;
+}
+.wp-block-gallery.is-style-blur-backdrop .wp-block-image:not([style*=aspect-ratio]).alignleft,
+.wp-block-gallery.is-style-blur-backdrop .blocks-gallery-item figure:not([style*=aspect-ratio]).alignleft,
+.wp-block-gallery .wp-block-image.is-style-blur-backdrop:not([style*=aspect-ratio]).alignleft,
+.wp-block-gallery .blocks-gallery-item figure.is-style-blur-backdrop:not([style*=aspect-ratio]).alignleft {
+  margin-inline: 0 auto;
+}
+.wp-block-gallery.is-style-blur-backdrop .wp-block-image:not([style*=aspect-ratio]).alignright,
+.wp-block-gallery.is-style-blur-backdrop .blocks-gallery-item figure:not([style*=aspect-ratio]).alignright,
+.wp-block-gallery .wp-block-image.is-style-blur-backdrop:not([style*=aspect-ratio]).alignright,
+.wp-block-gallery .blocks-gallery-item figure.is-style-blur-backdrop:not([style*=aspect-ratio]).alignright {
+  margin-inline: auto 0;
+}
+.wp-block-gallery.is-style-blur-backdrop .wp-block-image:not([style*=aspect-ratio]) > figcaption,
+.wp-block-gallery.is-style-blur-backdrop .blocks-gallery-item figure:not([style*=aspect-ratio]) > figcaption,
+.wp-block-gallery .wp-block-image.is-style-blur-backdrop:not([style*=aspect-ratio]) > figcaption,
+.wp-block-gallery .blocks-gallery-item figure.is-style-blur-backdrop:not([style*=aspect-ratio]) > figcaption {
+  position: relative;
+  z-index: 2;
+  line-height: var(--wp--custom--line-height, 1.5);
 }

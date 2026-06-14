@@ -14,6 +14,7 @@
 
 html {
     scroll-behavior: smooth;
+    scroll-padding-top: var(--webentwicklerin-scroll-padding-top, var(--wp-admin--admin-bar--height, 0px));
 }
 
 body {
@@ -29,6 +30,8 @@ strong {
 a:focus-visible,
 button:focus-visible,
 input[type="submit"]:focus-visible,
+button[type="submit"]:focus-visible,
+.submit-button:focus-visible,
 [role="button"]:focus-visible {
     outline: 2px solid var(--wp--preset--color--accent);
     outline-offset: 2px;
@@ -56,9 +59,10 @@ input[type="submit"]:focus-visible,
     }
 }
 
-// Scroll/focus target for skip link (admin bar offset when logged in)
-main#site-content {
-    scroll-margin-top: var(--wp-admin--admin-bar--height, 0px);
+// Scroll/focus targets: sticky bars + admin bar (set dynamically in theme-scripts.js).
+main#site-content,
+:target {
+    scroll-margin-top: var(--webentwicklerin-scroll-padding-top, var(--wp-admin--admin-bar--height, 0px));
 }
 
 // Utility Classes
@@ -81,5 +85,9 @@ p:empty {
 @media screen and (prefers-reduced-motion: reduce) {
     html {
         scroll-behavior: auto;
+    }
+
+    .skip-link {
+        transition: none;
     }
 }

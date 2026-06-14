@@ -4,8 +4,7 @@ svg {
     height: auto;
 }
 
-
-/** korrigiert "überlaufen" von einer blockgruppe über den html-rand hinaus - bug? hinzugefügt am 22.01.2025*/
+// Categories block: prevent label overflow past viewport edge.
 .wp-block-categories .wp-block-categories__label {
     width: auto;
 }
@@ -14,76 +13,7 @@ svg {
     width: 1px;
 }
 
-/** old blog */
-
-.wp-block-post-excerpt__more-link {
-    display: inline-block;
-
-    &::after {
-        content: " »";
-        margin-left: 0;
-        transition: margin-left 0.3s ease;
-    }
-
-    &:hover::after {
-        margin-left: 4px;
-    }
-}
-
-.wp-block-column.post-wrapper .wp-block-post-template .is-layout-flow.wp-block-group {
-    margin-bottom: 1.5em !important;
-}
-
-
-
-main#wp--skip-link--target.is-layout-constrained.wp-container-21.wp-block-group.site-content.has-background-background-color.has-background {
-    background-color: var(--wp--preset--color--white)
-}
-
-.wp-block-post-comments-form .comment-form input:not([type=submit]):not([type=checkbox]),
-.wp-block-post-comments-form .comment-form textarea,
-input#wp-block-search__input-3.wp-block-search__input {
-    color: var(--wp--preset--color--foreground);
-    background-color: #f9f9f9
-}
-
-.wp-block-post-comments-form input:not([type="submit"]),
-.wp-block-post-comments-form textarea {
-    border-color: #eee
-}
-
-
-.wp-block-post-featured-image,
-.wp-block-post-featured-image:hover {
-    transition: all 0.70s ease-in-out;
-}
-
-.is-style-main-navigation .wp-block-navigation__responsive-container:not(.is-menu-open) .wp-block-navigation__container>.wp-block-navigation-item .wp-block-navigation__submenu-container .wp-block-navigation-item .wp-block-navigation-item__content {
-    padding: 0.35rem 1rem;
-}
-
-.relevanssi-live-search-result p,
-.relevanssi-live-search-result-status p {
-    font-size: .9em;
-    padding: 0 0.75em;
-}
-
-.relevanssi_related_post img {
-    height: auto;
-}
-
-.relevanssi_related_post h4 {
-    font-weight: 400;
-    font-size: 18px;
-}
-
-.is-content-justification-space-between .post-navigation-link-next {
-    text-align: right;
-}
-
-
-@media screen and (min-width:768px) {
-
+@media screen and (min-width: 768px) {
     .comment-form-author,
     .comment-form-email {
         display: inline-block;

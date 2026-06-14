@@ -3,6 +3,7 @@ const sass = require('gulp-sass')(require('sass'));
 const autoprefixer = require('gulp-autoprefixer');
 const cssnano = require('gulp-cssnano');
 const rename = require('gulp-rename');
+const terser = require('gulp-terser');
 const wpPot = require('gulp-wp-pot');
 
 const themeName = 'webentwicklerin';
@@ -48,14 +49,23 @@ gulp.task('sass-editor', function () {
     return compileSass('./scss-editor/editor-style.scss', 'editor-style');
 });
 
+gulp.task('scripts', function () {
+    return gulp.src(['./assets/js/*.js', '!./assets/js/*.min.js'])
+        .pipe(terser())
+        .pipe(rename({ suffix: '.min' }))
+        .pipe(gulp.dest('./assets/js'));
+});
+
 gulp.task('watch', function () {
     gulp.watch('./scss/**/*.scss', gulp.series('sass'));
     gulp.watch('./scss-editor/editor-style.scss', gulp.series('sass-editor'));
+    gulp.watch(['./assets/js/*.js', '!./assets/js/*.min.js'], gulp.series('scripts'));
 });
 
 gulp.task('build', gulp.series(
     'sass',
     'sass-editor',
+    'scripts',
     'potfile'
 ));
 

@@ -1,7 +1,14 @@
+// Scroll-to-top is fixed on the frontend; keep in flow inside pattern/block previews.
+.block-editor-block-preview__content .scroll-to-top,
+.block-editor-inserter__preview-content .scroll-to-top {
+	position: relative !important;
+	inset: auto !important;
+}
+
 .editor-styles-wrapper {
-    @import 'editor-only';
     @import '../scss/01-basics';
     @import '../scss/02-template-parts';
     @import '../scss/03-elements';
     @import '../scss/04-form-elements';
+    @import '../scss/05-featured-image';
 }

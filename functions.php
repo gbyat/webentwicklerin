@@ -5,7 +5,7 @@
  *
  * @link https://developer.wordpress.org/themes/basics/theme-functions/
  *
- * @package webethm
+ * @package webentwicklerin
  * @since 1.0.0
  */
 
@@ -16,18 +16,24 @@
  */
 // Filters.
 require_once get_theme_file_path('inc/filters.php');
+// Mobile viewport meta (sticky/fixed layout on iOS).
+require_once get_theme_file_path('inc/viewport.php');
 // Block styles
 require_once get_theme_file_path('inc/block-styles.php');
+// Blur backdrop block style helpers (featured image, image, gallery).
+require_once get_theme_file_path('inc/blur-backdrop.php');
+// Query Loop block style helpers (random order).
+require_once get_theme_file_path('inc/query-loop.php');
 // Update menu links on permalink changes
 require_once get_theme_file_path('inc/update-menu-links.php');
 // Theme update checker
 require_once get_theme_file_path('inc/theme-updater.php');
-// Navigation breakpoint control
-require_once get_theme_file_path('inc/navigation-breakpoint.php');
 // Force font-display: swap for Font Library fonts (user Theme JSON layer only)
 require_once get_theme_file_path('inc/font-display-swap.php');
 // Accessibility helpers and labels.
 require_once get_theme_file_path('inc/a11y.php');
+// Theme pattern categories (patterns live in /patterns).
+require_once get_theme_file_path('inc/register-patterns.php');
 
 /**
  * Theme setup: i18n and pattern support.
@@ -51,7 +57,7 @@ add_action('wp_enqueue_scripts', function () {
     );
 
     wp_enqueue_script(
-        'webethm-init',
+        'webentwicklerin-init',
         get_theme_file_uri('assets/js/theme-scripts.min.js'),
         [],
         wp_get_theme()->get('Version'),
@@ -94,20 +100,6 @@ add_action('enqueue_block_editor_assets', function () {
         get_theme_file_uri('assets/css/editor-style.min.css'),
         [],
         wp_get_theme()->get('Version')
-    );
-
-    wp_enqueue_script(
-        'webentwicklerin-navigation-breakpoint-control',
-        get_theme_file_uri('assets/js/navigation-breakpoint-control.js'),
-        ['wp-blocks', 'wp-block-editor', 'wp-components', 'wp-compose', 'wp-element', 'wp-hooks', 'wp-i18n'],
-        wp_get_theme()->get('Version'),
-        true
-    );
-
-    wp_set_script_translations(
-        'webentwicklerin-navigation-breakpoint-control',
-        'webentwicklerin',
-        get_theme_file_path('languages')
     );
 });
 

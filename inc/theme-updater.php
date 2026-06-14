@@ -5,7 +5,7 @@
  *
  * Checks GitHub Releases for theme updates and displays them in WordPress Dashboard.
  *
- * @package webethm
+ * @package webentwicklerin
  * @since 1.0.0
  */
 
@@ -17,6 +17,40 @@ namespace Webethm\ThemeUpdater;
 const GITHUB_USER = 'gbyat';
 const GITHUB_REPO = 'webentwicklerin';
 const GITHUB_API_URL = 'https://api.github.com/repos/' . GITHUB_USER . '/' . GITHUB_REPO . '/releases/latest';
+
+/**
+ * Allowed hosts for GitHub release and download URLs.
+ *
+ * @since 2.0.0
+ */
+const TRUSTED_GITHUB_HOSTS = array(
+	'api.github.com',
+	'github.com',
+	'codeload.github.com',
+	'objects.githubusercontent.com',
+);
+
+/**
+ * Check whether a URL points to a trusted GitHub host over HTTPS.
+ *
+ * @since 2.0.0
+ *
+ * @param string $url URL to validate.
+ * @return bool
+ */
+function is_trusted_github_url( $url ) {
+	$parsed = wp_parse_url( $url );
+
+	if ( empty( $parsed['host'] ) || empty( $parsed['scheme'] ) ) {
+		return false;
+	}
+
+	if ( 'https' !== strtolower( $parsed['scheme'] ) ) {
+		return false;
+	}
+
+	return in_array( strtolower( $parsed['host'] ), TRUSTED_GITHUB_HOSTS, true );
+}
 
 /**
  * Check for theme updates from GitHub
@@ -78,11 +112,18 @@ function check_for_updates()
         }
     }
 
+    if (
+        ! is_trusted_github_url( $package_url )
+        || ! is_trusted_github_url( $release['html_url'] )
+    ) {
+        return false;
+    }
+
     // Prepare update info
     $update_info = array(
         'version' => $latest_version,
-        'package' => $package_url,
-        'url' => $release['html_url'],
+        'package' => esc_url_raw( $package_url ),
+        'url' => esc_url_raw( $release['html_url'] ),
         'name' => $release['name'] ?? $release['tag_name'],
         'body' => $release['body'] ?? '',
         'published_at' => $release['published_at'] ?? '',

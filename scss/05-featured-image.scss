@@ -1,0 +1,293 @@
+// Blur-backdrop: Post Featured Image (full-width frame) vs Image/Gallery (content-sized).
+
+@mixin blur-backdrop-layers {
+    .featured-image-blur-backdrop {
+        z-index: 0;
+        box-sizing: border-box;
+        background-image: var(--featured-image-url);
+        background-size: cover;
+        background-position: center;
+        transform: scale(1.15);
+        filter: blur(var(--featured-image-blur, 15px)) saturate(1.15);
+        pointer-events: none;
+    }
+
+    &::after {
+        content: '';
+        z-index: 0;
+        box-sizing: border-box;
+        background: rgba(0, 0, 0, 0.12);
+        pointer-events: none;
+    }
+}
+
+@mixin blur-backdrop-insets {
+    > a {
+        padding-top: var(--featured-image-inset-top, 0);
+        padding-right: var(--featured-image-inset-right, 0);
+        padding-bottom: var(--featured-image-inset-bottom, 0);
+        padding-left: var(--featured-image-inset-left, 0);
+    }
+
+    > img {
+        padding-top: var(--featured-image-inset-top, 0);
+        padding-right: var(--featured-image-inset-right, 0);
+        padding-bottom: var(--featured-image-inset-bottom, 0);
+        padding-left: var(--featured-image-inset-left, 0);
+    }
+}
+
+// Shared grid layout: aspect-ratio frame, centered sharp image, blur fill.
+@mixin blur-backdrop-framed-core {
+    position: relative;
+    isolation: isolate;
+    overflow: hidden;
+    box-sizing: border-box;
+    display: grid;
+    min-width: 0;
+    line-height: 0;
+    --featured-image-blur: 15px;
+
+    &::before {
+        content: '';
+        grid-area: 1 / 1;
+        width: 100%;
+        aspect-ratio: inherit;
+        pointer-events: none;
+    }
+
+    .featured-image-blur-backdrop,
+    &::after,
+    > a {
+        grid-area: 1 / 1;
+        min-width: 0;
+        min-height: 0;
+        width: 100%;
+        height: 100%;
+    }
+
+    > img {
+        grid-area: 1 / 1;
+        justify-self: center;
+        align-self: center;
+        width: auto;
+        height: auto;
+        max-width: 100%;
+        max-height: 100%;
+        min-width: 0;
+        min-height: 0;
+    }
+
+    @include blur-backdrop-layers;
+    @include blur-backdrop-insets;
+
+    > a {
+        z-index: 1;
+        box-sizing: border-box;
+        display: flex !important;
+        align-items: center;
+        justify-content: center;
+        width: 100% !important;
+        height: 100% !important;
+        max-width: 100% !important;
+        margin: 0 !important;
+        line-height: 0;
+        text-decoration: none !important;
+        overflow: hidden;
+    }
+
+    img {
+        position: relative;
+        z-index: 1;
+        box-sizing: border-box !important;
+        display: block;
+        width: auto !important;
+        height: auto !important;
+        max-width: 100% !important;
+        max-height: 100% !important;
+        margin: 0 !important;
+        object-fit: contain !important;
+        object-position: center center;
+    }
+
+    &:has(> figcaption) {
+        grid-template-rows: 1fr auto;
+
+        &::before,
+        .featured-image-blur-backdrop,
+        &::after,
+        > a,
+        > img {
+            grid-row: 1;
+            grid-column: 1;
+        }
+
+        > figcaption {
+            position: relative;
+            z-index: 2;
+            grid-row: 2;
+            grid-column: 1;
+            line-height: var(--wp--custom--line-height, 1.5);
+        }
+    }
+}
+
+// Post Featured Image: always full-width frame (query loop, single, etc.).
+@mixin blur-backdrop-featured-framed {
+    @include blur-backdrop-framed-core;
+    width: 100%;
+    max-width: 100%;
+}
+
+// Image block / gallery item: content width inside the container.
+@mixin blur-backdrop-content-framed {
+    @include blur-backdrop-framed-core;
+    width: fit-content;
+    max-width: 100%;
+    margin-inline: auto;
+
+    &.alignleft {
+        margin-inline: 0 auto;
+    }
+
+    &.alignright {
+        margin-inline: auto 0;
+    }
+
+    &.alignwide,
+    &.alignfull {
+        width: 100%;
+        margin-inline: 0;
+    }
+}
+
+// Image / gallery without aspect ratio: shrink-wrap to chosen image size.
+@mixin blur-backdrop-content-natural {
+    position: relative;
+    isolation: isolate;
+    overflow: hidden;
+    box-sizing: border-box;
+    display: block;
+    width: fit-content;
+    max-width: 100%;
+    margin-inline: auto;
+    line-height: 0;
+    --featured-image-blur: 15px;
+
+    .featured-image-blur-backdrop {
+        position: absolute;
+        inset: 0;
+        z-index: 0;
+        box-sizing: border-box;
+        background-image: var(--featured-image-url);
+        background-size: cover;
+        background-position: center;
+        transform: scale(1.15);
+        filter: blur(var(--featured-image-blur, 15px)) saturate(1.15);
+        pointer-events: none;
+    }
+
+    &::after {
+        content: '';
+        position: absolute;
+        inset: 0;
+        z-index: 0;
+        box-sizing: border-box;
+        background: rgba(0, 0, 0, 0.12);
+        pointer-events: none;
+    }
+
+    > a {
+        position: relative;
+        z-index: 1;
+        box-sizing: border-box;
+        display: flex !important;
+        align-items: center;
+        justify-content: center;
+        width: auto;
+        margin: 0 !important;
+        padding-top: var(--featured-image-inset-top, 0);
+        padding-right: var(--featured-image-inset-right, 0);
+        padding-bottom: var(--featured-image-inset-bottom, 0);
+        padding-left: var(--featured-image-inset-left, 0);
+        line-height: 0;
+        text-decoration: none !important;
+    }
+
+    > img {
+        position: relative;
+        z-index: 1;
+        box-sizing: border-box !important;
+        display: block;
+        width: auto !important;
+        height: auto !important;
+        max-width: 100% !important;
+        margin: 0 auto !important;
+        padding-top: var(--featured-image-inset-top, 0);
+        padding-right: var(--featured-image-inset-right, 0);
+        padding-bottom: var(--featured-image-inset-bottom, 0);
+        padding-left: var(--featured-image-inset-left, 0);
+    }
+
+    img {
+        position: relative;
+        z-index: 1;
+        box-sizing: border-box !important;
+        display: block;
+        width: auto !important;
+        height: auto !important;
+        max-width: 100% !important;
+        margin: 0 !important;
+    }
+
+    &.alignleft {
+        margin-inline: 0 auto;
+    }
+
+    &.alignright {
+        margin-inline: auto 0;
+    }
+
+    > figcaption {
+        position: relative;
+        z-index: 2;
+        line-height: var(--wp--custom--line-height, 1.5);
+    }
+}
+
+// --- Post Featured Image (unchanged behaviour) ---
+.wp-block-post-featured-image.is-style-blur-backdrop[style*='aspect-ratio'] {
+    @include blur-backdrop-featured-framed;
+}
+
+.wp-block-post-featured-image.is-style-blur-backdrop:not([style*='aspect-ratio']) {
+    @include blur-backdrop-featured-framed;
+}
+
+// --- Image block ---
+.wp-block-image.is-style-blur-backdrop[style*='aspect-ratio'] {
+    @include blur-backdrop-content-framed;
+}
+
+.wp-block-image.is-style-blur-backdrop:not([style*='aspect-ratio']) {
+    @include blur-backdrop-content-natural;
+}
+
+// --- Gallery items ---
+.wp-block-gallery.is-style-blur-backdrop .wp-block-image[style*='aspect-ratio'],
+.wp-block-gallery.is-style-blur-backdrop .blocks-gallery-item figure[style*='aspect-ratio'],
+.wp-block-gallery .wp-block-image.is-style-blur-backdrop[style*='aspect-ratio'],
+.wp-block-gallery .blocks-gallery-item figure.is-style-blur-backdrop[style*='aspect-ratio'] {
+    @include blur-backdrop-content-framed;
+    width: 100%;
+    margin-inline: 0;
+}
+
+.wp-block-gallery.is-style-blur-backdrop .wp-block-image:not([style*='aspect-ratio']),
+.wp-block-gallery.is-style-blur-backdrop .blocks-gallery-item figure:not([style*='aspect-ratio']),
+.wp-block-gallery .wp-block-image.is-style-blur-backdrop:not([style*='aspect-ratio']),
+.wp-block-gallery .blocks-gallery-item figure.is-style-blur-backdrop:not([style*='aspect-ratio']) {
+    @include blur-backdrop-content-natural;
+    width: 100%;
+    margin-inline: 0;
+}
