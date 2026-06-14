@@ -5,6 +5,63 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.0.0] - 2026-06-14
+
+### Added
+
+- Query Loop block style **Random order** (`is-style-random-order`) for shuffle-without-pagination use cases
+- **Random post images** block pattern (Query Loop + blur backdrop featured images)
+- Blur backdrop editor preview script (`assets/js/blur-backdrop-editor.js`)
+- README section documenting CSS custom properties and theme presets
+
+### Fixed
+
+- Root body text color in `theme.json` uses palette slug `contrast` instead of non-existent `text`
+- Scroll-to-top respects `prefers-reduced-motion` (no fade animation; instant show/hide)
+- Theme updater accepts package and release URLs only from trusted GitHub hosts (HTTPS)
+
+### Changed
+
+- README: client project checklist (go-live and theme update deploy)
+- Gulp `scripts` task minifies all `assets/js/*.js` to `*.min.js` (terser); included in `npm run build` and watch
+- Query Loop random order now applies on the frontend (style is read from the Query Loop parent, not Post Template)
+- Move form field styles to `theme.json` (`elements.textInput`, outline button hover)
+- Replace frontend-only `.wp-site-blocks` padding reset with root padding in `theme.json` and `useRootPaddingAwareAlignments`
+- Style categories list like vertical navigation (`core/categories` in `theme.json`)
+- Reduce global button padding (`elements.button`) for a more compact default
+- Centralize button border radius in `settings.custom.button.borderRadius` (used by block buttons and native submit)
+- Style native form submits consistently (`input`/`button[type="submit"]`, `.submit-button`)
+- Replace PHP scroll-to-top control with optional Scroll to top pattern (Icon block on WordPress 7.0+, text arrow fallback)
+- Scroll to top positioning via `.scroll-to-top` theme CSS (no block style variant required)
+- Enable Group block sticky positioning in `theme.json` (`settings.position.sticky`)
+- Sticky support: entire header (template part) or detached nav at template root
+- Custom viewport meta tag for mobile (`height=device-height`; less jump with fixed/sticky elements on iOS)
+- Register Webentwicklerin block pattern category on `init` (priority 9, before theme patterns)
+- Scroll to top pattern in `/patterns/scroll-to-top.php` (Webentwicklerin category; `hidden` applied on frontend via theme script)
+- Fix Scroll to top pattern inserter preview (fixed positioning stays in flow inside block previews)
+- Split blur-backdrop layout: full-width frame for Post Featured Image; content-sized for Image/Gallery
+- Blur-backdrop: block padding insets sharp image only; blur fills full figure frame
+- Enable padding controls on Image and Gallery blocks (core omits padding on Image; useful with blur-backdrop)
+- Dynamic scroll padding for sticky headers (admin bar + sticky bar height via `--webentwicklerin-scroll-padding-top`)
+- Remove built-in navigation breakpoint control (use WE Navigation Breakpoint plugin instead)
+- Remove redundant `page-plain` and `page-blank` custom templates
+- Remove editor content width cap; editor canvas matches frontend layout
+- Standardize `@package` headers and script handles (`webentwicklerin` instead of `webethm`)
+- Translate group block style label to English (`No outer spacing`)
+
+### Fixed
+
+- Scroll to top pattern block validation (remove unsupported `aria-label` from button markup; add via render filter on the front end)
+- Skip link focus visibility and `#site-content` target on all templates
+- Stop theme script from stripping skip-link hash from the URL
+- Remove jQuery deregistration for third-party plugin compatibility (e.g. Gravity Forms honeypot)
+- Remove CF7-specific and legacy `form .columns` layout styles from theme CSS
+- Remove legacy `.mobilesonly` / `.desktoponly` utilities and dead skip-link CSS
+- Remove unused legacy CSS (post-wrapper, Relevanssi, main-navigation block style, redundant flex helpers, term-description spacing, dead `#menu-icon`, navigation overlay overrides)
+- Assign `site-header` class and semantic `<header>` to header template part (stacking context for navigation overlay)
+- Move post excerpt and featured image effects to `theme.json`
+
+
 ## [Unreleased]
 
 ### Added
@@ -210,3 +267,4 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 [0.3.3]: https://github.com/gbyat/webentwicklerin/releases/tag/v0.3.3
 [0.3.4]: https://github.com/gbyat/webentwicklerin/releases/tag/v0.3.4
 [0.3.5]: https://github.com/gbyat/webentwicklerin/releases/tag/v0.3.5
+[1.0.0]: https://github.com/gbyat/webentwicklerin/releases/tag/v1.0.0
