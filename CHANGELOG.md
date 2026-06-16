@@ -76,6 +76,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Root body text color in `theme.json` uses palette slug `contrast` instead of non-existent `text`
 - Scroll-to-top respects `prefers-reduced-motion` (no fade animation; instant show/hide)
 - Theme updater accepts package and release URLs only from trusted GitHub hosts (HTTPS)
+- Sticky header offset follows visible admin bar height on scroll (fixes logged-in mobile gap at ≤782px; CSS no longer falls back to static 46px on small screens)
 
 ### Changed
 

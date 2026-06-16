@@ -31,16 +31,25 @@ function parseCssLength(value) {
 }
 
 function getAdminBarHeight() {
-    var rootStyles = getComputedStyle(document.documentElement);
-    var cssHeight = parseCssLength(rootStyles.getPropertyValue('--wp-admin--admin-bar--height'));
-
-    if (cssHeight) {
-        return cssHeight;
-    }
-
     var adminBar = document.getElementById('wpadminbar');
 
-    return adminBar ? adminBar.offsetHeight : 0;
+    if (!adminBar) {
+        return 0;
+    }
+
+    var rect = adminBar.getBoundingClientRect();
+
+    // On mobile, WordPress scrolls the admin bar away while --wp-admin--admin-bar--height stays set.
+    return Math.max(0, rect.bottom);
+}
+
+function updateAdminBarOffset() {
+    var visibleHeight = getAdminBarHeight();
+
+    document.documentElement.style.setProperty(
+        '--wp-admin--admin-bar--position-offset',
+        visibleHeight + 'px'
+    );
 }
 
 function getTopLevelStickyElements() {
@@ -89,23 +98,32 @@ function getStickyBarsHeight() {
 }
 
 function updateScrollPadding() {
+    updateAdminBarOffset();
+
     var total = getAdminBarHeight() + getStickyBarsHeight();
 
     document.documentElement.style.setProperty('--webentwicklerin-scroll-padding-top', total + 'px');
 }
 
-var scrollPaddingTimer;
+var scrollPaddingRaf = null;
 
 function scheduleScrollPaddingUpdate() {
-    clearTimeout(scrollPaddingTimer);
-    scrollPaddingTimer = setTimeout(updateScrollPadding, 100);
+    if (scrollPaddingRaf) {
+        return;
+    }
+
+    scrollPaddingRaf = window.requestAnimationFrame(function () {
+        scrollPaddingRaf = null;
+        updateScrollPadding();
+    });
 }
 
 function initScrollPadding() {
     updateScrollPadding();
 
     window.addEventListener('resize', scheduleScrollPaddingUpdate);
-    window.addEventListener('load', scheduleScrollPaddingUpdate);
+    window.addEventListener('scroll', scheduleScrollPaddingUpdate, { passive: true });
+    window.addEventListener('load', updateScrollPadding);
 
     if (typeof ResizeObserver === 'undefined') {
         return;

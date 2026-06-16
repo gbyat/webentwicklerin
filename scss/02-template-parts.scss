@@ -4,13 +4,24 @@
 }
 
 // Sticky offset when logged in (admin bar).
+// Desktop: fall back to WP admin bar height until JS sets visible offset.
 $sticky-top: calc(0px + var(--wp-admin--admin-bar--position-offset, var(--wp-admin--admin-bar--height, 0px)));
+// Mobile (≤782px): WP admin bar scrolls away; never fall back to static height (avoids gap).
+$sticky-top-mobile: calc(0px + var(--wp-admin--admin-bar--position-offset, 0px));
+
+
+.has-modal-open #wpadminbar{
+    z-index:-1;
+}
 
 @mixin sticky-bar {
-    --wp-admin--admin-bar--position-offset: var(--wp-admin--admin-bar--height, 0px);
     position: sticky;
     top: $sticky-top;
     z-index: 10;
+
+    @media (max-width: 782px) {
+        top: $sticky-top-mobile;
+    }
 }
 
 // 1. Entire header sticky: set Position → Sticky on the outermost group inside the header template part.
