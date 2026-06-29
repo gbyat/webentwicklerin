@@ -1,0 +1,76 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/theme.json",
+	"version": 3,
+	"title": "Warm Earth",
+	"settings": {
+		"color": {
+			"palette": [
+				{
+					"color": "#faf8f5",
+					"name": "Base",
+					"slug": "base"
+				},
+				{
+					"color": "#ffffff",
+					"name": "Base Two",
+					"slug": "base-2"
+				},
+				{
+					"color": "#e8e2da",
+					"name": "Base Three",
+					"slug": "base-3"
+				},
+				{
+					"color": "#7a7268",
+					"name": "Base Four",
+					"slug": "base-4"
+				},
+				{
+					"color": "#f3efe9",
+					"name": "Base Five",
+					"slug": "base-5"
+				},
+				{
+					"color": "#2c2419",
+					"name": "Contrast",
+					"slug": "contrast"
+				},
+				{
+					"color": "#1a1510",
+					"name": "Contrast Two",
+					"slug": "contrast-2"
+				},
+				{
+					"color": "#4a6670",
+					"name": "Contrast Three",
+					"slug": "contrast-3"
+				},
+				{
+					"color": "#3d5a4c",
+					"name": "Accent",
+					"slug": "accent"
+				},
+				{
+					"color": "#a85532",
+					"name": "Accent Two",
+					"slug": "accent-2"
+				},
+				{
+					"color": "#ede8e0",
+					"name": "Accent Three",
+					"slug": "accent-3"
+				},
+				{
+					"color": "#2c2419e3",
+					"name": "Accent Four",
+					"slug": "accent-4"
+				},
+				{
+					"slug": "transparent",
+					"color": "transparent",
+					"name": "Transparent"
+				}
+			]
+		}
+	}
+}

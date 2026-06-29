@@ -150,6 +150,17 @@ WordPress exposes each swatch as `--wp--preset--color--{slug}`. Default slugs in
 | `accent`, `accent-2`, `accent-3`, `accent-4` | Links, headings, buttons, highlights |
 | `transparent` | Transparent borders/backgrounds |
 
+**Default palette:** Editorial Plum (warm neutrals, burgundy accent) in `theme.json`.
+
+**Color variations** (WordPress 6.6+, Site Editor → Styles → Colors → Palette):
+
+| Variation | File |
+|-----------|------|
+| Warm Earth | `styles/color/warm-earth.json` |
+| Cool Slate | `styles/color/cool-slate.json` |
+
+Each variation replaces the full palette while keeping the same slugs, so existing block color classes remain valid.
+
 Default element pairings in `theme.json`: body text uses `contrast`; links and headings use `accent-4`; buttons use `accent-2` background with `base` text; form fields use `contrast` on `base-2`. Adjust per project in the Site Editor or `theme.json`.
 
 ### Spacing presets (`settings.spacing.spacingSizes`)
