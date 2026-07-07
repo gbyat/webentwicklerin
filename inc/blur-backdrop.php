@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Blur backdrop block style helpers (featured image, image, gallery).
+ * Blur backdrop block style helpers (featured image, image, gallery, cover).
  *
  * @package webentwicklerin
  * @since   2.0.0
@@ -12,6 +12,7 @@ add_action( 'enqueue_block_editor_assets', 'webentwicklerin_blur_backdrop_editor
 add_filter( 'render_block_core/post-featured-image', 'webentwicklerin_blur_backdrop_render_block', 10, 2 );
 add_filter( 'render_block_core/image', 'webentwicklerin_blur_backdrop_render_block', 10, 2 );
 add_filter( 'render_block_core/gallery', 'webentwicklerin_blur_backdrop_render_block', 10, 2 );
+add_filter( 'render_block_core/cover', 'webentwicklerin_blur_backdrop_render_cover', 20, 2 );
 
 /**
  * Enable padding on Image and Gallery blocks.
@@ -90,6 +91,44 @@ function webentwicklerin_blur_backdrop_render_block( $block_content, $block ) {
 }
 
 /**
+ * Apply inset and image URL custom properties to a container style attribute.
+ *
+ * @since 2.0.0
+ *
+ * @param string $attributes      Opening tag attributes (leading space).
+ * @param string $custom_property CSS custom properties for blur layer URL.
+ * @return string Updated attributes.
+ */
+function webentwicklerin_blur_backdrop_merge_container_style( $attributes, $custom_property ) {
+	if ( preg_match( '/\sstyle=(["\'])([^"\']*)\1/', $attributes, $style_matches ) ) {
+		$quote          = $style_matches[1];
+		$padding_parsed = webentwicklerin_blur_backdrop_parse_padding( $style_matches[2] );
+		$inset_property = webentwicklerin_blur_backdrop_inset_properties( $padding_parsed['insets'] );
+		$new_styles     = trim( $padding_parsed['styles'], '; ' );
+		$new_styles     = '' !== $new_styles ? $new_styles . ';' : '';
+		$new_styles    .= $inset_property . $custom_property;
+		$attributes     = preg_replace(
+			'/\sstyle=(["\'])[^"\']*\1/',
+			' style=' . $quote . esc_attr( $new_styles ) . $quote,
+			$attributes,
+			1
+		);
+	} else {
+		$inset_property = webentwicklerin_blur_backdrop_inset_properties(
+			array(
+				'top'    => '0',
+				'right'  => '0',
+				'bottom' => '0',
+				'left'   => '0',
+			)
+		);
+		$attributes    .= ' style="' . esc_attr( $inset_property . $custom_property ) . '"';
+	}
+
+	return $attributes;
+}
+
+/**
  * Inject blur layer, move padding to the image, and fit the sharp image inside the frame.
  *
  * @since 2.0.0
@@ -107,32 +146,7 @@ function webentwicklerin_blur_backdrop_process_figure( $figure_html ) {
 	$figure_html = preg_replace_callback(
 		'/<figure\b([^>]*)>/',
 		static function ( $figure_matches ) use ( $custom_property ) {
-			$attributes = $figure_matches[1];
-
-			if ( preg_match( '/\sstyle=(["\'])([^"\']*)\1/', $attributes, $style_matches ) ) {
-				$quote          = $style_matches[1];
-				$padding_parsed = webentwicklerin_blur_backdrop_parse_padding( $style_matches[2] );
-				$inset_property = webentwicklerin_blur_backdrop_inset_properties( $padding_parsed['insets'] );
-				$new_styles     = trim( $padding_parsed['styles'], '; ' );
-				$new_styles     = '' !== $new_styles ? $new_styles . ';' : '';
-				$new_styles    .= $inset_property . $custom_property;
-				$attributes     = preg_replace(
-					'/\sstyle=(["\'])[^"\']*\1/',
-					' style=' . $quote . esc_attr( $new_styles ) . $quote,
-					$attributes,
-					1
-				);
-			} else {
-				$inset_property = webentwicklerin_blur_backdrop_inset_properties(
-					array(
-						'top'    => '0',
-						'right'  => '0',
-						'bottom' => '0',
-						'left'   => '0',
-					)
-				);
-				$attributes    .= ' style="' . esc_attr( $inset_property . $custom_property ) . '"';
-			}
+			$attributes = webentwicklerin_blur_backdrop_merge_container_style( $figure_matches[1], $custom_property );
 
 			return '<figure' . $attributes . '>';
 		},
@@ -148,6 +162,132 @@ function webentwicklerin_blur_backdrop_process_figure( $figure_html ) {
 	);
 
 	return webentwicklerin_blur_backdrop_fit_image( $figure_html );
+}
+
+/**
+ * Resolve the background image URL for a Cover block.
+ *
+ * @since 2.0.0
+ *
+ * @param string $block_content Rendered block HTML.
+ * @param array  $block         Block data.
+ * @return string Image URL or empty string.
+ */
+function webentwicklerin_blur_backdrop_cover_image_url( $block_content, $block ) {
+	if ( preg_match( '/<img\b[^>]*\bwp-block-cover__image-background\b[^>]*\bsrc=(["\'])([^"\']+)\1/i', $block_content, $img_matches ) ) {
+		return $img_matches[2];
+	}
+
+	if ( preg_match( '/<img\b[^>]*\bwp-block-cover__image-background\b[^>]*\bsrcset=(["\'])([^"\']+)\1/i', $block_content, $srcset_matches ) ) {
+		$first_candidate = trim( explode( ',', $srcset_matches[2] )[0] );
+		$parts           = preg_split( '/\s+/', $first_candidate );
+
+		if ( ! empty( $parts[0] ) ) {
+			return $parts[0];
+		}
+	}
+
+	if ( preg_match( '/\bbackground-image\s*:\s*url\(\s*(["\']?)([^"\')]+)\1\s*\)/i', $block_content, $background_matches ) ) {
+		return $background_matches[2];
+	}
+
+	$attributes = $block['attrs'] ?? array();
+
+	if ( ! empty( $attributes['useFeaturedImage'] ) ) {
+		$size_slug = $attributes['sizeSlug'] ?? 'post-thumbnail';
+		$image_url = get_the_post_thumbnail_url( null, $size_slug );
+
+		if ( $image_url ) {
+			return $image_url;
+		}
+	}
+
+	if ( ! empty( $attributes['url'] ) && is_string( $attributes['url'] ) ) {
+		return $attributes['url'];
+	}
+
+	return '';
+}
+
+/**
+ * Apply blur-backdrop markup to Cover blocks with an image background.
+ *
+ * Video, gradient, and color-only covers are left unchanged.
+ *
+ * @since 2.0.0
+ *
+ * @param string $block_content Rendered block HTML.
+ * @param array  $block         Block data.
+ * @return string
+ */
+function webentwicklerin_blur_backdrop_render_cover( $block_content, $block ) {
+	if ( false === strpos( $block_content, 'is-style-blur-backdrop' ) ) {
+		return $block_content;
+	}
+
+	$image_url = webentwicklerin_blur_backdrop_cover_image_url( $block_content, $block );
+
+	if ( '' === $image_url ) {
+		return $block_content;
+	}
+
+	$custom_property = sprintf( "--featured-image-url: url('%s');", esc_url( $image_url ) );
+
+	$block_content = preg_replace_callback(
+		'/<div\b([^>]*\bwp-block-cover\b[^>]*)>/i',
+		static function ( $matches ) use ( $custom_property ) {
+			$attributes = webentwicklerin_blur_backdrop_merge_container_style( $matches[1], $custom_property );
+
+			return '<div' . $attributes . '>';
+		},
+		$block_content,
+		1
+	);
+
+	$block_content = preg_replace(
+		'/(<div\b[^>]*\bwp-block-cover\b[^>]*>)/i',
+		'$1<span class="featured-image-blur-backdrop" aria-hidden="true"></span>',
+		$block_content,
+		1
+	);
+
+	if ( preg_match( '/<img\b[^>]*\bwp-block-cover__image-background\b[^>]*\/?>/i', $block_content ) ) {
+		return preg_replace_callback(
+			'/<img\b([^>]*\bwp-block-cover__image-background\b[^>]*)\/?>/i',
+			static function ( $matches ) {
+				$attributes = $matches[1];
+				$fit_styles = 'position:relative;top:auto;right:auto;bottom:auto;left:auto;max-width:100%;max-height:100%;width:auto;height:auto;object-fit:contain;object-position:center center';
+
+				$attributes = preg_replace( '/\s(width|height)=(["\'])[^"\']*\2/i', '', $attributes );
+
+				if ( preg_match( '/\sstyle=(["\'])([^"\']*)\1/', $attributes, $style_matches ) ) {
+					$styles = $style_matches[2];
+
+					$styles = preg_replace( '/\b(position|top|right|bottom|left|width|height|max-width|max-height|object-fit|object-position)\s*:[^;]+;?/i', '', $styles );
+					$styles = trim( $styles, '; ' );
+
+					if ( '' !== $styles ) {
+						$fit_styles = $styles . ';' . $fit_styles;
+					}
+
+					$attributes = preg_replace(
+						'/\sstyle=(["\'])[^"\']*\1/',
+						' style="' . esc_attr( $fit_styles ) . '"',
+						$attributes,
+						1
+					);
+				} else {
+					$attributes .= ' style="' . esc_attr( $fit_styles ) . '"';
+				}
+
+				return '<img' . $attributes . '>';
+			},
+			$block_content,
+			1
+		);
+	}
+
+	return $block_content;
 }
 
 /**

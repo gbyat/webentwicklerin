@@ -5,6 +5,18 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.1.1] - 2026-07-07
+
+### Fixed
+
+- Release ZIP now includes the `styles/` folder (color palette variations were missing from v1.1.0 ZIP)
+- Cover blur backdrop: preserve cover min-height/aspect ratio; sharp image sized like Post Featured Image (centered, contained)
+
+### Added
+
+- **Blur backdrop** block style for **Cover** blocks (image backgrounds; editor preview included)
+
+
 ## [1.1.0] - 2026-06-29
 
 ### Added
@@ -19,14 +31,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Fixed
+
+- Release ZIP now includes the `styles/` folder (color palette variations were missing from v1.1.0 ZIP)
+- Cover blur backdrop: preserve cover min-height/aspect ratio; sharp image sized like Post Featured Image (centered, contained)
+
 ### Added
 
-- Color palette variations **Warm Earth** and **Cool Slate** (`styles/color/`), selectable in the Site Editor (WordPress 6.6+)
-
-### Changed
-
-- Default color palette updated to **Editorial Plum** (harmonious warm neutrals, burgundy accent, WCAG AA contrast pairs)
-- Minimum WordPress version raised to 6.6 (color palette variations)
+- **Blur backdrop** block style for **Cover** blocks (image backgrounds; editor preview included)
 
 ## [1.0.1] - 2026-06-16
 
@@ -294,3 +306,4 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 [1.0.0]: https://github.com/gbyat/webentwicklerin/releases/tag/v1.0.0
 [1.0.1]: https://github.com/gbyat/webentwicklerin/releases/tag/v1.0.1
 [1.1.0]: https://github.com/gbyat/webentwicklerin/releases/tag/v1.1.0
+[1.1.1]: https://github.com/gbyat/webentwicklerin/releases/tag/v1.1.1

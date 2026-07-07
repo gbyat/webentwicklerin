@@ -5,7 +5,7 @@
 **Requires at least:** 6.5
 **Tested up to:** 7.0
 **Requires PHP:** 8.0
-**Stable tag:** 1.1.0
+**Stable tag:** 1.1.1
 **License:** GPLv2 or later
 **License URI:** https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -62,6 +62,14 @@ When sticky elements are present, the theme script sets `--webentwicklerin-scrol
 - Block **padding** insets the sharp image only (same as Post Featured Image; enabled in this theme because core omits padding on Image blocks).
 - **Gallery:** apply the style on the gallery block (all items) or on individual images; items fill their grid cell.
 
+### Cover block
+
+- Available for **Cover** blocks with an **image** or **featured image** background (including template covers with *Use featured image*).
+- Uses the **same framed layout as Post Featured Image**: the cover keeps its configured **min-height** / **aspect ratio**; only the sharp image is centered smaller inside the frame (`object-fit: contain`).
+- Block **padding** insets the sharp image only. The cover dim overlay is replaced by the blur-backdrop tint.
+- **Editor note:** Covers with *Use featured image* show the blur effect on the frontend once a featured image exists; the template editor may still show a placeholder until then.
+- Remove any **background color on inner Group blocks** if you want text directly over the image instead of a dark box.
+
 Standard images **without** this block style are unchanged. Default blur is `15px`; override with `--featured-image-blur` in custom CSS if needed.
 
 ### Query Loop: Random order
@@ -92,7 +100,7 @@ Reference for theme-specific variables and the WordPress presets this theme uses
 
 ### Blur backdrop (`is-style-blur-backdrop`)
 
-Used on **Post Featured Image**, **Image**, and **Gallery** blocks with the Blur backdrop style.
+Used on **Post Featured Image**, **Image**, **Gallery**, and **Cover** blocks with the Blur backdrop style.
 
 | Variable | Default | Set by | Purpose |
 |----------|---------|--------|---------|
@@ -216,7 +224,7 @@ After updating the theme on a client site, upload at minimum:
 - `assets/css/editor-style.min.css`
 - `assets/js/theme-scripts.min.js`
 - `assets/js/blur-backdrop-editor.min.js`
-- Any new or changed files under `inc/`, `patterns/`, and source `assets/js/*.js` (rebuild min files)
+- Any new or changed files under `inc/`, `patterns/`, `styles/` (color palette variations), and source `assets/js/*.js` (rebuild min files)
 
 Run `npm run build` locally before packaging. Clear page cache on the client site after deploy.
 

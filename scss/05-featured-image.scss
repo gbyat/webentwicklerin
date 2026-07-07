@@ -291,3 +291,56 @@
     width: 100%;
     margin-inline: 0;
 }
+
+// --- Cover block (image background only) ---
+// Same framed layout as Post Featured Image: fixed cover frame, small sharp image centered inside.
+@mixin blur-backdrop-cover {
+    @include blur-backdrop-featured-framed;
+
+    display: grid !important;
+    width: 100%;
+    max-width: 100%;
+
+    // Keep the cover frame size from block settings (min-height, aspect-ratio).
+    &::before {
+        min-height: inherit;
+        aspect-ratio: inherit;
+    }
+
+    &.has-parallax,
+    &.is-repeated {
+        background-image: none !important;
+        background-attachment: scroll !important;
+    }
+
+    > .wp-block-cover__background {
+        display: none !important;
+    }
+
+    > .wp-block-cover__image-background {
+        position: relative !important;
+        inset: auto !important;
+        top: auto !important;
+        right: auto !important;
+        bottom: auto !important;
+        left: auto !important;
+        z-index: 1;
+        padding-top: var(--featured-image-inset-top, 0);
+        padding-right: var(--featured-image-inset-right, 0);
+        padding-bottom: var(--featured-image-inset-bottom, 0);
+        padding-left: var(--featured-image-inset-left, 0);
+    }
+
+    > .wp-block-cover__inner-container {
+        grid-area: 1 / 1;
+        z-index: 2;
+        position: relative;
+        width: 100%;
+        max-width: 100%;
+        line-height: normal;
+    }
+}
+
+.wp-block-cover.is-style-blur-backdrop {
+    @include blur-backdrop-cover;
+}

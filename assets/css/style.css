@@ -997,3 +997,152 @@ textarea {
   z-index: 2;
   line-height: var(--wp--custom--line-height, 1.5);
 }
+
+.wp-block-cover.is-style-blur-backdrop {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  box-sizing: border-box;
+  display: grid;
+  min-width: 0;
+  line-height: 0;
+  --featured-image-blur: 15px;
+  width: 100%;
+  max-width: 100%;
+  display: grid !important;
+  width: 100%;
+  max-width: 100%;
+}
+.wp-block-cover.is-style-blur-backdrop::before {
+  content: "";
+  grid-area: 1/1;
+  width: 100%;
+  aspect-ratio: inherit;
+  pointer-events: none;
+}
+.wp-block-cover.is-style-blur-backdrop .featured-image-blur-backdrop, .wp-block-cover.is-style-blur-backdrop::after,
+.wp-block-cover.is-style-blur-backdrop > a {
+  grid-area: 1/1;
+  min-width: 0;
+  min-height: 0;
+  width: 100%;
+  height: 100%;
+}
+.wp-block-cover.is-style-blur-backdrop > img {
+  grid-area: 1/1;
+  justify-self: center;
+  align-self: center;
+  width: auto;
+  height: auto;
+  max-width: 100%;
+  max-height: 100%;
+  min-width: 0;
+  min-height: 0;
+}
+.wp-block-cover.is-style-blur-backdrop .featured-image-blur-backdrop {
+  z-index: 0;
+  box-sizing: border-box;
+  background-image: var(--featured-image-url);
+  background-size: cover;
+  background-position: center;
+  transform: scale(1.15);
+  filter: blur(var(--featured-image-blur, 15px)) saturate(1.15);
+  pointer-events: none;
+}
+.wp-block-cover.is-style-blur-backdrop::after {
+  content: "";
+  z-index: 0;
+  box-sizing: border-box;
+  background: rgba(0, 0, 0, 0.12);
+  pointer-events: none;
+}
+.wp-block-cover.is-style-blur-backdrop > a {
+  padding-top: var(--featured-image-inset-top, 0);
+  padding-right: var(--featured-image-inset-right, 0);
+  padding-bottom: var(--featured-image-inset-bottom, 0);
+  padding-left: var(--featured-image-inset-left, 0);
+}
+.wp-block-cover.is-style-blur-backdrop > img {
+  padding-top: var(--featured-image-inset-top, 0);
+  padding-right: var(--featured-image-inset-right, 0);
+  padding-bottom: var(--featured-image-inset-bottom, 0);
+  padding-left: var(--featured-image-inset-left, 0);
+}
+.wp-block-cover.is-style-blur-backdrop > a {
+  z-index: 1;
+  box-sizing: border-box;
+  display: flex !important;
+  align-items: center;
+  justify-content: center;
+  width: 100% !important;
+  height: 100% !important;
+  max-width: 100% !important;
+  margin: 0 !important;
+  line-height: 0;
+  text-decoration: none !important;
+  overflow: hidden;
+}
+.wp-block-cover.is-style-blur-backdrop img {
+  position: relative;
+  z-index: 1;
+  box-sizing: border-box !important;
+  display: block;
+  width: auto !important;
+  height: auto !important;
+  max-width: 100% !important;
+  max-height: 100% !important;
+  margin: 0 !important;
+  -o-object-fit: contain !important;
+     object-fit: contain !important;
+  -o-object-position: center center;
+     object-position: center center;
+}
+.wp-block-cover.is-style-blur-backdrop:has(> figcaption) {
+  grid-template-rows: 1fr auto;
+}
+.wp-block-cover.is-style-blur-backdrop:has(> figcaption)::before,
+.wp-block-cover.is-style-blur-backdrop:has(> figcaption) .featured-image-blur-backdrop, .wp-block-cover.is-style-blur-backdrop:has(> figcaption)::after,
+.wp-block-cover.is-style-blur-backdrop:has(> figcaption) > a,
+.wp-block-cover.is-style-blur-backdrop:has(> figcaption) > img {
+  grid-row: 1;
+  grid-column: 1;
+}
+.wp-block-cover.is-style-blur-backdrop:has(> figcaption) > figcaption {
+  position: relative;
+  z-index: 2;
+  grid-row: 2;
+  grid-column: 1;
+  line-height: var(--wp--custom--line-height, 1.5);
+}
+.wp-block-cover.is-style-blur-backdrop::before {
+  min-height: inherit;
+  aspect-ratio: inherit;
+}
+.wp-block-cover.is-style-blur-backdrop.has-parallax, .wp-block-cover.is-style-blur-backdrop.is-repeated {
+  background-image: none !important;
+  background-attachment: scroll !important;
+}
+.wp-block-cover.is-style-blur-backdrop > .wp-block-cover__background {
+  display: none !important;
+}
+.wp-block-cover.is-style-blur-backdrop > .wp-block-cover__image-background {
+  position: relative !important;
+  inset: auto !important;
+  top: auto !important;
+  right: auto !important;
+  bottom: auto !important;
+  left: auto !important;
+  z-index: 1;
+  padding-top: var(--featured-image-inset-top, 0);
+  padding-right: var(--featured-image-inset-right, 0);
+  padding-bottom: var(--featured-image-inset-bottom, 0);
+  padding-left: var(--featured-image-inset-left, 0);
+}
+.wp-block-cover.is-style-blur-backdrop > .wp-block-cover__inner-container {
+  grid-area: 1/1;
+  z-index: 2;
+  position: relative;
+  width: 100%;
+  max-width: 100%;
+  line-height: normal;
+}

@@ -53,7 +53,7 @@ function webentwicklerin_block_styles() {
 		'label' => __( 'Blur backdrop', 'webentwicklerin' ),
 	);
 
-	foreach ( array( 'core/post-featured-image', 'core/image', 'core/gallery' ) as $block_name ) {
+	foreach ( array( 'core/post-featured-image', 'core/image', 'core/gallery', 'core/cover' ) as $block_name ) {
 		register_block_style( $block_name, $blur_backdrop_style );
 	}
 }
