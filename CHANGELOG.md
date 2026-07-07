@@ -34,6 +34,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Fixed
 
 - Release ZIP now includes the `styles/` folder (color palette variations were missing from v1.1.0 ZIP)
+- Normalize line endings to LF across the theme; add `.gitattributes` to enforce LF
 - Cover blur backdrop: preserve cover min-height/aspect ratio; sharp image sized like Post Featured Image (centered, contained)
 
 ### Added
