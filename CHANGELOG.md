@@ -66,6 +66,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- Cover block **Image size** control in the Site Editor (for static backgrounds and featured-image covers in templates)
 - Preload theme-bundled fonts from merged `theme.json` settings (same resolver as Core; skips Font Library / external fonts)
 - **Blur backdrop** block style for **Cover** blocks (image backgrounds; editor preview included)
 

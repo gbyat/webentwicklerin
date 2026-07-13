@@ -22,6 +22,8 @@ require_once get_theme_file_path('inc/viewport.php');
 require_once get_theme_file_path('inc/block-styles.php');
 // Blur backdrop block style helpers (featured image, image, gallery, cover).
 require_once get_theme_file_path('inc/blur-backdrop.php');
+// Cover block image size control for templates and site content.
+require_once get_theme_file_path('inc/cover-image-size.php');
 // Query Loop block style helpers (random order).
 require_once get_theme_file_path('inc/query-loop.php');
 // Update menu links on permalink changes
