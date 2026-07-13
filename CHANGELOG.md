@@ -5,6 +5,23 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.2.0] - 2026-07-13
+
+### Fixed
+
+- Release ZIP now includes the `styles/` folder (color palette variations were missing from v1.1.0 ZIP)
+- Normalize line endings to LF across the theme; add `.gitattributes` to enforce LF
+- Cover blur backdrop: preserve cover min-height/aspect ratio; sharp image sized like Post Featured Image (centered, contained)
+- Cover block image size control: fix editor crash (`getSettings is not a function`)
+
+### Added
+
+- Cover block **Image size** control in the Site Editor (for static backgrounds and featured-image covers in templates)
+- Blur backdrop on Cover blocks uses the selected `sizeSlug` for the backdrop image URL (front end and editor preview)
+- Preload theme-bundled fonts from merged `theme.json` settings (same resolver as Core; skips Font Library / external fonts)
+- **Blur backdrop** block style for **Cover** blocks (image backgrounds; editor preview included)
+
+
 ## [1.1.3] - 2026-07-13
 
 ### Fixed
@@ -341,3 +358,4 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 [1.1.1]: https://github.com/gbyat/webentwicklerin/releases/tag/v1.1.1
 [1.1.2]: https://github.com/gbyat/webentwicklerin/releases/tag/v1.1.2
 [1.1.3]: https://github.com/gbyat/webentwicklerin/releases/tag/v1.1.3
+[1.2.0]: https://github.com/gbyat/webentwicklerin/releases/tag/v1.2.0
