@@ -50,7 +50,7 @@ function webentwicklerin_blur_backdrop_editor_assets() {
 	wp_enqueue_script(
 		'webentwicklerin-blur-backdrop-editor',
 		get_theme_file_uri( 'assets/js/blur-backdrop-editor.min.js' ),
-		array(),
+		array( 'wp-data', 'wp-block-editor' ),
 		wp_get_theme()->get( 'Version' ),
 		true
 	);
@@ -174,33 +174,11 @@ function webentwicklerin_blur_backdrop_process_figure( $figure_html ) {
  * @return string Image URL or empty string.
  */
 function webentwicklerin_blur_backdrop_cover_image_url( $block_content, $block ) {
-	if ( preg_match( '/<img\b[^>]*\bwp-block-cover__image-background\b[^>]*\bsrc=(["\'])([^"\']+)\1/i', $block_content, $img_matches ) ) {
-		return $img_matches[2];
-	}
-
-	if ( preg_match( '/<img\b[^>]*\bwp-block-cover__image-background\b[^>]*\bsrcset=(["\'])([^"\']+)\1/i', $block_content, $srcset_matches ) ) {
-		$first_candidate = trim( explode( ',', $srcset_matches[2] )[0] );
-		$parts           = preg_split( '/\s+/', $first_candidate );
-
-		if ( ! empty( $parts[0] ) ) {
-			return $parts[0];
-		}
-	}
-
-	if ( preg_match( '/\bbackground-image\s*:\s*url\(\s*(["\']?)([^"\')]+)\1\s*\)/i', $block_content, $background_matches ) ) {
-		return $background_matches[2];
+	if ( function_exists( 'webentwicklerin_cover_resolve_background_image_url' ) ) {
+		return webentwicklerin_cover_resolve_background_image_url( $block_content, $block );
 	}
 
 	$attributes = $block['attrs'] ?? array();
-
-	if ( ! empty( $attributes['useFeaturedImage'] ) ) {
-		$size_slug = $attributes['sizeSlug'] ?? 'post-thumbnail';
-		$image_url = get_the_post_thumbnail_url( null, $size_slug );
-
-		if ( $image_url ) {
-			return $image_url;
-		}
-	}
 
 	if ( ! empty( $attributes['url'] ) && is_string( $attributes['url'] ) ) {
 		return $attributes['url'];

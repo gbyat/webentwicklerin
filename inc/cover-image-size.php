@@ -27,10 +27,134 @@ function webentwicklerin_cover_image_size_editor_assets() {
 	wp_enqueue_script(
 		'webentwicklerin-cover-image-size-editor',
 		get_theme_file_uri( 'assets/js/cover-image-size-editor.min.js' ),
-		array( 'wp-hooks', 'wp-element', 'wp-components', 'wp-block-editor', 'wp-data', 'wp-i18n' ),
+		array( 'wp-hooks', 'wp-element', 'wp-components', 'wp-block-editor', 'wp-i18n' ),
 		wp_get_theme()->get( 'Version' ),
 		true
 	);
+
+	wp_localize_script(
+		'webentwicklerin-cover-image-size-editor',
+		'webentwicklerinCoverImageSize',
+		array(
+			'imageSizes' => webentwicklerin_get_cover_image_size_options(),
+		)
+	);
+}
+
+/**
+ * Build image size options for the Cover block editor control.
+ *
+ * @since 2.0.0
+ *
+ * @return array<int, array{slug: string, name: string}>
+ */
+function webentwicklerin_get_cover_image_size_options() {
+	$size_labels = apply_filters(
+		'image_size_names_choose',
+		array(
+			'thumbnail' => __( 'Thumbnail', 'webentwicklerin' ),
+			'medium'    => __( 'Medium', 'webentwicklerin' ),
+			'large'     => __( 'Large', 'webentwicklerin' ),
+			'full'      => __( 'Full Size', 'webentwicklerin' ),
+		)
+	);
+
+	$options = array();
+
+	foreach ( $size_labels as $slug => $name ) {
+		$options[] = array(
+			'slug' => (string) $slug,
+			'name' => (string) $name,
+		);
+	}
+
+	return $options;
+}
+
+/**
+ * Resolve the attachment ID for a Cover block background image.
+ *
+ * @since 2.0.0
+ *
+ * @param array $block Block data.
+ * @return int Attachment ID or 0.
+ */
+function webentwicklerin_cover_get_attachment_id( $block ) {
+	$attributes = $block['attrs'] ?? array();
+
+	if ( ! empty( $attributes['useFeaturedImage'] ) ) {
+		$post_id = $block['context']['postId'] ?? get_the_ID();
+
+		if ( $post_id ) {
+			return (int) get_post_thumbnail_id( $post_id );
+		}
+
+		return 0;
+	}
+
+	if ( ! empty( $attributes['id'] ) ) {
+		return (int) $attributes['id'];
+	}
+
+	return 0;
+}
+
+/**
+ * Resolve the background image URL for a Cover block.
+ *
+ * Used by the image-size render filter and blur-backdrop so both share sizeSlug.
+ *
+ * @since 2.0.0
+ *
+ * @param string $block_content Rendered block HTML.
+ * @param array  $block         Block data.
+ * @return string Image URL or empty string.
+ */
+function webentwicklerin_cover_resolve_background_image_url( $block_content, $block ) {
+	$attributes      = $block['attrs'] ?? array();
+	$size_slug       = $attributes['sizeSlug'] ?? '';
+	$attachment_id   = webentwicklerin_cover_get_attachment_id( $block );
+	$has_custom_size = '' !== $size_slug && 'full' !== $size_slug;
+
+	if ( $attachment_id && $has_custom_size ) {
+		$image_src = wp_get_attachment_image_src( $attachment_id, $size_slug );
+
+		if ( ! empty( $image_src[0] ) ) {
+			return $image_src[0];
+		}
+	}
+
+	if ( preg_match( '/<img\b[^>]*\bwp-block-cover__image-background\b[^>]*\bsrc=(["\'])([^"\']+)\1/i', $block_content, $img_matches ) ) {
+		return $img_matches[2];
+	}
+
+	if ( preg_match( '/<img\b[^>]*\bwp-block-cover__image-background\b[^>]*\bsrcset=(["\'])([^"\']+)\1/i', $block_content, $srcset_matches ) ) {
+		$first_candidate = trim( explode( ',', $srcset_matches[2] )[0] );
+		$parts           = preg_split( '/\s+/', $first_candidate );
+
+		if ( ! empty( $parts[0] ) ) {
+			return $parts[0];
+		}
+	}
+
+	if ( preg_match( '/\bbackground-image\s*:\s*url\(\s*(["\']?)([^"\')]+)\1\s*\)/i', $block_content, $background_matches ) ) {
+		return $background_matches[2];
+	}
+
+	if ( $attachment_id ) {
+		$fallback_size = $has_custom_size ? $size_slug : 'full';
+		$image_src     = wp_get_attachment_image_src( $attachment_id, $fallback_size );
+
+		if ( ! empty( $image_src[0] ) ) {
+			return $image_src[0];
+		}
+	}
+
+	if ( ! empty( $attributes['url'] ) && is_string( $attributes['url'] ) ) {
+		return $attributes['url'];
+	}
+
+	return '';
 }
 
 /**
@@ -68,17 +192,7 @@ function webentwicklerin_cover_resolve_image_source( $block ) {
 		return null;
 	}
 
-	$attachment_id = 0;
-
-	if ( ! empty( $attributes['useFeaturedImage'] ) ) {
-		$post_id = $block['context']['postId'] ?? get_the_ID();
-
-		if ( $post_id ) {
-			$attachment_id = (int) get_post_thumbnail_id( $post_id );
-		}
-	} elseif ( ! empty( $attributes['id'] ) ) {
-		$attachment_id = (int) $attributes['id'];
-	}
+	$attachment_id = webentwicklerin_cover_get_attachment_id( $block );
 
 	if ( ! $attachment_id ) {
 		return null;

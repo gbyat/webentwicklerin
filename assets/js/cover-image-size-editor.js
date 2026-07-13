@@ -8,14 +8,29 @@
 (function () {
 	'use strict';
 
+	if (
+		!window.wp ||
+		!wp.element ||
+		!wp.hooks ||
+		!wp.blockEditor ||
+		!wp.components ||
+		!wp.i18n
+	) {
+		return;
+	}
+
 	var el = wp.element.createElement;
 	var Fragment = wp.element.Fragment;
 	var addFilter = wp.hooks.addFilter;
 	var InspectorControls = wp.blockEditor.InspectorControls;
 	var PanelBody = wp.components.PanelBody;
 	var SelectControl = wp.components.SelectControl;
-	var useSelect = wp.data.useSelect;
 	var __ = wp.i18n.__;
+	var imageSizes =
+		window.webentwicklerinCoverImageSize &&
+		window.webentwicklerinCoverImageSize.imageSizes
+			? window.webentwicklerinCoverImageSize.imageSizes
+			: [];
 
 	/**
 	 * Inspector control for Cover background image size.
@@ -26,33 +41,11 @@
 	function CoverImageSizeControl(props) {
 		var attributes = props.attributes;
 		var setAttributes = props.setAttributes;
+		var attachmentId = attributes.id || 0;
+		var isImageBackground = 'image' === attributes.backgroundType;
+		var hasImageSource = !!attributes.useFeaturedImage || !!attachmentId;
 
-		if ('image' !== attributes.backgroundType) {
-			return null;
-		}
-
-		if (!attributes.useFeaturedImage && !attributes.id) {
-			return null;
-		}
-
-		var imageSizes = useSelect(function (select) {
-			var settings = select('core').getSettings();
-
-			return settings && settings.imageSizes ? settings.imageSizes : [];
-		}, []);
-
-		var media = useSelect(
-			function (select) {
-				if (!attributes.id) {
-					return null;
-				}
-
-				return select('core').getMedia(attributes.id);
-			},
-			[attributes.id]
-		);
-
-		if (!imageSizes.length) {
+		if (!isImageBackground || !hasImageSource || !imageSizes.length) {
 			return null;
 		}
 
@@ -68,15 +61,18 @@
 				sizeSlug: sizeSlug,
 			};
 
-			if (media) {
+			if (attachmentId && wp.data && wp.data.select) {
+				var media = wp.data.select('core').getMedia(attachmentId);
+
 				if (
+					media &&
 					media.media_details &&
 					media.media_details.sizes &&
 					media.media_details.sizes[sizeSlug] &&
 					media.media_details.sizes[sizeSlug].source_url
 				) {
 					next.url = media.media_details.sizes[sizeSlug].source_url;
-				} else if ('full' === sizeSlug && media.source_url) {
+				} else if (media && 'full' === sizeSlug && media.source_url) {
 					next.url = media.source_url;
 				}
 			}

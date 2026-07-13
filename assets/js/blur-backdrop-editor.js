@@ -124,6 +124,109 @@
 		return img.currentSrc || img.getAttribute('src') || '';
 	}
 
+	function getCoverImageSrcFromDom(img) {
+		var style = img.getAttribute('style') || '';
+		var backgroundMatch = style.match(/background-image\s*:\s*url\(\s*['"]?([^'")]+)['"]?\s*\)/i);
+
+		if (backgroundMatch && backgroundMatch[1]) {
+			return backgroundMatch[1];
+		}
+
+		return getImageSrc(img);
+	}
+
+	function getMediaSizeUrl(media, sizeSlug) {
+		if (!media) {
+			return '';
+		}
+
+		if (
+			media.media_details &&
+			media.media_details.sizes &&
+			media.media_details.sizes[sizeSlug] &&
+			media.media_details.sizes[sizeSlug].source_url
+		) {
+			return media.media_details.sizes[sizeSlug].source_url;
+		}
+
+		if ('full' === sizeSlug && media.source_url) {
+			return media.source_url;
+		}
+
+		return '';
+	}
+
+	function getCoverBlockAttributes(container) {
+		if (!wp.data || !wp.data.select || !container || !container.closest) {
+			return null;
+		}
+
+		var blockNode = container.closest('[data-block]');
+
+		if (!blockNode) {
+			return null;
+		}
+
+		var clientId = blockNode.getAttribute('data-block');
+		var block = wp.data.select('core/block-editor').getBlock(clientId);
+
+		return block ? block.attributes : null;
+	}
+
+	function getFeaturedAttachmentId() {
+		if (!wp.data || !wp.data.select) {
+			return 0;
+		}
+
+		var editorSelect = wp.data.select('core/editor');
+
+		if (editorSelect && editorSelect.getEditedPostAttribute) {
+			var featuredId = editorSelect.getEditedPostAttribute('featured_media');
+
+			if (featuredId) {
+				return featuredId;
+			}
+		}
+
+		var coreSelect = wp.data.select('core');
+
+		if (coreSelect && coreSelect.getCurrentPost) {
+			var post = coreSelect.getCurrentPost();
+
+			if (post && post.featured_media) {
+				return post.featured_media;
+			}
+		}
+
+		return 0;
+	}
+
+	function resolveCoverBlurImageUrl(container, img) {
+		var attrs = getCoverBlockAttributes(container);
+		var sizeSlug = attrs && attrs.sizeSlug ? attrs.sizeSlug : '';
+
+		if (sizeSlug && 'full' !== sizeSlug && wp.data && wp.data.select) {
+			var attachmentId = 0;
+
+			if (attrs.id) {
+				attachmentId = attrs.id;
+			} else if (attrs.useFeaturedImage) {
+				attachmentId = getFeaturedAttachmentId();
+			}
+
+			if (attachmentId) {
+				var media = wp.data.select('core').getMedia(attachmentId);
+				var sizedUrl = getMediaSizeUrl(media, sizeSlug);
+
+				if (sizedUrl) {
+					return sizedUrl;
+				}
+			}
+		}
+
+		return getCoverImageSrcFromDom(img);
+	}
+
 	function resolveContainer(root) {
 		if (root.matches('figure, .wp-block-cover')) {
 			return root;
@@ -190,7 +293,9 @@
 			return;
 		}
 
-		var src = getImageSrc(img);
+		var src = isCoverContainer(container)
+			? resolveCoverBlurImageUrl(container, img)
+			: getImageSrc(img);
 
 		if (!src) {
 			return;
@@ -239,6 +344,10 @@
 		var scheduleUpdate = debounce(processAllContainers, 80);
 
 		processAllContainers();
+
+		if (wp.data && wp.data.subscribe) {
+			wp.data.subscribe(scheduleUpdate);
+		}
 
 		var observer = new MutationObserver(scheduleUpdate);
 

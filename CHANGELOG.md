@@ -63,10 +63,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Release ZIP now includes the `styles/` folder (color palette variations were missing from v1.1.0 ZIP)
 - Normalize line endings to LF across the theme; add `.gitattributes` to enforce LF
 - Cover blur backdrop: preserve cover min-height/aspect ratio; sharp image sized like Post Featured Image (centered, contained)
+- Cover block image size control: fix editor crash (`getSettings is not a function`)
 
 ### Added
 
 - Cover block **Image size** control in the Site Editor (for static backgrounds and featured-image covers in templates)
+- Blur backdrop on Cover blocks uses the selected `sizeSlug` for the backdrop image URL (front end and editor preview)
 - Preload theme-bundled fonts from merged `theme.json` settings (same resolver as Core; skips Font Library / external fonts)
 - **Blur backdrop** block style for **Cover** blocks (image backgrounds; editor preview included)
 
