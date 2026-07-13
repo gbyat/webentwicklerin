@@ -52,6 +52,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- Preload theme-bundled fonts from merged `theme.json` settings (same resolver as Core; skips Font Library / external fonts)
 - **Blur backdrop** block style for **Cover** blocks (image backgrounds; editor preview included)
 
 ## [1.0.1] - 2026-06-16

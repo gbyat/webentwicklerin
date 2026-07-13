@@ -30,6 +30,8 @@ require_once get_theme_file_path('inc/update-menu-links.php');
 require_once get_theme_file_path('inc/theme-updater.php');
 // Force font-display: swap for Font Library fonts (user Theme JSON layer only)
 require_once get_theme_file_path('inc/font-display-swap.php');
+// Preload theme-bundled fonts resolved from theme.json (not Font Library fonts).
+require_once get_theme_file_path('inc/font-preload.php');
 // Accessibility helpers and labels.
 require_once get_theme_file_path('inc/a11y.php');
 // Theme pattern categories (patterns live in /patterns).
